@@ -1,247 +1,253 @@
-# 🌱 GreenWear: 상태 기반 스마트웨어 프로젝트
+# 🌱 GreenWear - 친환경 의류 쇼핑몰
 
-> 사람의 건강 상태에 따라 옷의 색상을 직관적으로 변화시켜, 의료진/관리자가 신속하게 대응할 수 있는 스마트웨어 시스템입니다.
-> 군인, 요양병원 환자, 고립된 환경의 거주자 등에게 유용한 솔루션을 지향합니다.
+지속 가능한 패션을 위한 친환경 의류 전문 온라인 쇼핑몰입니다. 재활용 소재, 유기농 원료, 공정무역 등 친환경 가치를 중시하는 제품들을 제공합니다.
 
----
+## 📋 프로젝트 개요
 
-## 🔷 Features
+### 주요 특징
+- 🌍 **친환경 제품**: 재활용 소재, 유기농 원료 사용 제품
+- 📊 **환경 임팩트 추적**: 탄소 발자국, 물 사용량, 재활용 비율 표시
+- 🏷️ **인증 시스템**: 유기농 인증, 공정무역 인증 표시
+- 🔒 **사용자 인증**: JWT 기반 로그인/회원가입
+- 📱 **반응형 디자인**: 모든 디바이스에서 최적화된 UI
 
-- 📲 웨어러블 센서에서 건강 데이터 수집 (심박수, 체온, 혈중산소)
-- 🎨 옷 색상이 상태에 따라 자동 변경 (정상/주의/위험)
-- 🌐 실시간 대시보드 제공 (웹 기반)
-- 🔔 실시간 알림 기능 (웹소켓 기반)
-- 🔐 사용자 인증 및 개인 건강 기록 관리
-- 📊 AI 기반 건강 상태 분석 및 예측
+### 기술 스택
 
----
+#### 프론트엔드
+- **Vue.js 3** - 프레임워크
+- **Vue Router** - 라우팅
+- **Axios** - HTTP 클라이언트
+- **Tailwind CSS** - 스타일링
+- **Vite** - 빌드 도구
 
-## 🔷 Tech Stack
+#### 백엔드
+- **Spring Boot 3.5.3** - 프레임워크
+- **Spring Security** - 인증/인가
+- **Spring Data JPA** - 데이터 액세스
+- **JWT** - 토큰 기반 인증
+- **H2 Database** - 인메모리 데이터베이스 (개발환경)
+- **MariaDB** - 운영환경 데이터베이스 (향후 적용)
 
-- **Frontend**: Vue.js 3, TypeScript, Tailwind CSS
-- **Backend**: Node.js (Express), Python (AI 분석)
-- **Database**: MongoDB / SQLite
-- **Real-time**: WebSocket for live updates
-- **AI/ML**: Python (Scikit-learn, TensorFlow)
-- **IoT**: MQTT Protocol, Raspberry Pi / Arduino
-- **Mock Data Source**: JSON / HealthKit API / Google Fit API
+## 🚀 설치 및 실행
 
----
+### 1. 필수 요구사항
+- Java 17+
+- Node.js 18+
+- ~~MariaDB 10.5+~~ (현재 H2 인메모리 DB 사용)
 
-## 🔷 Getting Started
-
-### 1️⃣ 설치
+### 2. 데이터베이스 설정
 ```bash
-git clone https://github.com/saway126/greaenwear.git
-cd greaenwear
+# 현재는 H2 인메모리 데이터베이스 사용
+# 애플리케이션 시작시 자동으로 테이블 생성 및 초기 데이터 로드
+# 별도 DB 설치 불필요
+
+# 향후 MariaDB 연동시 참고
+# mysql -u root -p
+# source db/init.sql
 ```
 
-### 2️⃣ 프론트엔드 실행
+### 3. 백엔드 실행
 ```bash
+# 백엔드 디렉토리로 이동
+cd backend-spring/demo
+
+# Gradle로 빌드 및 실행 (Windows)
+./gradlew.bat bootRun
+
+# 또는 Linux/Mac
+./gradlew bootRun
+```
+
+백엔드 서버는 `http://localhost:8080`에서 실행됩니다.
+
+### 4. 프론트엔드 실행
+```bash
+# 프론트엔드 디렉토리로 이동
 cd frontend
+
+# 의존성 설치
 npm install
+
+# 개발 서버 실행
 npm run dev
 ```
 
-### 3️⃣ 백엔드 실행 (예정)
-```bash
-cd backend
-npm install
-npm start
-```
+프론트엔드는 `http://localhost:5173`에서 실행됩니다.
 
-### 4️⃣ 사용법
-- `http://localhost:5173` 에 접속해 상태 모니터링
-- **테스트 계정**: ID `test` / PW `1234`
-- `/dashboard` 에서 실시간 건강 상태 확인
-- `/mypage` 에서 개인 건강 기록 조회
-
----
-
-## 🔷 프로젝트 로드맵
-
-| 단계 | 작업 내용 | 상태 | 비고 |
-|------|-----------|------|------|
-| 1️⃣  | 사용자 인증 시스템 구현 | ✅ | 로그인, 회원가입, 마이페이지 |
-| 2️⃣  | Health 데이터 모킹 및 수집 API 구현 | 🚧 | 심박수, 체온, 산소포화도 |
-| 3️⃣  | 상태별 색상 판단 로직 완성 | 🚧 | green/orange/red |
-| 4️⃣  | 대시보드 페이지 구현 | 🚧 | Chart.js 그래프 |
-| 5️⃣  | 상태별 색상 시뮬레이션 | 🔷 | HTML/CSS로 확인 |
-| 6️⃣  | WebSocket 알림 기능 | 🔷 | 위험시 실시간 알림 |
-| 7️⃣  | 데이터 기록 및 분석 | 🔷 | DB 연동 |
-| 8️⃣  | AI 기반 건강 상태 예측 | 🔷 | 머신러닝 모델 |
-| 9️⃣  | 아두이노/라즈베리파이 연동 | 🔷 | 실제 센서 실험 |
-
-**상태 범례**: ✅ 완료 | 🚧 진행중 | 🔷 예정
-
----
-
-## 🗺️ 아키텍처 다이어그램
+## 📁 프로젝트 구조
 
 ```
-                    +------------------+
-                    |  Wearable Device |
-                    |  (Sensors)       |
-                    +------------------+
-                            |
-                   (health data via MQTT/HTTP)
-                            |
-                    +------------------+
-                    |   Backend API    |
-                    | (Node.js/Python) |
-                    +------------------+
-                       |      |      |
-          WebSocket <--|      |      |--> Database (MongoDB)
-                       |      |
-                       |      |
-                +------+------+
-                |             |
-         +--------------+ +--------------+
-         |  Vue.js      | |  Smart Wear |
-         |  Dashboard   | |  Color LED   |
-         +--------------+ +--------------+
+greenwear/
+├── frontend/                   # Vue.js 프론트엔드
+│   ├── src/
+│   │   ├── components/        # 재사용 가능한 컴포넌트
+│   │   ├── pages/            # 페이지 컴포넌트
+│   │   ├── router/           # 라우팅 설정
+│   │   └── services/         # API 서비스
+│   └── package.json
+├── backend-spring/            # Spring Boot 백엔드
+│   └── demo/
+│       ├── src/main/java/com/greenwear/demo/
+│       │   ├── config/       # 설정 클래스
+│       │   ├── controller/   # REST 컨트롤러
+│       │   ├── entity/       # JPA 엔티티
+│       │   ├── repository/   # 데이터 액세스
+│       │   ├── service/      # 비즈니스 로직
+│       │   └── dto/          # 데이터 전송 객체
+│       └── src/main/resources/
+│           └── application.yml
+├── db/                        # 데이터베이스 스크립트
+│   ├── init.sql              # 초기화 스크립트
+│   └── README.md             # DB 설정 가이드
+└── README.md
 ```
 
----
+## 🔧 API 엔드포인트
 
-## 📱 페이지 구성
+### 인증 API
+- `POST /api/auth/login` - 로그인 ✅
+- `POST /api/auth/signup` - 회원가입 ✅
 
-### 🏠 메인 페이지 (/)
-- 서비스 소개 및 현재 건강 상태 개요
-- 상태별 카드 (정상/주의/위험)
-- 상단 네비게이션 (로그인/회원가입/마이페이지)
+### 제품 API
+- `GET /api/products` - 제품 목록 ✅
+- `GET /api/products/{id}` - 특정 제품 조회 ✅
+- `POST /api/products` - 제품 생성 (관리자) ✅
+- `PUT /api/products/{id}` - 제품 수정 (관리자) ✅
+- `DELETE /api/products/{id}` - 제품 삭제 (관리자) ✅
 
-### 🔐 로그인 페이지 (/login)
-- GreenWear 브랜딩 디자인
-- 사용자 인증 시스템
-- 테스트 계정: `test` / `1234`
+### 헬스 체크
+- `GET /api/health` - 서버 상태 확인 ✅
 
-### 📝 회원가입 페이지 (/signup)
-- 새 사용자 등록 폼
-- 유효성 검사 기능
-- 자동 로그인 페이지 연결
+**⚠️ 현재 상태**: API 구현은 완료되었으나 연결 테스트에서 401 오류 발생 중 (디버깅 진행 중)
 
-### 👤 마이페이지 (/mypage)
-- 개인 건강 기록 조회
-- 통계 카드 (모니터링 일수, 평균 심박수, 평균 체온)
-- 페이지네이션이 적용된 기록 테이블
-- 상태별 색상 구분 (정상/주의/위험)
+## 👤 테스트 계정
 
-### 📊 대시보드 (/dashboard)
-- 실시간 건강 데이터 시각화
-- 상세 분석 차트
-- 색상 변경 시뮬레이션
+### 관리자 계정
+- **사용자명**: admin
+- **이메일**: admin@greenwear.com
+- **비밀번호**: password123
 
-### 🚨 알림 페이지 (/alert)
-- 위험 상황 알림 목록
-- 응급 상황 대응 가이드
+### 일반 사용자 계정
+- **사용자명**: user1
+- **이메일**: user1@greenwear.com
+- **비밀번호**: password123
 
----
+## 🌱 환경 데이터
 
-## 🎨 색상 시스템
+제품별로 다음과 같은 환경 친화도 지표를 제공합니다:
 
-### 건강 상태별 색상 매핑
-- 🟢 **정상 (Green)**: 심박수 60-100bpm, 체온 36.1-37.2°C
-- 🟡 **주의 (Yellow)**: 경미한 이상 수치 감지
-- 🔴 **위험 (Red)**: 즉시 의료 조치 필요
+- **환경 친화도 평점** (1-5)
+- **탄소 발자국** (kg CO2)
+- **재활용 소재 비율** (%)
+- **물 사용량** (리터)
+- **유기농 인증** 여부
+- **공정무역 인증** 여부
 
-### 스마트웨어 색상 구현 방식
-- **LED 스트립**: WS2812B 기반 RGB LED
-- **제어 방식**: Arduino/Raspberry Pi via WiFi/Bluetooth
-- **전원**: 충전식 배터리 (10시간 연속 사용)
+## 🔍 주요 기능
 
----
+### 1. 제품 카탈로그
+- 친환경 의류 제품 브라우징
+- 카테고리별, 브랜드별 필터링
+- 환경 지표별 정렬 및 검색
 
-## 🔧 개발 환경 설정
+### 2. 사용자 관리
+- JWT 기반 안전한 인증
+- 사용자 프로필 관리
+- 역할 기반 권한 제어
 
-### 필수 요구사항
-- Node.js 18+
-- Python 3.8+ (AI 모듈용)
-- MongoDB 또는 SQLite
-- Git
+### 3. 환경 임팩트 표시
+- 실시간 환경 통계
+- 제품별 상세 환경 정보
+- 사용자의 환경 기여도 추적
 
-### 개발 도구
-- Vue DevTools
-- VS Code + Vetur/Volar
-- Postman (API 테스트)
-- Chrome DevTools
+## 🛠️ 개발 가이드
 
----
+### 새로운 제품 추가
+1. 데이터베이스에 제품 정보 추가
+2. 환경 지표 데이터 입력
+3. 이미지 업로드 및 URL 설정
 
-## 🚀 향후 개발 계획
+### API 확장
+1. 새로운 엔드포인트 컨트롤러에 추가
+2. 프론트엔드 API 서비스 업데이트
+3. 필요한 경우 새로운 엔티티/DTO 생성
 
-### Phase 1: 기본 기능 (현재)
-- [x] 사용자 인증 시스템
-- [x] 기본 페이지 구성
-- [ ] 백엔드 API 개발
+### 스타일 커스터마이징
+- Tailwind CSS 설정 파일에서 색상/스타일 수정
+- 컴포넌트별 스타일 커스터마이징 가능
 
-### Phase 2: 핵심 기능
-- [ ] 실시간 데이터 수집
-- [ ] 상태별 색상 분류 알고리즘
-- [ ] WebSocket 실시간 통신
+## 🚨 문제 해결
 
-### Phase 3: 고급 기능
-- [ ] AI 기반 건강 예측
-- [ ] 하드웨어 연동 (Arduino/Raspberry Pi)
-- [ ] 모바일 앱 개발
+### 현재 알려진 이슈
+**API 연결 401 오류 (2025.07.09 현재)**
+- 증상: 모든 API 엔드포인트에서 401 Unauthorized 오류
+- 추정 원인: JWT 필터 설정 또는 포트 바인딩 문제
+- 해결 진행 중: Security 설정 및 서버 상태 점검
 
-### Phase 4: 확장 기능
-- [ ] 의료진 전용 관리자 페이지
-- [ ] 다국어 지원
-- [ ] 클라우드 배포 및 스케일링
+### 백엔드 연결 오류
+1. ~~MariaDB 서버 실행 확인~~ (현재 H2 사용으로 불필요)
+2. H2 데이터베이스 자동 설정 확인 (application.yml)
+3. 포트 충돌 확인 (8080)
+4. Java 프로세스 상태 확인: `Get-Process java`
 
----
+### 백엔드 실행 관련
+**Windows PowerShell 사용시 주의사항**:
+```powershell
+# 올바른 실행 방법
+cd backend-spring/demo
+.\gradlew.bat bootRun
 
-## 🎯 Target Users
+# 잘못된 방법 (PowerShell에서 && 지원 안함)
+cd backend-spring/demo && .\gradlew.bat bootRun
+```
 
-### 1️⃣ 의료 환경
-- **병원**: 환자 상태 실시간 모니터링
-- **요양원**: 고령자 건강 관리
-- **응급실**: 위험 환자 신속 식별
+### 프론트엔드 빌드 오류
+1. Node.js 버전 확인 (18+)
+2. npm 캐시 정리: `npm cache clean --force`
+3. node_modules 재설치: `rm -rf node_modules && npm install`
 
-### 2️⃣ 고위험 직업군
-- **군인**: 훈련 중 건강 상태 모니터링
-- **소방관**: 화재 현장 안전 관리
-- **광부**: 지하 작업 중 건강 추적
+### CORS 오류
+- 백엔드 SecurityConfig에서 CORS 설정 확인
+- 프론트엔드 API 서비스의 baseURL 확인
 
-### 3️⃣ 일반 사용자
-- **운동선수**: 퍼포먼스 최적화
-- **고령자**: 독거 노인 안전 관리
-- **만성질환자**: 지속적인 건강 추적
-
----
-
-## 🤝 기여 방법
-
-1. 이슈 등록 또는 기존 이슈 확인
-2. 브랜치 생성 (`git checkout -b feature/새기능`)
-3. 변경사항 커밋 (`git commit -m '새 기능 추가'`)
-4. 브랜치 푸시 (`git push origin feature/새기능`)
-5. Pull Request 생성
-
----
-
-## 📄 라이선스
+## 📝 라이선스
 
 이 프로젝트는 MIT 라이선스 하에 배포됩니다.
 
+## 📊 개발 현황 (2025.07.09)
+
+### 완료된 기능
+- ✅ **백엔드 아키텍처**: Spring Boot + Security + JWT 인증
+- ✅ **데이터 모델**: User, Product 엔티티 설계
+- ✅ **API 구현**: 인증, 제품 관리, 헬스체크 엔드포인트
+- ✅ **프론트엔드 기본 구조**: Vue.js 3 + 라우터 + 컴포넌트
+- ✅ **API 연동 코드**: Axios 기반 서비스 레이어
+- ✅ **H2 데이터베이스**: 초기 데이터 및 테스트 계정 설정
+
+### 진행 중
+- 🔄 **API 연결 디버깅**: 401 오류 해결 작업
+- 🔄 **통합 테스트**: 프론트엔드-백엔드 연동 검증
+
+### 예정된 기능
+- 📋 **제품 필터링**: 카테고리, 환경지표별 검색
+- 📋 **장바구니 시스템**: 상품 담기 및 주문 기능
+- 📋 **환경 임팩트 계산기**: 개인별 환경 기여도 추적
+- 📋 **관리자 패널**: 제품 및 사용자 관리
+
+### 기술적 성과
+- Spring Boot 3.x 최신 보안 설정 적용
+- JWT 필터 및 CORS 정책 구현
+- Vue.js 컴포넌트 기반 모듈화 구조
+- Tailwind CSS 반응형 디자인
+
+## 🤝 기여하기
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
 ---
 
-## 📞 문의사항
-
-- 개발자: [GitHub Profile](https://github.com/saway126)
-- 프로젝트 이슈: [GitHub Issues](https://github.com/saway126/greaenwear/issues)
-- 이메일: [연락처 추가 예정]
-
----
-
-## 🏆 Awards & Recognition
-
-- 🥇 **2024 스마트 헬스케어 해커톤** 우수상 (예정)
-- 🎖️ **오픈소스 기여상** (예정)
-
----
-
-**🌱 GreenWear로 더 안전하고 건강한 미래를 만들어보세요!**
-
-> *"색상으로 생명을 구한다 - Saving Lives Through Colors"* 
+**GreenWear** - 지속 가능한 패션으로 더 나은 미래를 만들어갑니다. 🌍💚 
