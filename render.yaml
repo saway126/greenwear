@@ -1,0 +1,54 @@
+services:
+  # Spring Boot Backend
+  - type: web
+    name: greenwear-backend-spring
+    runtime: java
+    buildCommand: cd backend-spring/demo && ./gradlew build
+    startCommand: cd backend-spring/demo && java -jar build/libs/demo-1.0.0.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: SERVER_PORT
+        value: 8080
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:h2:mem:testdb
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: org.h2.Driver
+      - key: SPRING_JPA_DATABASE_PLATFORM
+        value: org.hibernate.dialect.H2Dialect
+      - key: SPRING_H2_CONSOLE_ENABLED
+        value: "true"
+    healthCheckPath: /api/health
+    
+  # Vue.js Frontend
+  - type: web
+    name: greenwear-frontend
+    runtime: node
+    buildCommand: cd frontend && npm install && npm run build && npm install -g serve
+    startCommand: cd frontend && serve -s dist -l 3000
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_URL
+        value: https://greenwear-backend-spring.onrender.com
+    
+  # Node.js Backend (Alternative)
+  - type: web
+    name: greenwear-backend-node
+    runtime: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: MONGODB_URI
+        value: mongodb+srv://demo:demo@cluster0.mongodb.net/greenwear
+    healthCheckPath: /api/health
+
+databases:
+  # PostgreSQL for production
+  - name: greenwear-db
+    databaseName: greenwear
+    user: greenwear_user 

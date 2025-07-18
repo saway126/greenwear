@@ -1,0 +1,33 @@
+[variables]
+NODE_VERSION = "18"
+JAVA_VERSION = "17"
+
+[phases.setup]
+cmds = [
+    "apt-get update",
+    "apt-get install -y curl wget gnupg"
+]
+
+[phases.install]
+cmds = [
+    # Install Node.js dependencies for frontend
+    "cd frontend && npm install",
+    # Install Java dependencies for Spring Boot
+    "cd backend-spring/demo && chmod +x gradlew && ./gradlew build -x test"
+]
+
+[phases.build]
+cmds = [
+    # Build frontend
+    "cd frontend && npm run build",
+    # Copy frontend build to Spring Boot static resources
+    "mkdir -p backend-spring/demo/src/main/resources/static",
+    "cp -r frontend/dist/* backend-spring/demo/src/main/resources/static/"
+]
+
+[start]
+cmd = "cd backend-spring/demo && java -jar build/libs/demo-1.0.0.jar"
+
+[variables]
+PORT = "8080"
+SPRING_PROFILES_ACTIVE = "railway" 
