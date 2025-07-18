@@ -1,92 +1,73 @@
-const mockProducts = [
-  {
-    id: 1,
-    name: 'Eco-Friendly Cotton T-Shirt',
-    price: 29.99,
-    category: 'clothing',
-    sustainabilityScore: 8.5,
-    materials: ['Organic Cotton', 'Recycled Polyester'],
-    carbonFootprint: 2.1,
-    image: 'https://via.placeholder.com/300x300?text=Cotton+T-Shirt'
-  },
-  {
-    id: 2,
-    name: 'Bamboo Fiber Hoodie',
-    price: 45.99,
-    category: 'clothing',
-    sustainabilityScore: 9.2,
-    materials: ['Bamboo Fiber', 'Organic Cotton'],
-    carbonFootprint: 1.8,
-    image: 'https://via.placeholder.com/300x300?text=Bamboo+Hoodie'
-  },
-  {
-    id: 3,
-    name: 'Recycled Plastic Sneakers',
-    price: 89.99,
-    category: 'footwear',
-    sustainabilityScore: 7.8,
-    materials: ['Recycled Ocean Plastic', 'Cork'],
-    carbonFootprint: 3.2,
-    image: 'https://via.placeholder.com/300x300?text=Eco+Sneakers'
-  },
-  {
-    id: 4,
-    name: 'Hemp Canvas Backpack',
-    price: 65.99,
-    category: 'accessories',
-    sustainabilityScore: 8.9,
-    materials: ['Hemp Canvas', 'Recycled Metal'],
-    carbonFootprint: 2.5,
-    image: 'https://via.placeholder.com/300x300?text=Hemp+Backpack'
-  }
-];
+import mysql from 'mysql2/promise';
 
-export default function handler(req, res) {
+async function getConnection() {
+  return await mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'greenwear_user',
+    password: process.env.DB_PASSWORD || 'greenwear_password',
+    database: process.env.DB_NAME || 'greenwear_db',
+  });
+}
+
+export default async function handler(req, res) {
   const { method, query } = req;
+  let connection;
 
-  switch (method) {
-    case 'GET':
-      let filteredProducts = mockProducts;
-      
-      // 카테고리 필터링
-      if (query.category) {
-        filteredProducts = filteredProducts.filter(product => 
-          product.category === query.category
-        );
-      }
-      
-      // 지속가능성 점수 필터링
-      if (query.minScore) {
-        filteredProducts = filteredProducts.filter(product => 
-          product.sustainabilityScore >= parseFloat(query.minScore)
-        );
-      }
+  try {
+    connection = await getConnection();
 
-      res.status(200).json({
-        success: true,
-        data: filteredProducts,
-        total: filteredProducts.length,
-        platform: 'Vercel Demo'
-      });
-      break;
+    switch (method) {
+      case 'GET':
+        let sql = 'SELECT * FROM products WHERE is_active = true';
+        const params = [];
 
-    case 'POST':
-      const newProduct = {
-        id: mockProducts.length + 1,
-        ...req.body,
-        sustainabilityScore: req.body.sustainabilityScore || 7.0,
-        carbonFootprint: req.body.carbonFootprint || 2.0
-      };
-      
-      res.status(201).json({
-        success: true,
-        data: newProduct,
-        message: 'Product created successfully'
-      });
-      break;
+        if (query.category) {
+          sql += ' AND category = ?';
+          params.push(query.category);
+        }
 
-    default:
-      res.setHeader('Allow', ['GET', 'POST']);
-      res.status(405).end(`Method ${method} Not Allowed`);
+        if (query.minScore) {
+          sql += ' AND eco_rating >= ?';
+          params.push(parseFloat(query.minScore));
+        }
+
+        const [rows] = await connection.execute(sql, params);
+
+        res.status(200).json({
+          success: true,
+          data: rows,
+          total: rows.length,
+          platform: 'Vercel with DB',
+        });
+        break;
+
+      case 'POST':
+        const newProduct = req.body;
+        const { name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country } = newProduct;
+        
+        const insertSql = 'INSERT INTO products (name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        const insertParams = [name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country, true];
+
+        const [result] = await connection.execute(insertSql, insertParams);
+        const insertedId = result.insertId;
+
+        res.status(201).json({
+          success: true,
+          data: { id: insertedId, ...newProduct },
+          message: 'Product created successfully',
+        });
+        break;
+
+      default:
+        res.setHeader('Allow', ['GET', 'POST']);
+        res.status(405).end(`Method ${method} Not Allowed`);
+    }
+  } catch (error) {
+    console.error('Database Error:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 } 
