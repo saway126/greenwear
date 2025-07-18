@@ -1,0 +1,55 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+    active: production
+    
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:testdb}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: ${SPRING_JPA_DATABASE_PLATFORM:org.hibernate.dialect.H2Dialect}
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        
+  h2:
+    console:
+      enabled: ${SPRING_H2_CONSOLE_ENABLED:true}
+      path: /h2-console
+      
+  security:
+    cors:
+      allowed-origins:
+        - "https://greenwear-frontend.onrender.com"
+        - "https://*.netlify.app"
+        - "https://*.vercel.app"
+        - "http://localhost:3000"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowed-headers:
+        - "*"
+      allow-credentials: true
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKey12345678901234567890123456789012345678901234567890}
+  expiration: 86400000
+
+logging:
+  level:
+    com.greenwear: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN 
