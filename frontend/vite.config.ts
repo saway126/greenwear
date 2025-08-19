@@ -17,12 +17,12 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
+    port: 5173,
     proxy: {
       '/api': {
         target: process.env.NODE_ENV === 'production' 
           ? 'https://your-vercel-app.vercel.app' 
-          : 'http://localhost:3001',
+          : 'http://localhost:8080',
         changeOrigin: true
       }
     }
