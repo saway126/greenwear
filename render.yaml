@@ -1,10 +1,10 @@
 services:
-  # Spring Boot Backend
+  # Spring Boot Backend (Docker)
   - type: web
     name: greenwear-backend-spring
-    runtime: java
-    buildCommand: cd backend-spring/demo && ./gradlew build
-    startCommand: cd backend-spring/demo && java -jar build/libs/demo-1.0.0.jar
+    runtime: docker
+    dockerfilePath: ./backend-spring/demo/Dockerfile
+    dockerContext: ./backend-spring/demo
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: production
@@ -24,8 +24,8 @@ services:
   - type: web
     name: greenwear-frontend
     runtime: node
-    buildCommand: cd frontend && npm install && npm run build && npm install -g serve
-    startCommand: cd frontend && serve -s dist -l 3000
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npx serve -s dist -l 3000
     envVars:
       - key: NODE_ENV
         value: production
