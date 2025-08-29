@@ -34,10 +34,10 @@
               </p>
             </div>
             
-            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <button 
                 @click="scrollToProducts"
-                class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-xl flex items-center justify-center space-x-2"
+                class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-xl flex items-center justify-center space-x-2"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -45,8 +45,17 @@
                 <span>전문 장비 둘러보기</span>
               </button>
               <router-link 
+                to="/technology"
+                class="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 text-center flex items-center justify-center space-x-2"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+                <span>스마트 기술 보기</span>
+              </router-link>
+              <router-link 
                 to="/login"
-                class="border-2 border-emerald-500 text-emerald-400 hover:bg-emerald-600 hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 text-center flex items-center justify-center space-x-2"
+                class="border-2 border-emerald-500 text-emerald-400 hover:bg-emerald-600 hover:text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 text-center flex items-center justify-center space-x-2"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
