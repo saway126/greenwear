@@ -53,6 +53,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                 .requestMatchers("/health").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
+                .requestMatchers("/test").permitAll()
+                .requestMatchers(HttpMethod.GET, "/vitals/evaluate").permitAll()
+                .requestMatchers(HttpMethod.POST, "/vitals/evaluate").permitAll()
+                .requestMatchers(HttpMethod.POST, "/vitals/samples").permitAll()
+                .requestMatchers(HttpMethod.GET, "/vitals/stream/**").permitAll() // SSE 스트림 허용
+                .requestMatchers(HttpMethod.GET, "/vitals/stream/status").permitAll() // 스트림 상태 확인 허용
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -72,4 +78,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-} 
+}
