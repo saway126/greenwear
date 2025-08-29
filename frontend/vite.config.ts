@@ -17,7 +17,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5173,
+    host: '0.0.0.0',
+    port: 5000,
+    hmr: {
+      clientPort: 443
+    },
     proxy: {
       '/api': {
         target: process.env.NODE_ENV === 'production' 
