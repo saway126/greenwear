@@ -202,9 +202,13 @@ export default {
     };
   },
   async mounted() {
-    await this.checkBackendHealth();
-    await this.loadProducts();
-    await this.loadStats();
+    try {
+      await this.checkBackendHealth();
+      await this.loadProducts();
+      await this.loadStats();
+    } catch (error) {
+      console.error('Error in mounted hook:', error);
+    }
   },
   methods: {
     async checkBackendHealth() {
@@ -228,18 +232,14 @@ export default {
       try {
         // 인기 제품 조회 (친환경 제품 위주)
         const ecoProducts = await productAPI.getEcoFriendlyProducts(4);
-        console.log('Loaded eco products:', ecoProducts);
-        this.featuredProducts = ecoProducts.slice(0, 6); // 최대 6개만 표시
+        if (Array.isArray(ecoProducts)) {
+          this.featuredProducts = ecoProducts.slice(0, 6); // 최대 6개만 표시
+        } else {
+          this.featuredProducts = this.getDummyProducts();
+        }
       } catch (error) {
         console.error('Failed to load products:', error);
-        console.error('Product error details:', {
-          message: error.message,
-          code: error.code,
-          status: error.response?.status,
-          data: error.response?.data
-        });
-        this.error = '제품을 불러오는 중 오류가 발생했습니다. 백엔드 서버 상태를 확인해주세요.';
-        
+        this.error = '제품을 불러오는 중 오류가 발생했습니다.';
         // 백엔드가 없을 때 더미 데이터 표시
         this.featuredProducts = this.getDummyProducts();
       } finally {
@@ -250,28 +250,30 @@ export default {
     async loadStats() {
       try {
         const allProducts = await productAPI.getAvailableProducts();
-        console.log('Loaded all products for stats:', allProducts);
-        const recycledProducts = allProducts.filter(p => p.recycledContentPercentage > 0);
-        const organicProducts = allProducts.filter(p => p.isCertifiedOrganic);
-        const totalCarbonSaved = allProducts.reduce((sum, p) => {
-          return sum + (p.carbonFootprint ? 5 - p.carbonFootprint : 0);
-        }, 0);
+        if (Array.isArray(allProducts)) {
+          const recycledProducts = allProducts.filter(p => p.recycledContentPercentage > 0);
+          const organicProducts = allProducts.filter(p => p.isCertifiedOrganic);
+          const totalCarbonSaved = allProducts.reduce((sum, p) => {
+            return sum + (p.carbonFootprint ? 5 - p.carbonFootprint : 0);
+          }, 0);
 
-        this.stats = {
-          totalProducts: allProducts.length,
-          recycledItems: recycledProducts.length,
-          organicItems: organicProducts.length,
-          carbonSaved: Math.round(totalCarbonSaved)
-        };
-        console.log('Stats updated:', this.stats);
+          this.stats = {
+            totalProducts: allProducts.length,
+            recycledItems: recycledProducts.length,
+            organicItems: organicProducts.length,
+            carbonSaved: Math.round(totalCarbonSaved)
+          };
+        } else {
+          // 기본 통계값 설정
+          this.stats = {
+            totalProducts: 10,
+            recycledItems: 7,
+            organicItems: 5,
+            carbonSaved: 150
+          };
+        }
       } catch (error) {
         console.error('Failed to load stats:', error);
-        console.error('Stats error details:', {
-          message: error.message,
-          code: error.code,
-          status: error.response?.status,
-          data: error.response?.data
-        });
         // 기본 통계값 설정
         this.stats = {
           totalProducts: 10,
