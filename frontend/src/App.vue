@@ -33,27 +33,5 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-
-const healthList = ref([])
-const status = ref('')
-const message = ref('')
-
-const fetchHealth = async () => {
-  const res = await axios.get('http://localhost:3000/api/health')
-  healthList.value = res.data
-}
-
-const saveHealth = async () => {
-  await axios.post('http://localhost:3000/api/health', {
-    status: status.value,
-    message: message.value
-  })
-  await fetchHealth()
-  status.value = ''
-  message.value = ''
-}
-
-onMounted(fetchHealth)
+// GreenWear App Component - Main Layout
 </script> 
