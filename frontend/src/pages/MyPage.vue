@@ -1,77 +1,91 @@
 <template>
-  <div class="bg-gradient-to-br from-blue-50 to-purple-50 min-h-screen">
-    <!-- 상단 헤더 -->
-    <div class="bg-white shadow-sm border-b">
-      <div class="px-8 py-6">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform" @click="goToMain">
-              <span class="text-white font-bold text-xl">G</span>
+  <div class="bg-slate-900 min-h-screen">
+    <!-- 전문 의료용 헤더 -->
+    <Header />
+    
+    <div class="px-8 py-6">
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center shadow-xl">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-white">개인 건강 대시보드</h1>
+            <p class="text-gray-400 mt-1">Personal Health Monitoring Dashboard</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-3 bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 text-white text-sm font-bold flex items-center justify-center">
+              {{ user.name[0] || 'U' }}
             </div>
             <div>
-              <h1 class="text-3xl font-bold text-gray-800">👤 개인 건강 대시보드</h1>
-              <p class="text-gray-600 mt-1">Personal Health Monitoring Dashboard</p>
+              <div class="text-sm font-semibold text-white">{{ user.name }}</div>
+              <div class="text-xs text-gray-400">{{ user.role }}</div>
             </div>
           </div>
-          <div class="flex items-center space-x-4">
-            <div class="flex items-center space-x-2">
-              <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-bold flex items-center justify-center">
-                {{ user.name[0] || 'U' }}
-              </div>
-              <div>
-                <div class="text-sm font-semibold">{{ user.name }}</div>
-                <div class="text-xs text-gray-500">{{ user.role }}</div>
-              </div>
-            </div>
-            <button @click="logout" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-              로그아웃
-            </button>
-            <button @click="goToMain" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition flex items-center space-x-2">
-              <span>←</span>
-              <span>메인으로</span>
-            </button>
-          </div>
+          <button @click="logout" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all font-semibold shadow-lg flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>로그아웃</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="p-8">
+    <div class="px-8 pb-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- 좌측: 프로필 및 현재 상태 -->
         <div class="lg:col-span-1 space-y-6">
           <!-- 프로필 카드 -->
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">👤 프로필 정보</h2>
+          <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+              <span>프로필 정보</span>
+            </h2>
             <div class="space-y-4">
-              <div>
-                <label class="text-sm font-medium text-gray-500">이름</label>
-                <div class="text-lg font-semibold">{{ user.name }}</div>
+              <div class="bg-slate-700 p-3 rounded-lg">
+                <label class="text-sm font-medium text-gray-400">이름</label>
+                <div class="text-lg font-semibold text-white">{{ user.name }}</div>
               </div>
-              <div>
-                <label class="text-sm font-medium text-gray-500">이메일</label>
-                <div class="text-gray-800">{{ user.email }}</div>
+              <div class="bg-slate-700 p-3 rounded-lg">
+                <label class="text-sm font-medium text-gray-400">이메일</label>
+                <div class="text-gray-200">{{ user.email }}</div>
               </div>
-              <div>
-                <label class="text-sm font-medium text-gray-500">전화번호</label>
-                <div class="text-gray-800">{{ user.phone }}</div>
+              <div class="bg-slate-700 p-3 rounded-lg">
+                <label class="text-sm font-medium text-gray-400">전화번호</label>
+                <div class="text-gray-200">{{ user.phone }}</div>
               </div>
-              <div>
-                <label class="text-sm font-medium text-gray-500">생년월일</label>
-                <div class="text-gray-800">{{ user.birthDate }}</div>
+              <div class="bg-slate-700 p-3 rounded-lg">
+                <label class="text-sm font-medium text-gray-400">생년월일</label>
+                <div class="text-gray-200">{{ user.birthDate }}</div>
               </div>
-              <div>
-                <label class="text-sm font-medium text-gray-500">혈액형</label>
-                <div class="text-gray-800">{{ user.bloodType }}</div>
+              <div class="bg-slate-700 p-3 rounded-lg">
+                <label class="text-sm font-medium text-gray-400">혈액형</label>
+                <div class="text-gray-200">{{ user.bloodType }}</div>
               </div>
             </div>
-            <button @click="editProfile" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition">
-              프로필 편집
+            <button @click="editProfile" class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-all font-semibold shadow-lg flex items-center justify-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+              <span>프로필 편집</span>
             </button>
           </div>
 
           <!-- 현재 건강 상태 -->
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">🩺 현재 건강 상태</h2>
+          <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center space-x-2">
+              <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+              </svg>
+              <span>현재 건강 상태</span>
+            </h2>
             <div class="space-y-4">
               <div class="flex items-center justify-between p-3 rounded-lg" :class="currentHealthStatus.bgClass">
                 <div class="flex items-center space-x-3">
@@ -268,6 +282,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import Header from '../components/Header.vue'
 
 const router = useRouter()
 
