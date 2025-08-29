@@ -250,6 +250,7 @@ export default {
     async loadStats() {
       try {
         const allProducts = await productAPI.getAvailableProducts();
+        console.log('Loaded all products for stats:', allProducts);
         const recycledProducts = allProducts.filter(p => p.recycledContentPercentage > 0);
         const organicProducts = allProducts.filter(p => p.isCertifiedOrganic);
         const totalCarbonSaved = allProducts.reduce((sum, p) => {
@@ -262,8 +263,15 @@ export default {
           organicItems: organicProducts.length,
           carbonSaved: Math.round(totalCarbonSaved)
         };
+        console.log('Stats updated:', this.stats);
       } catch (error) {
         console.error('Failed to load stats:', error);
+        console.error('Stats error details:', {
+          message: error.message,
+          code: error.code,
+          status: error.response?.status,
+          data: error.response?.data
+        });
         // 기본 통계값 설정
         this.stats = {
           totalProducts: 10,
