@@ -278,12 +278,138 @@
       </div>
     </section>
 
-    <!-- 전문 성능 특성 섹션 -->
+    <!-- 개발 현황 섹션 -->
+    <section class="py-20 bg-slate-800">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <div class="inline-flex items-center space-x-3 mb-6">
+            <div class="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
+            <span class="text-amber-400 font-semibold text-lg">DEVELOPMENT IN PROGRESS</span>
+          </div>
+          <h2 class="text-4xl font-bold text-white mb-6">1인 개발자의 도전</h2>
+          <p class="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed">
+            의료진과 군인들을 위한 친환경 전문 의류 플랫폼을 혼자서 개발하고 있습니다. 
+            현재 프로토타입 단계이며, 실제 인증과 검증을 위해 단계적으로 발전시켜 나가고 있습니다.
+          </p>
+        </div>
+
+        <!-- 개발 단계 로드맵 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <!-- 1단계: 현재 -->
+          <div class="bg-slate-700 border-l-4 border-emerald-500 p-6 rounded-lg relative">
+            <div class="absolute -left-3 top-6 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="text-emerald-400 font-bold text-sm">1단계 - 현재</span>
+              <div class="px-2 py-1 bg-emerald-600 bg-opacity-20 rounded-full">
+                <span class="text-emerald-300 text-xs font-semibold">진행중</span>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">프로토타입 개발</h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>✅ Vue.js + Spring Boot 기반 웹 플랫폼</li>
+              <li>✅ 의료/군용 테마 UI/UX 디자인</li>
+              <li>✅ 제품 카탈로그 시스템</li>
+              <li>⏳ 사용자 피드백 수집</li>
+              <li>⏳ 기본 기능 안정화</li>
+            </ul>
+          </div>
+
+          <!-- 2단계: 다음 -->
+          <div class="bg-slate-700 border-l-4 border-amber-500 p-6 rounded-lg relative">
+            <div class="absolute -left-3 top-6 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="text-amber-400 font-bold text-sm">2단계 - 예정</span>
+              <div class="px-2 py-1 bg-amber-600 bg-opacity-20 rounded-full">
+                <span class="text-amber-300 text-xs font-semibold">계획중</span>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">전문가 검증</h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>📋 의료진 현장 요구사항 조사</li>
+              <li>🪖 군 관련 전문가 자문</li>
+              <li>🧪 친환경 소재 연구 협력</li>
+              <li>📊 사용자 테스트 진행</li>
+              <li>🔧 피드백 기반 개선</li>
+            </ul>
+          </div>
+
+          <!-- 3단계: 미래 -->
+          <div class="bg-slate-700 border-l-4 border-blue-500 p-6 rounded-lg relative">
+            <div class="absolute -left-3 top-6 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+            <div class="flex items-center space-x-2 mb-4">
+              <span class="text-blue-400 font-bold text-sm">3단계 - 목표</span>
+              <div class="px-2 py-1 bg-blue-600 bg-opacity-20 rounded-full">
+                <span class="text-blue-300 text-xs font-semibold">비전</span>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">인증 & 상용화</h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>🏆 의료기기 인증 취득</li>
+              <li>⭐ 군용 표준 인증 도전</li>
+              <li>🌱 친환경 인증 획득</li>
+              <li>🚀 실제 제품 공급 시작</li>
+              <li>🌍 글로벌 시장 진출</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 개발자 메시지 -->
+        <div class="bg-slate-700 border border-slate-600 rounded-xl p-8">
+          <div class="flex items-start space-x-6">
+            <div class="w-16 h-16 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.11 3.89 23 5 23H19C20.11 23 21 22.11 21 21V9M19 21H5V3H13V9H19Z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-white mb-4">개발자 이야기</h3>
+              <div class="text-gray-300 leading-relaxed space-y-4">
+                <p>
+                  안녕하세요! 이 프로젝트를 혼자서 개발하고 있는 개발자입니다. 
+                  의료진과 군인 분들을 위한 진정으로 도움이 되는 친환경 의류 플랫폼을 만들고 싶어 시작했습니다.
+                </p>
+                <p>
+                  현재는 기술적 프로토타입 단계로, 실제 FDA 승인이나 MIL-STD 인증은 아직 받지 않았습니다. 
+                  하지만 이런 높은 기준을 목표로 삼고 단계적으로 발전시켜 나가고 있습니다.
+                </p>
+                <p>
+                  <strong class="text-emerald-400">여러분의 피드백과 조언이 정말 소중합니다.</strong> 
+                  의료진이시거나 군 관련 경험이 있으시다면, 현장에서 정말 필요한 기능이나 개선점을 알려주세요. 
+                  함께 만들어가는 플랫폼이 되었으면 합니다.
+                </p>
+              </div>
+              <div class="mt-6 flex flex-wrap gap-4">
+                <a href="mailto:developer@greenwear.dev" class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold transition-all">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,5.11 21.1,4 20,4Z"/>
+                  </svg>
+                  <span>피드백 보내기</span>
+                </a>
+                <a href="https://github.com/greenwear" class="inline-flex items-center space-x-2 bg-slate-600 hover:bg-slate-500 text-white px-6 py-3 rounded-lg font-semibold transition-all">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"/>
+                  </svg>
+                  <span>개발 진행상황</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 전문 성능 목표 섹션 -->
     <section class="py-20 bg-gradient-to-br from-slate-800 to-slate-900">
       <div class="max-w-7xl mx-auto px-4 text-center">
-        <h2 class="text-4xl font-bold text-white mb-6">전문가가 인정하는 성능</h2>
+        <h2 class="text-4xl font-bold text-white mb-6">지향하는 성능 표준</h2>
         <p class="text-gray-300 text-lg mb-12 max-w-3xl mx-auto">
-          의료진과 군인들의 생명을 보호하는 최첨단 친환경 소재 기술
+          현재 연구개발 중인 기술과 향후 달성하고자 하는 전문 표준들
         </p>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -293,8 +419,8 @@
                 <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.9 16,12.4 16,13V16C16,17 15,18 14,18H10C9,18 8,17 8,16V13C8,12.4 8.4,11.9 9,11.5V10C9,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.2,9.2 10.2,10V11.5H13.8V10C13.8,9.2 12.8,8.2 12,8.2Z"/>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">생체 안전성</h3>
-            <p class="text-gray-300 leading-relaxed">FDA 승인 소재로 제작되어 의료진의 피부에 직접 닿아도 안전하며, 항균 처리로 감염 위험을 최소화합니다.</p>
+            <h3 class="text-xl font-bold text-white mb-4">생체 안전성 연구</h3>
+            <p class="text-gray-300 leading-relaxed">의료진의 피부에 직접 닿아도 안전한 소재 연구와 항균 처리 기술 개발을 통해 감염 위험을 최소화하는 것을 목표로 합니다.</p>
           </div>
           
           <div class="bg-slate-800 border border-slate-700 p-8 rounded-xl shadow-xl hover:border-amber-600 transition-all duration-300 group">
@@ -303,8 +429,8 @@
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">극한 내구성</h3>
-            <p class="text-gray-300 leading-relaxed">MIL-STD 표준을 만족하는 군용 등급 내구성으로 극한 환경에서도 찢어짐과 마모에 강합니다.</p>
+            <h3 class="text-xl font-bold text-white mb-4">극한 내구성 개발</h3>
+            <p class="text-gray-300 leading-relaxed">향후 MIL-STD 표준을 만족하는 군용 등급 내구성 달성을 목표로, 극한 환경에서도 찢어짐과 마모에 강한 소재를 연구하고 있습니다.</p>
           </div>
           
           <div class="bg-slate-800 border border-slate-700 p-8 rounded-xl shadow-xl hover:border-green-600 transition-all duration-300 group">
@@ -313,39 +439,57 @@
                 <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z"/>
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-white mb-4">친환경 혁신</h3>
-            <p class="text-gray-300 leading-relaxed">재생 소재 85% 사용으로 탄소 발자국을 60% 감소시키면서도 기존 제품 대비 더 우수한 성능을 제공합니다.</p>
+            <h3 class="text-xl font-bold text-white mb-4">친환경 소재 연구</h3>
+            <p class="text-gray-300 leading-relaxed">재생 소재 사용 비율을 높이고 탄소 발자국을 최소화하면서도, 전문 의료진과 군인들이 요구하는 성능을 만족하는 소재 개발에 집중하고 있습니다.</p>
           </div>
         </div>
         
-        <!-- 인증 로고 섹션 -->
+        <!-- 목표 인증 섹션 -->
         <div class="mt-16 pt-12 border-t border-slate-700">
-          <h3 class="text-2xl font-bold text-white mb-8">국제 인증 현황</h3>
+          <h3 class="text-2xl font-bold text-white mb-4">목표 인증 표준</h3>
+          <p class="text-gray-400 mb-8 text-center">향후 취득을 목표로 하는 전문 인증들</p>
           <div class="flex flex-wrap justify-center items-center gap-8">
-            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600">
+            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600 opacity-75">
               <div class="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xs font-bold">FDA</span>
               </div>
-              <span class="text-gray-300 font-semibold">미국 식품의약국 승인</span>
+              <div>
+                <span class="text-gray-300 font-semibold">미국 식품의약국</span>
+                <div class="text-amber-400 text-xs">목표 인증</div>
+              </div>
             </div>
-            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600">
+            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600 opacity-75">
               <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xs font-bold">ISO</span>
               </div>
-              <span class="text-gray-300 font-semibold">ISO 13485 의료기기 품질</span>
+              <div>
+                <span class="text-gray-300 font-semibold">ISO 13485 의료기기</span>
+                <div class="text-amber-400 text-xs">연구 진행중</div>
+              </div>
             </div>
-            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600">
+            <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600 opacity-75">
               <div class="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xs font-bold">MIL</span>
               </div>
-              <span class="text-gray-300 font-semibold">MIL-STD 군용 표준</span>
+              <div>
+                <span class="text-gray-300 font-semibold">MIL-STD 군용 표준</span>
+                <div class="text-amber-400 text-xs">장기 목표</div>
+              </div>
             </div>
             <div class="flex items-center space-x-3 bg-slate-800 px-6 py-3 rounded-lg border border-slate-600">
               <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
                 <span class="text-white text-xs font-bold">ECO</span>
               </div>
-              <span class="text-gray-300 font-semibold">친환경 소재 인증</span>
+              <div>
+                <span class="text-gray-300 font-semibold">친환경 소재 연구</span>
+                <div class="text-emerald-400 text-xs">진행중</div>
+              </div>
             </div>
+          </div>
+          <div class="mt-6 text-center">
+            <p class="text-gray-500 text-sm">
+              * 현재 표시된 인증은 개발 목표이며, 실제 인증을 받은 상태가 아닙니다.
+            </p>
           </div>
         </div>
       </div>
