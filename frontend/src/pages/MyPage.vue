@@ -280,7 +280,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
 
@@ -454,6 +454,8 @@ const logout = () => {
   }
 }
 
+let vitalInterval = null
+
 onMounted(() => {
   // 실시간 바이탈 데이터 시뮬레이션
   const updateVitals = () => {
@@ -462,7 +464,13 @@ onMounted(() => {
     currentVitals.value.oxygenSaturation = Math.floor(Math.random() * 10) + 90
   }
   
-  setInterval(updateVitals, 5000) // 5초마다 업데이트
+  vitalInterval = setInterval(updateVitals, 5000) // 5초마다 업데이트
+})
+
+onUnmounted(() => {
+  if (vitalInterval) {
+    clearInterval(vitalInterval)
+  }
 })
 
 const goToMain = () => {
