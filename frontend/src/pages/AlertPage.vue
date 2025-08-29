@@ -453,12 +453,14 @@ const generateRandomAlert = () => {
 
 let alertInterval = null
 
+let connectionInterval = null
+
 onMounted(() => {
   // 10초마다 랜덤 알림 생성
   alertInterval = setInterval(generateRandomAlert, 10000)
   
   // 연결 상태 시뮬레이션
-  setInterval(() => {
+  connectionInterval = setInterval(() => {
     isConnected.value = Math.random() > 0.05 // 95% 확률로 연결됨
   }, 5000)
 })
@@ -466,6 +468,9 @@ onMounted(() => {
 onUnmounted(() => {
   if (alertInterval) {
     clearInterval(alertInterval)
+  }
+  if (connectionInterval) {
+    clearInterval(connectionInterval)
   }
 })
 
