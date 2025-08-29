@@ -4,13 +4,15 @@ import DashboardPage from '../pages/DashboardPage.vue';
 import AlertPage from '../pages/AlertPage.vue';
 import LoginPage from '../pages/LoginPage.vue';
 import SignupPage from '../pages/SignupPage.vue';
-import MyPage from '../pages/MyPage.vue';
+import MyPage from '../pages/MyPage.vue'
+import WearablePage from '../pages/WearablePage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
 
 const routes = [
   { path: '/', component: MainPage },
   { path: '/dashboard', component: DashboardPage },
   { path: '/alert', component: AlertPage },
+  { path: '/wearable', component: WearablePage },
   { path: '/login', component: LoginPage },
   { path: '/signup', component: SignupPage },
   { path: '/mypage', component: MyPage },
