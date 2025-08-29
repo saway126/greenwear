@@ -1,65 +1,75 @@
 <template>
-  <div class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
-    <!-- 헤더 -->
-    <div class="bg-white shadow-sm border-b">
-      <div class="px-8 py-6">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-4">
-            <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform" @click="goToMain">
-              <span class="text-white font-bold text-xl">G</span>
-            </div>
-            <div>
-              <h1 class="text-3xl font-bold text-gray-800">📊 실시간 건강 대시보드</h1>
-              <p class="text-gray-600 mt-1">Smart Wear Color Monitoring System</p>
-            </div>
+  <div class="bg-slate-900 min-h-screen">
+    <!-- 전문 의료용 헤더 -->
+    <Header />
+    
+    <div class="px-8 py-6">
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-lg flex items-center justify-center shadow-xl">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
           </div>
-          <div class="flex items-center space-x-4">
-            <div class="text-right">
-              <div class="text-sm text-gray-500">마지막 업데이트</div>
-              <div class="text-lg font-semibold">{{ currentTime }}</div>
-            </div>
-            <button @click="toggleMonitoring" :class="isMonitoring ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'" 
-                    class="px-4 py-2 text-white rounded-lg transition">
-              {{ isMonitoring ? '⏹️ 모니터링 중지' : '▶️ 모니터링 시작' }}
-            </button>
-            <button @click="goToMain" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition flex items-center space-x-2">
-              <span>←</span>
-              <span>메인으로</span>
-            </button>
+          <div>
+            <h1 class="text-3xl font-bold text-white">실시간 건강 모니터링</h1>
+            <p class="text-gray-400 mt-1">Professional Medical Monitoring System</p>
           </div>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-right bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">
+            <div class="text-sm text-gray-400">마지막 업데이트</div>
+            <div class="text-lg font-semibold text-emerald-400">{{ currentTime }}</div>
+          </div>
+          <button @click="toggleMonitoring" 
+                  :class="isMonitoring ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'" 
+                  class="px-6 py-3 text-white rounded-lg transition-all font-semibold shadow-lg flex items-center space-x-2">
+            <svg v-if="isMonitoring" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 6h12v12H6z"/>
+            </svg>
+            <svg v-else class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span>{{ isMonitoring ? '모니터링 중지' : '모니터링 시작' }}</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="p-8">
+    <div class="px-8 pb-8">
       <!-- 스마트웨어 색상 시뮬레이션 -->
       <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">🎨 Smart Wear 색상 시뮬레이션</h2>
-        <div class="bg-white rounded-lg shadow-lg p-6">
+        <h2 class="text-2xl font-bold text-white mb-4 flex items-center space-x-3">
+          <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4 4 4 0 004-4V5z"/>
+          </svg>
+          <span>Smart Wear 색상 시뮬레이션</span>
+        </h2>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-8">
           <div class="flex items-center justify-center space-x-8">
             <div class="text-center">
-              <div class="w-32 h-32 rounded-full mx-auto mb-4 transition-all duration-1000 shadow-xl"
+              <div class="w-32 h-32 rounded-full mx-auto mb-4 transition-all duration-1000 shadow-xl border-4 border-slate-600"
                    :style="{ backgroundColor: currentColor, boxShadow: `0 0 30px ${currentColor}` }">
                 <div class="w-full h-full rounded-full flex items-center justify-center text-white font-bold text-lg">
                   LED
                 </div>
               </div>
               <div class="text-lg font-semibold" :class="statusTextClass">{{ currentStatus }}</div>
-              <div class="text-sm text-gray-500">{{ statusDescription }}</div>
+              <div class="text-sm text-gray-400">{{ statusDescription }}</div>
             </div>
-            <div class="text-4xl">👕</div>
-            <div class="space-y-2">
-              <div class="flex items-center space-x-2">
-                <div class="w-4 h-4 bg-green-500 rounded-full"></div>
-                <span class="text-sm">정상 (60-100 BPM, 36.1-37.2°C)</span>
+            <div class="text-6xl">🏥</div>
+            <div class="space-y-3">
+              <div class="flex items-center space-x-3 bg-slate-700 px-4 py-2 rounded-lg">
+                <div class="w-4 h-4 bg-emerald-500 rounded-full"></div>
+                <span class="text-sm text-gray-300">정상 (60-100 BPM, 36.1-37.2°C)</span>
               </div>
-              <div class="flex items-center space-x-2">
-                <div class="w-4 h-4 bg-yellow-500 rounded-full"></div>
-                <span class="text-sm">주의 (경미한 이상 수치)</span>
+              <div class="flex items-center space-x-3 bg-slate-700 px-4 py-2 rounded-lg">
+                <div class="w-4 h-4 bg-amber-500 rounded-full"></div>
+                <span class="text-sm text-gray-300">주의 (경미한 이상 수치)</span>
               </div>
-              <div class="flex items-center space-x-2">
+              <div class="flex items-center space-x-3 bg-slate-700 px-4 py-2 rounded-lg">
                 <div class="w-4 h-4 bg-red-500 rounded-full"></div>
-                <span class="text-sm">위험 (즉시 의료 조치 필요)</span>
+                <span class="text-sm text-gray-300">위험 (즉시 의료 조치 필요)</span>
               </div>
             </div>
           </div>
@@ -68,36 +78,63 @@
 
       <!-- 실시간 데이터 카드 -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-red-500">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-xl hover:border-red-500 transition-all duration-300 group">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-gray-800">💓 심박수</h3>
-              <div class="text-3xl font-bold text-red-600">{{ healthData.heartRate }} BPM</div>
-              <div class="text-sm text-gray-500">정상: 60-100 BPM</div>
+              <h3 class="text-lg font-semibold text-white flex items-center space-x-2">
+                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
+                <span>심박수</span>
+              </h3>
+              <div class="text-3xl font-bold text-red-400 group-hover:text-red-300 transition-colors">{{ healthData.heartRate }} BPM</div>
+              <div class="text-sm text-gray-400">정상: 60-100 BPM</div>
             </div>
-            <div class="text-4xl">❤️</div>
+            <div class="w-12 h-12 bg-red-600 bg-opacity-20 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-xl hover:border-blue-500 transition-all duration-300 group">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-gray-800">🌡️ 체온</h3>
-              <div class="text-3xl font-bold text-blue-600">{{ healthData.temperature }}°C</div>
-              <div class="text-sm text-gray-500">정상: 36.1-37.2°C</div>
+              <h3 class="text-lg font-semibold text-white flex items-center space-x-2">
+                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span>체온</span>
+              </h3>
+              <div class="text-3xl font-bold text-blue-400 group-hover:text-blue-300 transition-colors">{{ healthData.temperature }}°C</div>
+              <div class="text-sm text-gray-400">정상: 36.1-37.2°C</div>
             </div>
-            <div class="text-4xl">🌡️</div>
+            <div class="w-12 h-12 bg-blue-600 bg-opacity-20 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+            </div>
           </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-purple-500">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-xl hover:border-purple-500 transition-all duration-300 group">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-lg font-semibold text-gray-800">🫁 혈중산소</h3>
-              <div class="text-3xl font-bold text-purple-600">{{ healthData.oxygenSaturation }}%</div>
-              <div class="text-sm text-gray-500">정상: 95-100%</div>
+              <h3 class="text-lg font-semibold text-white flex items-center space-x-2">
+                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9 3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                </svg>
+                <span>혈중산소</span>
+              </h3>
+              <div class="text-3xl font-bold text-purple-400 group-hover:text-purple-300 transition-colors">{{ healthData.oxygenSaturation }}%</div>
+              <div class="text-sm text-gray-400">정상: 95-100%</div>
             </div>
-            <div class="text-4xl">🫁</div>
+            <div class="w-12 h-12 bg-purple-600 bg-opacity-20 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s1.343-9 3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
@@ -105,8 +142,13 @@
       <!-- 차트 섹션 -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- 심박수 차트 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">📈 심박수 추이</h3>
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-xl">
+          <h3 class="text-xl font-semibold text-white mb-4 flex items-center space-x-2">
+            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span>심박수 추이</span>
+          </h3>
           <div class="h-64">
             <Line
               :data="heartRateChartData"
@@ -117,8 +159,13 @@
         </div>
 
         <!-- 체온 차트 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-semibold text-gray-800 mb-4">🌡️ 체온 추이</h3>
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-xl">
+          <h3 class="text-xl font-semibold text-white mb-4 flex items-center space-x-2">
+            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>체온 추이</span>
+          </h3>
           <div class="h-64">
             <Line
               :data="temperatureChartData"
@@ -130,17 +177,22 @@
       </div>
 
       <!-- 상태 히스토리 -->
-      <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">📋 상태 변경 히스토리</h3>
+      <div class="mt-8 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-6">
+        <h3 class="text-xl font-semibold text-white mb-4 flex items-center space-x-2">
+          <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <span>상태 변경 히스토리</span>
+        </h3>
         <div class="space-y-3">
           <div v-for="(log, index) in statusHistory" :key="index" 
-               class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+               class="flex items-center justify-between p-4 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors border border-slate-600">
             <div class="flex items-center space-x-3">
               <div class="w-3 h-3 rounded-full" :style="{ backgroundColor: log.color }"></div>
-              <span class="font-medium">{{ log.status }}</span>
-              <span class="text-gray-600">{{ log.description }}</span>
+              <span class="font-medium text-white">{{ log.status }}</span>
+              <span class="text-gray-300">{{ log.description }}</span>
             </div>
-            <span class="text-sm text-gray-500">{{ log.time }}</span>
+            <span class="text-sm text-gray-400">{{ log.time }}</span>
           </div>
         </div>
       </div>
@@ -151,6 +203,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import Header from '../components/Header.vue'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -223,10 +276,10 @@ const currentColor = computed(() => {
 
 const statusTextClass = computed(() => {
   switch (currentStatus.value) {
-    case '정상': return 'text-green-600'
-    case '주의': return 'text-yellow-600'
-    case '위험': return 'text-red-600'
-    default: return 'text-gray-600'
+    case '정상': return 'text-emerald-400'
+    case '주의': return 'text-amber-400'
+    case '위험': return 'text-red-400'
+    default: return 'text-gray-400'
   }
 })
 

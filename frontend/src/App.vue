@@ -1,37 +1,65 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <nav class="bg-white shadow-lg border-b border-gray-200 px-6 py-4">
-      <div class="flex items-center space-x-8">
-        <h1 class="text-2xl font-bold text-green-600">🌿 GreenWear</h1>
-        <div class="flex space-x-6">
-          <router-link 
-            to="/" 
-            class="text-gray-700 hover:text-green-600 font-medium transition-colors duration-200"
-            active-class="text-green-600 border-b-2 border-green-600"
-          >
-            홈
-          </router-link>
-          <router-link 
-            to="/dashboard" 
-            class="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
-            active-class="text-blue-600 border-b-2 border-blue-600"
-          >
-            대시보드
-          </router-link>
-          <router-link 
-            to="/alert" 
-            class="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200"
-            active-class="text-red-600 border-b-2 border-red-600"
-          >
-            알림
-          </router-link>
-        </div>
-      </div>
-    </nav>
+  <div class="min-h-screen bg-slate-900">
     <router-view />
   </div>
 </template>
 
 <script setup>
-// GreenWear App Component - Main Layout
-</script> 
+// GreenWear App Component - Medical & Military Professional Theme
+</script>
+
+<style>
+/* Global styles for consistent theming */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Focus states for accessibility */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 2px solid #1e293b;
+  border-top: 2px solid #10b981;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
