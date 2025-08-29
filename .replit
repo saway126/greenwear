@@ -15,15 +15,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Blog Generator Frontend"
+args = "GreenWear Frontend"
 
 [[workflows.workflow]]
-name = "Blog Generator Frontend"
+name = "GreenWear Frontend"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "cd frontend && npm run dev"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -33,11 +33,7 @@ outputType = "webview"
 localPort = 5000
 externalPort = 80
 
-[[ports]]
-localPort = 8080
-externalPort = 8080
-
 [deployment]
 deploymentTarget = "autoscale"
-run = ["npm", "run", "build"]
-build = ["npm", "install"]
+run = ["bash", "-c", "cd frontend && npm run build && npm run preview"]
+build = ["bash", "-c", "cd frontend && npm install --legacy-peer-deps"]
