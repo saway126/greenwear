@@ -1,0 +1,35 @@
+language = "java"
+run = "cd backend-spring/demo && ./gradlew bootRun"
+entrypoint = "backend-spring/demo/src/main/java/com/greenwear/demo/GreenwearApplication.java"
+
+[nix]
+channel = "stable-23_11"
+
+[env]
+JAVA_HOME = "/nix/store/*/openjdk-21"
+PATH = "/nix/store/*/openjdk-21/bin:$PATH"
+
+[packager]
+language = "java"
+ignoredPackages = ["node_modules", "frontend/node_modules", ".git"]
+
+[packager.features]
+packageSearch = true
+guessImports = true
+
+[languages.java]
+pattern = "**/*.java"
+syntax = "java"
+languageServer = { start = "java-language-server" }
+
+[languages.javascript]
+pattern = "**/*.js"
+syntax = "javascript"
+
+[languages.typescript]
+pattern = "**/*.ts"
+syntax = "typescript"
+
+[languages.vue]
+pattern = "**/*.vue"
+syntax = "vue"
