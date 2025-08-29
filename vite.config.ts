@@ -11,13 +11,15 @@ export default defineConfig({
     }
   },
   server: {
-    port: 5173,
+    host: '0.0.0.0', // Replit에서 모든 호스트 허용
+    port: 5000, // Replit 기본 포트
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true
       }
-    }
+    },
+    allowedHosts: true // Replit 환경에서 모든 호스트 허용
   },
   build: {
     outDir: 'dist',
