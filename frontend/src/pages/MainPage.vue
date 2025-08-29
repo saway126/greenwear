@@ -209,10 +209,15 @@ export default {
   methods: {
     async checkBackendHealth() {
       try {
-        await healthAPI.checkHealth();
-        console.log('Backend is running');
+        const result = await healthAPI.checkHealth();
+        console.log('Backend is running', result);
       } catch (error) {
-        console.warn('Backend health check failed:', error);
+        console.error('Backend health check failed:', error);
+        console.error('Error details:', {
+          message: error.message,
+          code: error.code,
+          config: error.config
+        });
       }
     },
 
@@ -223,9 +228,16 @@ export default {
       try {
         // 인기 제품 조회 (친환경 제품 위주)
         const ecoProducts = await productAPI.getEcoFriendlyProducts(4);
+        console.log('Loaded eco products:', ecoProducts);
         this.featuredProducts = ecoProducts.slice(0, 6); // 최대 6개만 표시
       } catch (error) {
         console.error('Failed to load products:', error);
+        console.error('Product error details:', {
+          message: error.message,
+          code: error.code,
+          status: error.response?.status,
+          data: error.response?.data
+        });
         this.error = '제품을 불러오는 중 오류가 발생했습니다. 백엔드 서버 상태를 확인해주세요.';
         
         // 백엔드가 없을 때 더미 데이터 표시
