@@ -34,6 +34,12 @@
             </svg>
             <span class="font-semibold">알림센터</span>
           </router-link>
+          <router-link to="/wearable" class="text-gray-300 hover:text-purple-400 transition-all duration-200 px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+            <span class="font-semibold">웨어러블</span>
+          </router-link>
           <router-link to="/mypage" class="text-gray-300 hover:text-blue-400 transition-all duration-200 px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center space-x-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
