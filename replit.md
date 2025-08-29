@@ -1,6 +1,6 @@
 # Overview
 
-GreenWear is a multi-project collection featuring 6 independent web applications, with the "Blog Promotion Generator" being the main completed project. The system combines Vue.js frontend with Spring Boot backend to create AI-powered content generation tools. The primary application allows users to generate blog promotional content using AI, with features for SEO optimization, sentiment analysis, and content management.
+GreenWear is a comprehensive IoT-enabled sustainable fashion e-commerce platform specifically designed for medical professionals and military personnel. The system features real-time health monitoring through ESP32-based smart textiles, professional-grade certifications, and eco-friendly materials. The platform combines Vue.js frontend with Spring Boot backend to deliver a complete smart wearable ecosystem with 3D clothing visualization, real-time biometric monitoring, and professional equipment management.
 
 # User Preferences
 
@@ -9,31 +9,35 @@ Preferred communication style: Simple, everyday language.
 # System Architecture
 
 ## Frontend Architecture
-- **Vue 5.1.73** with TypeScript and Composition API for reactive UI components
+- **Vue 3** with TypeScript and Composition API for reactive UI components
 - **Tailwind CSS** for utility-first styling and responsive design
 - **Vite** as the build tool for fast development and optimized production builds
 - **Vue Router** for single-page application routing and navigation
 - **Chart.js** integration for data visualization and analytics
+- **3D SVG Modeling** for interactive clothing visualization
+- **Bluetooth Web API** for real-time wearable device connectivity
 
 ## Backend Architecture
-- **Spring Boot 3** RESTful API server with 16 endpoints for content management
+- **Spring Boot 3** RESTful API server with IoT endpoints for wearable data collection
 - **Spring Security** with JWT-based authentication and authorization
 - **Spring Data JPA** for object-relational mapping and database interactions
 - **H2 Database** for development and testing (configurable for production databases)
-- **Lombok** for reducing boilerplate code in Java entities
+- **IoT Data Processing** for real-time sensor data analysis and health monitoring
 
 ## Data Storage
 - **H2 In-Memory Database** as default for rapid development and testing
 - **JPA/Hibernate** for database abstraction and migration support
 - Configurable for **PostgreSQL** in production environments
-- Entity models for users, blog posts, templates, and analytics data
+- Entity models for users, products, wearable data, and health analytics
+- **WearableData Entity** for storing sensor readings (heart rate, temperature, SpO2, etc.)
 
-## Content Generation System
-- **AI Integration** for automated blog content creation based on keywords and categories
-- **SEO Analysis Engine** that calculates scores and provides optimization suggestions
-- **Sentiment Analysis** for emotional tone detection and visualization
-- **Template System** with predefined formats for different content types
-- **Real-time Analytics** for word count, reading time, and engagement metrics
+## IoT Wearable System
+- **ESP32 Microcontroller** based smart textile integration
+- **Real-time Sensor Data Collection** (ECG, temperature, motion, SpO2)
+- **Bluetooth LE** communication for low-power wireless connectivity
+- **AI-powered Health Analysis** for anomaly detection and alerts
+- **3D Clothing Visualization** with sensor position mapping
+- **Medical/Military Grade Accuracy** (±1 BPM, ±0.1°C precision)
 
 ## API Design
 - RESTful architecture with clear resource-based endpoints
@@ -51,26 +55,29 @@ Preferred communication style: Simple, everyday language.
 # External Dependencies
 
 ## Core Technologies
-- **Vue 5.1.73** - Progressive JavaScript framework for building user interfaces
+- **Vue 3** - Progressive JavaScript framework for building user interfaces
 - **Spring Boot 3** - Java-based framework for building production-ready applications
 - **TypeScript** - Type-safe JavaScript development
 - **Tailwind CSS** - Utility-first CSS framework
+- **ESP32** - Dual-core microcontroller for IoT sensor integration
 
 ## Database & ORM
 - **H2 Database** - In-memory database for development (production-ready alternatives supported)
 - **Spring Data JPA** - Data persistence abstraction layer
 - **Hibernate** - ORM implementation
+- **WearableData Repository** - Specialized repository for sensor data management
 
 ## Build & Development Tools
 - **Vite** - Frontend build tool and development server
-- **Maven/Gradle** - Backend dependency management and build automation
+- **Gradle** - Backend dependency management and build automation
 - **Axios** - HTTP client for API communication
 - **Vue Router** - Client-side routing solution
 
 ## Visualization & UI
 - **Chart.js** - Data visualization library for analytics dashboards
 - **Vue-ChartJS** - Vue.js wrapper for Chart.js integration
-- **Heroicons** - Icon set for user interface elements
+- **3D SVG Modeling** - Interactive clothing visualization
+- **Bluetooth Web API** - Real-time device connectivity
 
 ## Deployment Platforms
 - **Vercel** - Frontend hosting with serverless API functions

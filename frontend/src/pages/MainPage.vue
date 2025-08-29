@@ -35,15 +35,15 @@
             </div>
             
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <button 
-                @click="scrollToProducts"
+              <router-link 
+                to="/equipment"
                 class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-xl flex items-center justify-center space-x-2"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 <span>전문 장비 둘러보기</span>
-              </button>
+              </router-link>
               <router-link 
                 to="/technology"
                 class="bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 text-white px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 text-center flex items-center justify-center space-x-2"

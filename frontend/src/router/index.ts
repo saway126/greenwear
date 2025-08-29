@@ -7,14 +7,16 @@ import SignupPage from '../pages/SignupPage.vue';
 import MyPage from '../pages/MyPage.vue'
 import WearablePage from '../pages/WearablePage.vue';
 import TechnologyPage from '../pages/TechnologyPage.vue';
+import EquipmentPage from '../pages/EquipmentPage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
 
 const routes = [
   { path: '/', component: MainPage },
+  { path: '/equipment', component: EquipmentPage },
   { path: '/dashboard', component: DashboardPage },
-  { path: '/alert', component: AlertPage },
   { path: '/wearable', component: WearablePage },
   { path: '/technology', component: TechnologyPage },
+  { path: '/alert', component: AlertPage },
   { path: '/login', component: LoginPage },
   { path: '/signup', component: SignupPage },
   { path: '/mypage', component: MyPage },
