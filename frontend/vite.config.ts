@@ -1,44 +1,38 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: '/greaenwear/',
   resolve: {
     alias: {
-      '@': '/src'
-    }
+      '@': path.resolve(__dirname, './src'),
+    },
   },
   server: {
-    host: '0.0.0.0', // Replit에서 모든 호스트 허용
-    port: 5173, // Replit 기본 포트
+    host: '0.0.0.0',
+    port: 5173,
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
-    allowedHosts: true // Replit 환경에서 모든 호스트 허용
   },
-  preview: {
-    host: '0.0.0.0',
-    port: 5173
-  },
-  base: '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    sourcemap: false,
     rollupOptions: {
       output: {
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]'
-      }
-    }
+        manualChunks: {
+          vendor: ['vue', 'vue-router', 'pinia'],
+          charts: ['chart.js', 'vue-chartjs'],
+        },
+      },
+    },
   },
-  define: {
-    __VUE_OPTIONS_API__: true,
-    __VUE_PROD_DEVTOOLS__: false
-  }
 }) 
