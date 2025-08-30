@@ -1,35 +1,38 @@
 language = "java"
-run = "cd backend-spring/demo && ./gradlew bootRun"
-entrypoint = "backend-spring/demo/src/main/java/com/greenwear/demo/GreenwearApplication.java"
+run = "npm run start:replit"
+entrypoint = "index.js"
 
 [nix]
-channel = "stable-23_11"
+channel = "stable-23.11"
+
+[deployment]
+run = ["sh", "-c", "npm run deploy:replit"]
+deploymentTarget = "cloudrun"
 
 [env]
-JAVA_HOME = "/nix/store/*/openjdk-21"
-PATH = "/nix/store/*/openjdk-21/bin:$PATH"
+JAVA_HOME = "/nix/var/nix/profiles/default"
+PATH = "/nix/var/nix/profiles/default/bin:$PATH"
 
 [packager]
-language = "java"
-ignoredPackages = ["node_modules", "frontend/node_modules", ".git"]
+language = "nodejs"
 
 [packager.features]
 packageSearch = true
 guessImports = true
 
+[languages]
 [languages.java]
 pattern = "**/*.java"
 syntax = "java"
-languageServer = { start = "java-language-server" }
 
-[languages.javascript]
-pattern = "**/*.js"
-syntax = "javascript"
-
-[languages.typescript]
-pattern = "**/*.ts"
-syntax = "typescript"
+[languages.gradle]
+pattern = "**/*.gradle"
+syntax = "gradle"
 
 [languages.vue]
 pattern = "**/*.vue"
 syntax = "vue"
+
+[languages.typescript]
+pattern = "**/*.ts"
+syntax = "typescript"
