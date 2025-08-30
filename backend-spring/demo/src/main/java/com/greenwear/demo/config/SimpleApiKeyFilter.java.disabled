@@ -1,0 +1,17 @@
+package com.greenwear.demo.config;
+
+import jakarta.servlet.*;
+import java.io.IOException;
+
+// 🔓 임시로 완전히 비활성화
+// @Component
+// @Order(1)
+public class SimpleApiKeyFilter implements Filter {
+    
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+        // 🔓 모든 요청을 Spring Security가 처리하도록 통과
+        chain.doFilter(req, res);
+    }
+}

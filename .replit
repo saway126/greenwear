@@ -1,59 +1,35 @@
-modules = ["vue-node-20", "java-graalvm22.3", "nodejs-20", "web"]
-[agent]
-expertMode = true
+language = "java"
+run = "cd backend-spring/demo && ./gradlew bootRun"
+entrypoint = "backend-spring/demo/src/main/java/com/greenwear/demo/GreenwearApplication.java"
 
 [nix]
-channel = "stable-25_05"
+channel = "stable-23_11"
 
-[workflows]
-runButton = "Project"
+[env]
+JAVA_HOME = "/nix/store/*/openjdk-21"
+PATH = "/nix/store/*/openjdk-21/bin:$PATH"
 
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
+[packager]
+language = "java"
+ignoredPackages = ["node_modules", "frontend/node_modules", ".git"]
 
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "GreenWear Backend"
+[packager.features]
+packageSearch = true
+guessImports = true
 
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "GreenWear Frontend"
+[languages.java]
+pattern = "**/*.java"
+syntax = "java"
+languageServer = { start = "java-language-server" }
 
-[[workflows.workflow]]
-name = "GreenWear Backend"
-author = "agent"
+[languages.javascript]
+pattern = "**/*.js"
+syntax = "javascript"
 
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd backend-spring/demo && java -jar build/libs/demo-1.0.0.jar"
-waitForPort = 8080
+[languages.typescript]
+pattern = "**/*.ts"
+syntax = "typescript"
 
-[workflows.workflow.metadata]
-outputType = "console"
-
-[[workflows.workflow]]
-name = "GreenWear Frontend"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd frontend && npm run dev"
-waitForPort = 5000
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[ports]]
-localPort = 5000
-externalPort = 80
-
-[[ports]]
-localPort = 8080
-externalPort = 8080
-
-[deployment]
-deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd frontend && npm run build && npx vite preview --host 0.0.0.0 --port 5000"]
-build = ["bash", "-c", "cd frontend && npm install && cd ../backend-spring/demo && ./gradlew build"]
+[languages.vue]
+pattern = "**/*.vue"
+syntax = "vue"

@@ -292,32 +292,44 @@ const statusDescription = computed(() => {
   }
 })
 
-// 차트 데이터 생성
-const heartRateChartData = computed(() => ({
-  labels: timeLabels.value,
-  datasets: [
-    {
-      label: '심박수 (BPM)',
-      backgroundColor: 'rgba(239, 68, 68, 0.2)',
-      borderColor: 'rgba(239, 68, 68, 1)',
-      data: heartRateData.value,
-      tension: 0.4
-    }
-  ]
-}))
+// 차트 데이터 생성 - 반응성 최적화
+const heartRateChartData = computed(() => {
+  // 배열 복사로 반응성 문제 방지
+  const labels = [...timeLabels.value]
+  const data = [...heartRateData.value]
+  
+  return {
+    labels,
+    datasets: [
+      {
+        label: '심박수 (BPM)',
+        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+        borderColor: 'rgba(239, 68, 68, 1)',
+        data,
+        tension: 0.4
+      }
+    ]
+  }
+})
 
-const temperatureChartData = computed(() => ({
-  labels: timeLabels.value,
-  datasets: [
-    {
-      label: '체온 (°C)',
-      backgroundColor: 'rgba(59, 130, 246, 0.2)',
-      borderColor: 'rgba(59, 130, 246, 1)',
-      data: temperatureData.value,
-      tension: 0.4
-    }
-  ]
-}))
+const temperatureChartData = computed(() => {
+  // 배열 복사로 반응성 문제 방지
+  const labels = [...timeLabels.value]
+  const data = [...temperatureData.value]
+  
+  return {
+    labels,
+    datasets: [
+      {
+        label: '체온 (°C)',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderColor: 'rgba(59, 130, 246, 1)',
+        data,
+        tension: 0.4
+      }
+    ]
+  }
+})
 
 const chartOptions = {
   responsive: true,
@@ -347,19 +359,20 @@ const generateMockData = () => {
   // 혈중산소: 95-100 정상
   healthData.value.oxygenSaturation = Math.floor(Math.random() * 4) + 96 + (Math.random() > 0.97 ? -3 : 0)
 
-  // 차트 데이터 업데이트
+  // 차트 데이터 업데이트 - 반응성 안전하게
   const now = new Date()
   const timeStr = now.toLocaleTimeString()
   
-  timeLabels.value.push(timeStr)
-  heartRateData.value.push(healthData.value.heartRate)
-  temperatureData.value.push(healthData.value.temperature)
+  // 새로운 배열 생성으로 반응성 문제 방지
+  timeLabels.value = [...timeLabels.value, timeStr]
+  heartRateData.value = [...heartRateData.value, healthData.value.heartRate]
+  temperatureData.value = [...temperatureData.value, healthData.value.temperature]
 
   // 최근 10개 데이터만 유지
   if (timeLabels.value.length > 10) {
-    timeLabels.value.shift()
-    heartRateData.value.shift()
-    temperatureData.value.shift()
+    timeLabels.value = timeLabels.value.slice(-10)
+    heartRateData.value = heartRateData.value.slice(-10)
+    temperatureData.value = temperatureData.value.slice(-10)
   }
 }
 

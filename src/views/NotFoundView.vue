@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full text-center">
       <!-- 404 일러스트 -->
@@ -82,11 +83,22 @@
       <div class="mt-8 text-sm text-gray-500">
         <p>문제가 지속되면 <a href="mailto:support@example.com" class="text-blue-600 hover:text-blue-800">고객지원</a>에 문의해주세요.</p>
       </div>
+=======
+  <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-6xl font-bold text-gray-800 mb-4">404</h1>
+      <h2 class="text-2xl font-semibold text-gray-700 mb-4">페이지를 찾을 수 없습니다</h2>
+      <p class="text-gray-600 mb-8">요청하신 페이지가 존재하지 않거나 이동되었을 수 있습니다.</p>
+      <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+        🏠 홈으로 돌아가기
+      </button>
+>>>>>>> refactoring-20250829
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -125,3 +137,9 @@ document.title = '404 - 페이지를 찾을 수 없습니다 | Blog Promotion Ge
   animation: bounce 2s infinite;
 }
 </style>
+=======
+defineOptions({
+  name: 'NotFoundView'
+})
+</script>
+>>>>>>> refactoring-20250829

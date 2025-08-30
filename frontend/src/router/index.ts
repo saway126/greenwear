@@ -11,6 +11,7 @@ import EquipmentPage from '../pages/EquipmentPage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
 
 const routes = [
+<<<<<<< HEAD
   { path: '/', component: MainPage },
   { path: '/equipment', component: EquipmentPage },
   { path: '/dashboard', component: DashboardPage },
@@ -21,11 +22,63 @@ const routes = [
   { path: '/signup', component: SignupPage },
   { path: '/mypage', component: MyPage },
   { path: '/:pathMatch(.*)*', component: NotFoundPage },
+=======
+  { 
+    path: '/', 
+    name: 'Home',
+    component: MainPage,
+    meta: { title: 'GreenWear - 홈' }
+  },
+  { 
+    path: '/dashboard', 
+    name: 'Dashboard',
+    component: DashboardPage,
+    meta: { title: 'GreenWear - 대시보드' }
+  },
+  { 
+    path: '/alert', 
+    name: 'Alert',
+    component: AlertPage,
+    meta: { title: 'GreenWear - 알림' }
+  },
+  { 
+    path: '/login', 
+    name: 'Login',
+    component: LoginPage,
+    meta: { title: 'GreenWear - 로그인' }
+  },
+  { 
+    path: '/signup', 
+    name: 'Signup',
+    component: SignupPage,
+    meta: { title: 'GreenWear - 회원가입' }
+  },
+  { 
+    path: '/mypage', 
+    name: 'MyPage',
+    component: MyPage,
+    meta: { title: 'GreenWear - 마이페이지' }
+  },
+  { 
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound',
+    component: NotFoundPage,
+    meta: { title: 'GreenWear - 페이지를 찾을 수 없습니다' }
+  },
+>>>>>>> refactoring-20250829
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// 페이지 제목 설정
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title as string;
+  }
+  next();
 });
 
 export default router; 
