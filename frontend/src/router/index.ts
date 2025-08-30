@@ -11,18 +11,6 @@ import EquipmentPage from '../pages/EquipmentPage.vue';
 import NotFoundPage from '../pages/NotFoundPage.vue';
 
 const routes = [
-<<<<<<< HEAD
-  { path: '/', component: MainPage },
-  { path: '/equipment', component: EquipmentPage },
-  { path: '/dashboard', component: DashboardPage },
-  { path: '/wearable', component: WearablePage },
-  { path: '/technology', component: TechnologyPage },
-  { path: '/alert', component: AlertPage },
-  { path: '/login', component: LoginPage },
-  { path: '/signup', component: SignupPage },
-  { path: '/mypage', component: MyPage },
-  { path: '/:pathMatch(.*)*', component: NotFoundPage },
-=======
   { 
     path: '/', 
     name: 'Home',
@@ -30,10 +18,28 @@ const routes = [
     meta: { title: 'GreenWear - 홈' }
   },
   { 
+    path: '/equipment', 
+    name: 'Equipment',
+    component: EquipmentPage,
+    meta: { title: 'GreenWear - 전문 장비' }
+  },
+  { 
     path: '/dashboard', 
     name: 'Dashboard',
     component: DashboardPage,
     meta: { title: 'GreenWear - 대시보드' }
+  },
+  { 
+    path: '/wearable', 
+    name: 'Wearable',
+    component: WearablePage,
+    meta: { title: 'GreenWear - 웨어러블' }
+  },
+  { 
+    path: '/technology', 
+    name: 'Technology',
+    component: TechnologyPage,
+    meta: { title: 'GreenWear - 기술' }
   },
   { 
     path: '/alert', 
@@ -65,7 +71,6 @@ const routes = [
     component: NotFoundPage,
     meta: { title: 'GreenWear - 페이지를 찾을 수 없습니다' }
   },
->>>>>>> refactoring-20250829
 ];
 
 const router = createRouter({
