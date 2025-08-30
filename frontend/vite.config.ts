@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/greenwear/',
   resolve: {
     alias: {
-      '@': '/src',
+      '@': './src',
     },
   },
   server: {

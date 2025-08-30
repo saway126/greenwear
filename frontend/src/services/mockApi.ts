@@ -1,4 +1,4 @@
-import { evaluateVitals, type VitalsInput } from '@/utils/vitalsColor'
+import { evaluateVitals, type VitalsInput } from '../utils/vitalsColor'
 
 // Mock API 응답 타입
 export interface MockApiResponse<T> {
