@@ -13,8 +13,8 @@ const api = axios.create({
   },
 })
 
-// Mock API 사용 여부 (백엔드 연결 실패 시 자동 전환)
-let useMockApi = false
+// Mock API 사용 여부 (GitHub Pages에서는 기본적으로 Mock API 사용)
+let useMockApi = true
 
 // API 연결 상태 확인
 async function checkApiConnection() {
@@ -29,8 +29,8 @@ async function checkApiConnection() {
   }
 }
 
-// 초기 연결 상태 확인
-checkApiConnection()
+// 초기 연결 상태 확인 (GitHub Pages에서는 건너뛰기)
+// checkApiConnection()
 
 // API 서비스 클래스
 export class ApiService {
