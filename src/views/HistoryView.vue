@@ -1,248 +1,186 @@
 <template>
-<<<<<<< HEAD
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-          📚 생성 히스토리
-        </h1>
-        <p class="text-gray-600">
-          이전에 생성된 홍보글들을 확인하고 다시 사용해보세요.
-        </p>
-      </div>
-
-      <!-- 검색 및 필터 -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="키워드로 검색..."
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-          <select
-            v-model="filterCategory"
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">모든 카테고리</option>
-            <option value="음식">🍽️ 음식</option>
-            <option value="여행">✈️ 여행</option>
-            <option value="쇼핑">🛍️ 쇼핑</option>
-            <option value="문화">🎭 문화</option>
-          </select>
-          <select
-            v-model="sortBy"
-            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="newest">최신순</option>
-            <option value="oldest">오래된순</option>
-            <option value="popular">인기순</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- 히스토리 목록 -->
-      <div class="grid gap-6">
-        <div
-          v-for="item in filteredHistory"
-          :key="item.id"
-          class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
-        >
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                {{ item.title }}
-              </h3>
-              <div class="flex items-center space-x-4 text-sm text-gray-500">
-                <span>{{ item.category }}</span>
-                <span>{{ item.tone }}</span>
-                <span>{{ formatDate(item.createdAt) }}</span>
-              </div>
-            </div>
-            <div class="flex space-x-2">
-              <button
-                @click="copyContent(item.content)"
-                class="text-blue-600 hover:text-blue-800"
-              >
-                📋
-              </button>
-              <button
-                @click="editContent(item)"
-                class="text-green-600 hover:text-green-800"
-              >
-                ✏️
-              </button>
-              <button
-                @click="deleteContent(item.id)"
-                class="text-red-600 hover:text-red-800"
-              >
-                🗑️
-              </button>
-            </div>
-          </div>
-          
-          <div class="bg-gray-50 p-4 rounded-lg mb-4">
-            <p class="text-gray-800 leading-relaxed">
-              {{ item.content.substring(0, 200) }}...
-            </p>
-          </div>
-          
-          <div class="flex justify-between items-center">
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="keyword in item.keywords"
-                :key="keyword"
-                class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
-              >
-                {{ keyword }}
-              </span>
-            </div>
-            <button
-              @click="viewDetail(item)"
-              class="text-blue-600 hover:text-blue-800 font-medium"
-            >
-              자세히 보기 →
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 비어있는 상태 -->
-      <div v-if="filteredHistory.length === 0" class="text-center py-12">
-        <div class="text-gray-400 text-6xl mb-4">📝</div>
-        <h3 class="text-xl font-semibold text-gray-600 mb-2">
-          생성된 콘텐츠가 없습니다
-        </h3>
-        <p class="text-gray-500 mb-6">
-          첫 번째 홍보글을 생성해보세요!
-        </p>
-        <router-link
-          to="/generator"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
-        >
-          홍보글 생성하기
-        </router-link>
-      </div>
-=======
   <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 class="text-4xl font-bold text-center mb-8">📚 GreenWear 히스토리</h1>
+      <h1 class="text-4xl font-bold text-center mb-8">📚 GreenWear 모니터링 기록</h1>
       <p class="text-center text-gray-600 mb-8">생체신호 모니터링 기록과 분석 결과를 확인합니다</p>
       
-      <div class="bg-white rounded-xl shadow-lg p-8">
-        <p class="text-center text-gray-500">GreenWear 시스템은 이미 완성되어 있습니다. 홈으로 돌아가서 실시간 모니터링을 시작하세요.</p>
-        <div class="text-center mt-6">
-          <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
-            🏠 홈으로 돌아가기
-          </button>
+      <!-- 필터 및 검색 -->
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">기간 선택</label>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+              <option>오늘</option>
+              <option>최근 7일</option>
+              <option>최근 30일</option>
+              <option>최근 3개월</option>
+              <option>전체</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">상태 필터</label>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+              <option>전체</option>
+              <option>정상</option>
+              <option>주의</option>
+              <option>위험</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">대상자</label>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+              <option>전체</option>
+              <option>의료진</option>
+              <option>군인</option>
+              <option>응급구조대원</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">검색</label>
+            <input type="text" placeholder="기록 검색..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+          </div>
         </div>
       </div>
->>>>>>> refactoring-20250829
+
+      <!-- 통계 요약 -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="text-3xl font-bold text-green-600 mb-2">1,247</div>
+          <div class="text-gray-600">총 모니터링 기록</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="text-3xl font-bold text-blue-600 mb-2">89%</div>
+          <div class="text-gray-600">정상 상태 비율</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="text-3xl font-bold text-yellow-600 mb-2">8%</div>
+          <div class="text-gray-600">주의 상태 비율</div>
+        </div>
+        <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+          <div class="text-3xl font-bold text-red-600 mb-2">3%</div>
+          <div class="text-gray-600">위험 상태 비율</div>
+        </div>
+      </div>
+
+      <!-- 모니터링 기록 목록 -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">📊 최근 모니터링 기록</h2>
+        
+        <div class="space-y-4">
+          <!-- 기록 항목 1 -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <span class="text-2xl">👨‍⚕️</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800">의료진 A팀 - 김의사</h3>
+                  <p class="text-sm text-gray-600">2025-01-31 14:30 - 15:30 (1시간)</p>
+                  <div class="flex items-center mt-2">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full mr-2">정상</span>
+                    <span class="text-sm text-gray-500">심박수: 72, 호흡수: 16, 체온: 36.5°C</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">14:30</div>
+                <button class="mt-2 text-blue-600 hover:text-blue-800 text-sm">상세보기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 기록 항목 2 -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <span class="text-2xl">🎖️</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800">군인 B팀 - 박상병</h3>
+                  <p class="text-sm text-gray-600">2025-01-31 13:00 - 14:00 (1시간)</p>
+                  <div class="flex items-center mt-2">
+                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full mr-2">주의</span>
+                    <span class="text-sm text-gray-500">심박수: 95, 호흡수: 22, 체온: 37.2°C</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">13:00</div>
+                <button class="mt-2 text-blue-600 hover:text-blue-800 text-sm">상세보기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 기록 항목 3 -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <span class="text-2xl">🚨</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800">응급구조대원 C팀 - 이구조대원</h3>
+                  <p class="text-sm text-gray-600">2025-01-31 12:00 - 12:30 (30분)</p>
+                  <div class="flex items-center mt-2">
+                    <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full mr-2">위험</span>
+                    <span class="text-sm text-gray-500">심박수: 120, 호흡수: 28, 체온: 38.5°C</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">12:00</div>
+                <button class="mt-2 text-blue-600 hover:text-blue-800 text-sm">상세보기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 기록 항목 4 -->
+          <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <span class="text-2xl">👨‍⚕️</span>
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800">의료진 A팀 - 최간호사</h3>
+                  <p class="text-sm text-gray-600">2025-01-31 11:00 - 12:00 (1시간)</p>
+                  <div class="flex items-center mt-2">
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full mr-2">정상</span>
+                    <span class="text-sm text-gray-500">심박수: 68, 호흡수: 15, 체온: 36.8°C</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm text-gray-500">11:00</div>
+                <button class="mt-2 text-blue-600 hover:text-blue-800 text-sm">상세보기</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="mt-8 flex justify-center">
+          <nav class="flex items-center space-x-2">
+            <button class="px-3 py-2 text-gray-500 hover:text-gray-700">이전</button>
+            <button class="px-3 py-2 bg-green-600 text-white rounded-lg">1</button>
+            <button class="px-3 py-2 text-gray-500 hover:text-gray-700">2</button>
+            <button class="px-3 py-2 text-gray-500 hover:text-gray-700">3</button>
+            <button class="px-3 py-2 text-gray-500 hover:text-gray-700">다음</button>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-<<<<<<< HEAD
-import { ref, computed } from 'vue'
-
-const searchQuery = ref('')
-const filterCategory = ref('')
-const sortBy = ref('newest')
-
-// Mock 데이터
-const history = ref([
-  {
-    id: 1,
-    title: '맛집 홍보글',
-    category: '음식',
-    tone: '친근함',
-    keywords: ['맛집', '분위기', '데이트'],
-    content: '🌟 맛집, 분위기, 데이트를 사용한 특별한 경험을 소개합니다! 맛있는 맛집, 분위기, 데이트로 만든 완벽한 순간들을 만나보세요.',
-    createdAt: new Date('2024-01-15'),
-    views: 245
-  },
-  {
-    id: 2,
-    title: '여행지 홍보글',
-    category: '여행',
-    tone: '감성적',
-    keywords: ['제주도', '힐링', '자연'],
-    content: '✈️ 제주도에서의 힐링과 자연이 만드는 특별한 여행을 경험해보세요. 아름다운 자연 속에서 진정한 휴식을 찾을 수 있습니다.',
-    createdAt: new Date('2024-01-10'),
-    views: 189
-  }
-])
-
-const filteredHistory = computed(() => {
-  let filtered = history.value
-
-  if (searchQuery.value) {
-    filtered = filtered.filter(item =>
-      item.title.includes(searchQuery.value) ||
-      item.content.includes(searchQuery.value) ||
-      item.keywords.some(keyword => keyword.includes(searchQuery.value))
-    )
-  }
-
-  if (filterCategory.value) {
-    filtered = filtered.filter(item => item.category === filterCategory.value)
-  }
-
-  // 정렬
-  filtered.sort((a, b) => {
-    if (sortBy.value === 'newest') {
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    } else if (sortBy.value === 'oldest') {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    } else if (sortBy.value === 'popular') {
-      return b.views - a.views
-    }
-    return 0
-  })
-
-  return filtered
-})
-
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
-
-const copyContent = async (content: string) => {
-  try {
-    await navigator.clipboard.writeText(content)
-    alert('클립보드에 복사되었습니다!')
-  } catch (error) {
-    console.error('Copy failed:', error)
-  }
-}
-
-const editContent = (item: any) => {
-  // 편집 로직
-  alert(`"${item.title}" 편집 기능이 곧 제공됩니다.`)
-}
-
-const deleteContent = (id: number) => {
-  if (confirm('정말로 삭제하시겠습니까?')) {
-    const index = history.value.findIndex(item => item.id === id)
-    if (index > -1) {
-      history.value.splice(index, 1)
-    }
-  }
-}
-
-const viewDetail = (item: any) => {
-  // 상세 보기 로직
-  alert(`"${item.title}" 상세 보기로 이동합니다.`)
-}
-</script>
-=======
 defineOptions({
   name: 'HistoryView'
 })
 </script>
->>>>>>> refactoring-20250829
+
+<style scoped>
+/* 컴포넌트별 스타일 */
+</style>

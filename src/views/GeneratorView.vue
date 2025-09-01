@@ -1,116 +1,126 @@
 <template>
-<<<<<<< HEAD
-  <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-4xl mx-auto px-4">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-          🚀 블로그 홍보글 생성기
-        </h1>
-        <p class="text-gray-600">
-          키워드와 설정을 입력하면 AI가 완벽한 홍보글을 생성해드립니다.
-        </p>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <form @submit.prevent="generateContent" class="space-y-6">
-          <!-- 키워드 입력 -->
-          <div>
-            <label for="keywords" class="block text-sm font-medium text-gray-700 mb-2">
-              키워드 입력 *
-            </label>
-            <textarea
-              id="keywords"
-              v-model="form.keywords"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              rows="3"
-              placeholder="예: 맛집, 분위기 좋은, 데이트, 이탈리안"
-              required
-            ></textarea>
-          </div>
-
-          <!-- 카테고리 선택 -->
-          <div>
-            <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
-              카테고리
-            </label>
-            <select
-              id="category"
-              v-model="form.category"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="">카테고리 선택</option>
-              <option value="음식">🍽️ 음식</option>
-              <option value="여행">✈️ 여행</option>
-              <option value="쇼핑">🛍️ 쇼핑</option>
-              <option value="문화">🎭 문화</option>
-              <option value="스포츠">⚽ 스포츠</option>
-              <option value="기타">📝 기타</option>
-            </select>
-          </div>
-
-          <!-- 톤앤매너 -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
-              톤앤매너
-            </label>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <label v-for="tone in tones" :key="tone.value" class="flex items-center">
-                <input
-                  type="radio"
-                  :value="tone.value"
-                  v-model="form.tone"
-                  class="mr-2"
-                />
-                {{ tone.label }}
-              </label>
-            </div>
-          </div>
-
-          <!-- 생성 버튼 -->
-          <div class="text-center">
-            <button
-              type="submit"
-              :disabled="loading || !form.keywords"
-              class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
-            >
-              {{ loading ? '생성 중...' : '홍보글 생성하기' }}
-            </button>
-          </div>
-        </form>
-
-        <!-- 생성된 콘텐츠 -->
-        <div v-if="generatedContent" class="mt-8 border-t pt-6">
-          <h3 class="text-xl font-semibold mb-4">✨ 생성된 홍보글</h3>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <p class="text-gray-800 leading-relaxed whitespace-pre-wrap">{{ generatedContent }}</p>
-          </div>
-          <div class="mt-4 flex justify-center space-x-4">
-            <button
-              @click="copyToClipboard"
-              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
-            >
-              📋 복사하기
-            </button>
-            <button
-              @click="saveContent"
-              class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
-            >
-              💾 저장하기
-            </button>
-          </div>
-=======
   <div class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 class="text-4xl font-bold text-center mb-8">🔧 GreenWear 설정 생성기</h1>
       <p class="text-center text-gray-600 mb-8">생체신호 모니터링을 위한 맞춤형 설정을 생성합니다</p>
       
       <div class="bg-white rounded-xl shadow-lg p-8">
-        <p class="text-center text-gray-500">GreenWear 시스템은 이미 완성되어 있습니다. 홈으로 돌아가서 실시간 모니터링을 시작하세요.</p>
-        <div class="text-center mt-6">
-          <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
-            🏠 홈으로 돌아가기
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6">⚙️ 모니터링 설정 구성</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- 기본 설정 -->
+          <div class="space-y-6">
+            <h3 class="text-lg font-medium text-gray-800 mb-4">📊 기본 모니터링 설정</h3>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">모니터링 대상</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <option>의료진</option>
+                <option>군인</option>
+                <option>응급구조대원</option>
+                <option>스포츠 선수</option>
+                <option>고령자</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">모니터링 주기</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <option>1초 (실시간)</option>
+                <option>5초 (고밀도)</option>
+                <option>10초 (일반)</option>
+                <option>30초 (경제적)</option>
+                <option>1분 (저밀도)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">알림 수준</label>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2" checked>
+                  <span class="text-sm text-gray-700">정상 상태 알림</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2" checked>
+                  <span class="text-sm text-gray-700">주의 상태 알림</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2" checked>
+                  <span class="text-sm text-gray-700">위험 상태 알림</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 고급 설정 -->
+          <div class="space-y-6">
+            <h3 class="text-lg font-medium text-gray-800 mb-4">🔬 고급 설정</h3>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">데이터 저장 기간</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <option>1일</option>
+                <option>7일</option>
+                <option>30일</option>
+                <option>90일</option>
+                <option>1년</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">AI 분석 수준</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                <option>기본 (실시간 분류만)</option>
+                <option>고급 (패턴 분석 포함)</option>
+                <option>전문가 (예측 분석 포함)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">연동 서비스</label>
+              <div class="space-y-2">
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2">
+                  <span class="text-sm text-gray-700">응급 연락망</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2">
+                  <span class="text-sm text-gray-700">의료진 연동</span>
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2">
+                  <span class="text-sm text-gray-700">위치 추적</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 설정 미리보기 -->
+        <div class="mt-8 p-6 bg-gray-50 rounded-lg">
+          <h3 class="text-lg font-medium text-gray-800 mb-4">👀 설정 미리보기</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div class="bg-white p-3 rounded">
+              <div class="font-medium text-gray-800">모니터링 대상</div>
+              <div class="text-gray-600">의료진</div>
+            </div>
+            <div class="bg-white p-3 rounded">
+              <div class="font-medium text-gray-800">모니터링 주기</div>
+              <div class="text-gray-600">5초 (고밀도)</div>
+            </div>
+            <div class="bg-white p-3 rounded">
+              <div class="font-medium text-gray-800">AI 분석</div>
+              <div class="text-gray-600">고급 (패턴 분석)</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 생성 버튼 -->
+        <div class="mt-8 text-center">
+          <button class="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105">
+            🚀 설정 생성하기
           </button>
->>>>>>> refactoring-20250829
         </div>
       </div>
     </div>
@@ -118,69 +128,11 @@
 </template>
 
 <script setup lang="ts">
-<<<<<<< HEAD
-import { ref, reactive } from 'vue'
-
-const loading = ref(false)
-const generatedContent = ref('')
-
-const form = reactive({
-  keywords: '',
-  category: '',
-  tone: 'friendly'
-})
-
-const tones = [
-  { value: 'friendly', label: '😊 친근함' },
-  { value: 'professional', label: '💼 전문적' },
-  { value: 'casual', label: '🎉 캐주얼' },
-  { value: 'formal', label: '🎩 격식있게' },
-  { value: 'humorous', label: '😄 유머러스' },
-  { value: 'emotional', label: '💝 감성적' }
-]
-
-const generateContent = async () => {
-  loading.value = true
-  try {
-    // Mock 생성 로직 (실제로는 API 호출)
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    generatedContent.value = `🌟 ${form.keywords}를 사용한 특별한 경험을 소개합니다!
-
-${form.category === '음식' ? '맛있는 ' : ''}${form.keywords}로 만든 완벽한 순간들을 만나보세요. 
-
-✨ 특별한 포인트:
-- 고품질의 서비스와 제품
-- 합리적인 가격으로 만나는 프리미엄 경험
-- 친절하고 전문적인 서비스
-
-지금 바로 경험해보세요! 후회하지 않을 선택이 될 것입니다.
-
-#${form.keywords.replace(/\s+/g, '')} #추천 #${form.category || '맛집'} #특별한경험`
-  } catch (error) {
-    console.error('Content generation failed:', error)
-  } finally {
-    loading.value = false
-  }
-}
-
-const copyToClipboard = async () => {
-  try {
-    await navigator.clipboard.writeText(generatedContent.value)
-    alert('클립보드에 복사되었습니다!')
-  } catch (error) {
-    console.error('Copy failed:', error)
-  }
-}
-
-const saveContent = () => {
-  // Mock 저장 로직
-  alert('콘텐츠가 저장되었습니다!')
-}
-</script>
-=======
 defineOptions({
   name: 'GeneratorView'
 })
 </script>
->>>>>>> refactoring-20250829
+
+<style scoped>
+/* 컴포넌트별 스타일 */
+</style>
