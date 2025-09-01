@@ -1,8 +1,18 @@
 <template>
   <section class="relative isolate overflow-hidden h-[72vh]">
     <div class="absolute inset-0 -z-10">
-      <!-- CSS 애니메이션 배경 (비디오 대체) -->
-      <div class="h-full w-full bg-gradient-to-br from-emerald-900 via-blue-900 to-purple-900 animate-gradient"></div>
+      <!-- 실제 비디오 배경 -->
+      <video
+        autoplay
+        muted
+        playsinline
+        loop
+        preload="metadata"
+        poster="/hero-poster.jpg"
+        class="h-full w-full object-cover opacity-50"
+      >
+        <source src="/hero.mp4" type="video/mp4" />
+      </video>
       <!-- 그라데이션 오버레이 -->
       <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/40 via-neutral-950/50 to-neutral-950"></div>
     </div>
@@ -47,14 +57,5 @@ const cards = [
 </script>
 
 <style scoped>
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-gradient {
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
+/* 비디오 배경 스타일 */
 </style>

@@ -6,20 +6,22 @@
     </div>
 
     <div class="mt-8 grid md:grid-cols-2 gap-6">
-      <!-- LED 시뮬레이션 (비디오 대체) -->
+      <!-- 실제 데모 비디오 -->
       <div class="aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
-        <div class="h-full w-full flex items-center justify-center bg-gradient-to-br from-emerald-900 to-blue-900">
-          <div class="text-center">
-            <div class="flex justify-center items-center gap-4 mb-6">
-              <!-- LED 시뮬레이션 -->
-              <div class="w-16 h-16 rounded-full bg-emerald-500 animate-pulse"></div>
-              <div class="w-16 h-16 rounded-full bg-yellow-500 animate-pulse" style="animation-delay: 1s;"></div>
-              <div class="w-16 h-16 rounded-full bg-red-500 animate-pulse" style="animation-delay: 2s;"></div>
-            </div>
-            <p class="text-lg font-medium text-white">GreenWear LED 시뮬레이션</p>
-            <p class="text-sm text-gray-300 mt-2">실시간 생체신호 모니터링</p>
+        <video
+          controls
+          playsinline
+          preload="metadata"
+          poster="/hero-poster.jpg"
+          class="w-full h-full object-cover"
+          @error="videoError = true"
+          @loadeddata="videoLoaded = true"
+        >
+          <source src="/demo-1.mp4" type="video/mp4" />
+          <div class="h-full w-full flex items-center justify-center bg-gradient-to-br from-emerald-900 to-blue-900">
+            <p class="text-white">비디오를 불러올 수 없습니다</p>
           </div>
-        </div>
+        </video>
       </div>
       <div class="rounded-2xl border border-white/10 bg-white/5 p-6">
         <h3 class="text-lg font-medium">LED 색상 전환 예시</h3>
