@@ -5,20 +5,33 @@
       <p class="mt-3 text-neutral-300">HR/RR/SpO₂/체온을 통합하여 초록·노랑·빨강 단계로 분류하고 히스토리를 기록합니다.</p>
     </div>
     <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      <article v-for="(feature, index) in features" :key="feature.title" class="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/5">
-        <img 
-          :src="feature.image" 
-          :alt="feature.alt"
-          loading="lazy"
-          class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" 
-        />
-        <div class="absolute inset-0 bg-black/45"></div>
-        <div class="absolute inset-0 p-6 flex items-end">
-          <div>
-            <h3 class="text-white text-xl font-bold">{{ feature.title }}</h3>
-            <p class="mt-2 text-sm text-neutral-200">{{ feature.desc }}</p>
+      <article v-for="(feature, index) in features" :key="feature.title" class="group relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/10">
+        <!-- 이미지 카드 -->
+        <template v-if="feature.image">
+          <img 
+            :src="feature.image" 
+            :alt="feature.alt"
+            loading="lazy"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+          <div class="absolute inset-0 bg-black/45"></div>
+          <div class="absolute inset-0 p-6 flex items-end">
+            <div>
+              <h3 class="text-white text-xl font-bold">{{ feature.title }}</h3>
+              <p class="mt-2 text-sm text-neutral-200">{{ feature.desc }}</p>
+            </div>
           </div>
-        </div>
+        </template>
+        
+        <!-- 텍스트형 카드 -->
+        <template v-else>
+          <div class="w-full h-full bg-white/5 flex items-center justify-center p-6">
+            <div class="text-center">
+              <h3 class="text-white text-xl font-bold mb-2">{{ feature.title }}</h3>
+              <p class="text-sm text-neutral-300">{{ feature.desc }}</p>
+            </div>
+          </div>
+        </template>
       </article>
     </div>
   </section>
@@ -41,26 +54,26 @@ const features = [
   { 
     title: "데이터 업로드", 
     desc: "샘플/실측 데이터를 서버에 전송",
-    image: "/diagram.png",
-    alt: "System diagram"
+    image: "/feature-3.jpg",
+    alt: "Data upload system"
   },
   { 
     title: "스트림 제어", 
     desc: "실시간 데이터 스트림 on/off",
-    image: "/hero-poster.jpg",
+    image: "/feature-4.jpg",
     alt: "Real-time monitoring"
   },
   { 
     title: "API 보호", 
     desc: "X-API-Key 기반 접근 제어",
-    image: "/logo.svg",
-    alt: "Security shield"
+    image: null,
+    alt: null
   },
   { 
     title: "국문 지원", 
     desc: "국내 사용자를 위한 텍스트/단위",
-    image: "/demo-1.mp4",
-    alt: "Korean language support"
+    image: null,
+    alt: null
   },
 ];
 </script>

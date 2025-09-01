@@ -1,5 +1,5 @@
 <template>
-  <section class="py-8 border-y border-white/10 bg-neutral-900">
+  <section class="py-8 bg-neutral-900/60 border-y border-white/10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div v-for="s in stats" :key="s.label">
         <div class="text-3xl md:text-4xl font-semibold">{{ s.value }}</div>

@@ -1,5 +1,5 @@
 <template>
-  <section class="relative isolate overflow-hidden">
+  <section class="relative isolate overflow-hidden h-[72vh]">
     <div class="absolute inset-0 -z-10">
       <!-- 비디오 배경 (Instagram 대체용 로컬/클라우드 mp4) -->
       <video
@@ -9,7 +9,7 @@
         loop
         preload="metadata"
         poster="/hero-poster.jpg"
-        class="h-[72vh] w-full object-cover opacity-50 transition-opacity duration-300"
+        class="h-full w-full object-cover opacity-50 transition-opacity duration-300"
         :class="{ 'opacity-0': videoError }"
         @error="videoError = true"
         @loadeddata="videoLoaded = true"
@@ -17,12 +17,13 @@
         <source src="/hero.mp4" type="video/mp4" />
       </video>
       <!-- 비디오 로드 실패 시 CSS 애니메이션 배경 -->
-      <div v-if="videoError" class="h-[72vh] w-full bg-gradient-to-br from-emerald-900 via-blue-900 to-purple-900 animate-gradient"></div>
+      <div v-if="videoError" class="h-full w-full bg-gradient-to-br from-emerald-900 via-blue-900 to-purple-900 animate-gradient"></div>
+      <!-- 그라데이션 오버레이 -->
       <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/40 via-neutral-950/50 to-neutral-950"></div>
     </div>
 
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="h-[72vh] grid content-center">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
+      <div class="h-full grid content-center">
         <div class="max-w-2xl">
           <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-300">
             <span class="size-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -41,7 +42,7 @@
     </div>
 
     <!-- 유리카드: USP 3개 -->
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
+    <div class="absolute bottom-0 left-0 right-0 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mb-10 relative z-10">
       <div class="grid md:grid-cols-3 gap-4">
         <div v-for="card in cards" :key="card.title" class="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
           <h3 class="font-semibold">{{ card.title }}</h3>
