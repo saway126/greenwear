@@ -14,7 +14,7 @@
         <source src="/hero.mp4" type="video/mp4" />
       </video>
       <!-- 그라데이션 오버레이 -->
-      <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/40 via-neutral-950/50 to-neutral-950"></div>
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-neutral-950/40 via-neutral-950/50 to-neutral-950"></div>
     </div>
 
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full">
