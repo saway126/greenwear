@@ -8,6 +8,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/HomeView.vue')
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('@/views/DashboardView.vue')
+  },
+  {
     path: '/generator',
     name: 'Generator',
     component: () => import('@/views/GeneratorView.vue')
@@ -50,7 +55,7 @@ const router = createRouter({
 // Navigation guards
 router.beforeEach((to, from, next) => {
   // 페이지 타이틀 설정
-  const baseTitle = '📝 Blog Promotion Generator'
+  const baseTitle = 'GreenWear - 실시간 생체신호 모니터링'
   const routeTitle = to.meta?.title as string
   document.title = routeTitle ? `${routeTitle} | ${baseTitle}` : baseTitle
   

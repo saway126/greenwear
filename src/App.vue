@@ -12,7 +12,7 @@
           <router-link to="/generator" class="hover:text-white/90">설정 생성</router-link>
           <router-link to="/history" class="hover:text-white/90">기록</router-link>
         </div>
-        <router-link to="/generator" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">실시간 대시보드</router-link>
+        <router-link to="/dashboard" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">실시간 대시보드</router-link>
       </nav>
     </header>
 
@@ -30,7 +30,7 @@
             <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">실시간 상태 표시 대시보드</h2>
             <p class="mt-3 text-neutral-300">LED 색상 변화와 연동된 생체신호를 한 눈에. 샘플 데이터로 바로 체험해보세요.</p>
             <div class="mt-6 flex items-center justify-center gap-3">
-              <router-link to="/generator" class="rounded-xl bg-emerald-400 px-5 py-2.5 font-medium text-neutral-900 hover:brightness-110">Open Dashboard</router-link>
+              <router-link to="/dashboard" class="rounded-xl bg-emerald-400 px-5 py-2.5 font-medium text-neutral-900 hover:brightness-110">Open Dashboard</router-link>
               <a href="https://github.com/saway126/greenwear" target="_blank" class="rounded-xl border border-white/15 px-5 py-2.5 font-medium hover:bg-white/5">GitHub</a>
             </div>
           </div>
