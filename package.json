@@ -5,14 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "start:replit": "node index.js",
-    "deploy:replit": "npm run build && npm run start:replit",
-    "build:frontend": "cd frontend && npm run build",
-    "install:frontend": "cd frontend && npm install",
-    "install:backend": "cd backend-spring/demo && ./gradlew build",
-    "setup:replit": "npm install && npm run install:frontend && npm run build:frontend"
+    "build": "vite build",
+    "preview": "vite preview --port 5173",
+    "lint": "echo \"(lint는 추후 설정)\""
   },
   "dependencies": {
     "express": "^4.18.2",

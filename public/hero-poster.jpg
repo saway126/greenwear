@@ -1,3 +1,12 @@
-# This is a placeholder for hero-poster.jpg
-# In a real implementation, this would be an actual JPG image file
-# For now, we'll use a CSS gradient as a fallback in the video element
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1920" height="1080" fill="#000000"/>
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <circle cx="960" cy="540" r="400" fill="url(#grad)"/>
+  <text x="960" y="540" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="48" font-weight="bold">GreenWear</text>
+  <text x="960" y="600" text-anchor="middle" fill="#10B981" font-family="Arial, sans-serif" font-size="24">Hero Poster</text>
+</svg>

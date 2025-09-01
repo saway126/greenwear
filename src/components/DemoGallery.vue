@@ -11,9 +11,12 @@
         <video 
           controls 
           playsinline 
+          muted
           poster="/hero-poster.jpg" 
-          class="h-full w-full object-cover"
+          class="h-full w-full object-cover transition-opacity duration-300"
+          :class="{ 'opacity-0': videoError }"
           @error="videoError = true"
+          @loadeddata="videoLoaded = true"
         >
           <source src="/demo-1.mp4" type="video/mp4" />
         </video>
@@ -43,4 +46,5 @@
 import { ref } from 'vue'
 
 const videoError = ref(false)
+const videoLoaded = ref(false)
 </script>

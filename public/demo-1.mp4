@@ -1,3 +1,22 @@
-# This is a placeholder for demo-1.mp4
-# In a real implementation, this would be an actual MP4 video file
-# For now, we'll use a CSS animation as a fallback
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" fill="#1F2937"/>
+  <rect x="40" y="40" width="1200" height="640" fill="#374151" stroke="#6B7280" stroke-width="2"/>
+  <text x="640" y="360" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="32" font-weight="bold">GreenWear Demo Video</text>
+  <text x="640" y="400" text-anchor="middle" fill="#10B981" font-family="Arial, sans-serif" font-size="18">LED Color Transition Demo</text>
+  
+  <!-- LED 시뮬레이션 -->
+  <circle cx="400" cy="200" r="30" fill="#10B981">
+    <animate attributeName="fill" values="#10B981;#F59E0B;#EF4444;#10B981" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <text x="400" y="280" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Green → Yellow → Red</text>
+  
+  <circle cx="640" cy="200" r="30" fill="#F59E0B">
+    <animate attributeName="fill" values="#F59E0B;#EF4444;#10B981;#F59E0B" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <text x="640" y="280" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Status Indicator</text>
+  
+  <circle cx="880" cy="200" r="30" fill="#EF4444">
+    <animate attributeName="fill" values="#EF4444;#10B981;#F59E0B;#EF4444" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <text x="880" y="280" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14">Alert System</text>
+</svg>

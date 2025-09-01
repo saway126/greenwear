@@ -50,6 +50,8 @@ import FooterSection from "./components/FooterSection.vue";
 </script>
 
 <style>
-/* 선택: 스크롤 애니메이션에서 부드러운 모션 */
-:root { scroll-behavior: smooth; }
+/* 부드러운 스크롤 애니메이션 */
+:root { 
+  scroll-behavior: smooth; 
+}
 </style> 
