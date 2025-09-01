@@ -4,9 +4,10 @@
       <!-- 비디오 배경 (Instagram 대체용 로컬/클라우드 mp4) -->
       <video
         autoplay
-        playsinline
         muted
+        playsinline
         loop
+        preload="metadata"
         poster="/hero-poster.jpg"
         class="h-[72vh] w-full object-cover opacity-50 transition-opacity duration-300"
         :class="{ 'opacity-0': videoError }"

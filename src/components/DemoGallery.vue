@@ -11,9 +11,9 @@
         <video 
           controls 
           playsinline 
-          muted
+          preload="metadata"
           poster="/hero-poster.jpg" 
-          class="h-full w-full object-cover transition-opacity duration-300"
+          class="w-full h-full object-cover rounded-2xl transition-opacity duration-300"
           :class="{ 'opacity-0': videoError }"
           @error="videoError = true"
           @loadeddata="videoLoaded = true"
