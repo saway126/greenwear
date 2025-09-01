@@ -2,30 +2,22 @@
   <section id="demo" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <div class="max-w-2xl">
       <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">데모</h2>
-      <p class="mt-3 text-neutral-300">Instagram Reels/시연 영상을 그대로 임베드하거나, 로컬 mp4로 대체할 수 있습니다.</p>
+      <p class="mt-3 text-neutral-300">LED 색상 변화 시연을 통해 GreenWear의 작동 원리를 확인하세요.</p>
     </div>
 
     <div class="mt-8 grid md:grid-cols-2 gap-6">
-      <!-- 인스타그램 oEmbed 대체: 자체 호스팅 mp4 사용 권장 -->
+      <!-- LED 시뮬레이션 (비디오 대체) -->
       <div class="aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black">
-        <video 
-          controls 
-          playsinline 
-          preload="metadata"
-          poster="/hero-poster.jpg" 
-          class="w-full h-full object-cover rounded-2xl transition-opacity duration-300"
-          :class="{ 'opacity-0': videoError }"
-          @error="videoError = true"
-          @loadeddata="videoLoaded = true"
-        >
-          <source src="/demo-1.mp4" type="video/mp4" />
-        </video>
-        <!-- 비디오 로드 실패 시 대체 콘텐츠 -->
-        <div v-if="videoError" class="h-full w-full flex items-center justify-center bg-gradient-to-br from-emerald-900 to-blue-900">
-          <div class="text-center text-white">
-            <div class="text-4xl mb-4">🎥</div>
-            <p class="text-lg font-medium">GreenWear 데모 영상</p>
-            <p class="text-sm text-gray-300 mt-2">LED 색상 변화 시연</p>
+        <div class="h-full w-full flex items-center justify-center bg-gradient-to-br from-emerald-900 to-blue-900">
+          <div class="text-center">
+            <div class="flex justify-center items-center gap-4 mb-6">
+              <!-- LED 시뮬레이션 -->
+              <div class="w-16 h-16 rounded-full bg-emerald-500 animate-pulse"></div>
+              <div class="w-16 h-16 rounded-full bg-yellow-500 animate-pulse" style="animation-delay: 1s;"></div>
+              <div class="w-16 h-16 rounded-full bg-red-500 animate-pulse" style="animation-delay: 2s;"></div>
+            </div>
+            <p class="text-lg font-medium text-white">GreenWear LED 시뮬레이션</p>
+            <p class="text-sm text-gray-300 mt-2">실시간 생체신호 모니터링</p>
           </div>
         </div>
       </div>

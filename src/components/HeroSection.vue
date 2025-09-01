@@ -1,23 +1,8 @@
 <template>
   <section class="relative isolate overflow-hidden h-[72vh]">
     <div class="absolute inset-0 -z-10">
-      <!-- 비디오 배경 (Instagram 대체용 로컬/클라우드 mp4) -->
-      <video
-        autoplay
-        muted
-        playsinline
-        loop
-        preload="metadata"
-        poster="/hero-poster.jpg"
-        class="h-full w-full object-cover opacity-50 transition-opacity duration-300"
-        :class="{ 'opacity-0': videoError }"
-        @error="videoError = true"
-        @loadeddata="videoLoaded = true"
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
-      <!-- 비디오 로드 실패 시 CSS 애니메이션 배경 -->
-      <div v-if="videoError" class="h-full w-full bg-gradient-to-br from-emerald-900 via-blue-900 to-purple-900 animate-gradient"></div>
+      <!-- CSS 애니메이션 배경 (비디오 대체) -->
+      <div class="h-full w-full bg-gradient-to-br from-emerald-900 via-blue-900 to-purple-900 animate-gradient"></div>
       <!-- 그라데이션 오버레이 -->
       <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/40 via-neutral-950/50 to-neutral-950"></div>
     </div>
@@ -54,11 +39,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const videoError = ref(false)
-const videoLoaded = ref(false)
-
 const cards = [
   { title: "즉각 인지", desc: "LED 색상으로 위험도 한 눈에" },
   { title: "실시간 모니터", desc: "대시보드·알림으로 지속 관찰" },
