@@ -1,130 +1,55 @@
 <template>
-  <div id="app" class="min-h-screen bg-gradient-to-br from-green-50 to-blue-100">
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-          <!-- Logo -->
-          <router-link to="/" class="flex items-center space-x-2">
-            <div class="text-2xl">🏥</div>
-            <h1 class="text-xl font-bold text-gray-900">
-              GreenWear
-            </h1>
-          </router-link>
-
-          <!-- Navigation -->
-          <nav class="hidden md:flex space-x-8">
-            <router-link 
-              to="/" 
-              class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              :class="{ 'text-green-600 bg-green-50': $route.path === '/' }"
-            >
-              홈
-            </router-link>
-            <router-link 
-              to="/templates" 
-              class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              :class="{ 'text-green-600 bg-green-50': $route.path === '/templates' }"
-            >
-              템플릿
-            </router-link>
-            <router-link 
-              to="/generator" 
-              class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              :class="{ 'text-green-600 bg-green-50': $route.path === '/generator' }"
-            >
-              설정 생성
-            </router-link>
-            <router-link 
-              to="/history" 
-              class="text-gray-700 hover:text-green-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              :class="{ 'text-green-600 bg-green-50': $route.path === '/history' }"
-            >
-              기록
-            </router-link>
-          </nav>
-
-          <!-- Mobile menu button -->
-          <button 
-            @click="mobileMenuOpen = !mobileMenuOpen"
-            class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
-          >
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+  <div class="min-h-screen bg-neutral-950 text-neutral-100">
+    <header class="sticky top-0 z-30 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60 bg-neutral-950/80 border-b border-white/10">
+      <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="/logo.svg" alt="GreenWear" class="w-8 h-8" />
+          <span class="text-lg font-semibold tracking-tight">GreenWear</span>
         </div>
-
-        <!-- Mobile menu -->
-        <div v-if="mobileMenuOpen" class="md:hidden">
-          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <router-link 
-              to="/" 
-              @click="mobileMenuOpen = false"
-              class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-            >
-              홈
-            </router-link>
-            <router-link 
-              to="/templates" 
-              @click="mobileMenuOpen = false"
-              class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-            >
-              템플릿
-            </router-link>
-            <router-link 
-              to="/generator" 
-              @click="mobileMenuOpen = false"
-              class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-            >
-              설정 생성
-            </router-link>
-            <router-link 
-              to="/history" 
-              @click="mobileMenuOpen = false"
-              class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
-            >
-              기록
-            </router-link>
-          </div>
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#features" class="hover:text-white/90">Features</a>
+          <a href="#how" class="hover:text-white/90">How it works</a>
+          <a href="#demo" class="hover:text-white/90">Demo</a>
+          <a href="#tech" class="hover:text-white/90">Tech</a>
         </div>
-      </div>
+        <a href="#cta" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">Try Live Dashboard</a>
+      </nav>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1">
-      <router-view />
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-auto">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <div class="flex items-center space-x-2 mb-4 md:mb-0">
-            <div class="text-xl">🏥</div>
-            <span class="text-gray-600 text-sm">
-              © 2025 GreenWear. 생체신호 모니터링 시스템
-            </span>
-          </div>
-          <div class="flex space-x-6 text-sm text-gray-500">
-            <a href="#" class="hover:text-gray-900 transition-colors">이용약관</a>
-            <a href="#" class="hover:text-gray-900 transition-colors">개인정보처리방침</a>
-            <a href="#" class="hover:text-gray-900 transition-colors">문의하기</a>
+    <main>
+      <HeroSection />
+      <StatsStrip />
+      <FeatureGrid />
+      <HowItWorks />
+      <DemoGallery />
+      <TechStack />
+      <section id="cta" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+        <div class="rounded-3xl bg-gradient-to-br from-emerald-500/15 via-emerald-400/10 to-emerald-300/10 border border-emerald-400/30 p-10 text-center">
+          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">실시간 상태 표시 대시보드</h2>
+          <p class="mt-3 text-neutral-300">LED 색상 변화와 연동된 생체신호를 한 눈에. 샘플 데이터로 바로 체험해보세요.</p>
+          <div class="mt-6 flex items-center justify-center gap-3">
+            <a href="/dashboard" class="rounded-xl bg-emerald-400 px-5 py-2.5 font-medium text-neutral-900 hover:brightness-110">Open Dashboard</a>
+            <a href="https://github.com/saway126/greenwear" target="_blank" class="rounded-xl border border-white/15 px-5 py-2.5 font-medium hover:bg-white/5">GitHub</a>
           </div>
         </div>
-      </div>
-    </footer>
+      </section>
+    </main>
+
+    <FooterSection />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const mobileMenuOpen = ref(false)
+import HeroSection from "./components/HeroSection.vue";
+import FeatureGrid from "./components/FeatureGrid.vue";
+import StatsStrip from "./components/StatsStrip.vue";
+import HowItWorks from "./components/HowItWorks.vue";
+import DemoGallery from "./components/DemoGallery.vue";
+import TechStack from "./components/TechStack.vue";
+import FooterSection from "./components/FooterSection.vue";
 </script>
 
-<style scoped>
-.router-link-active {
-  @apply text-green-600 bg-green-50;
-}
+<style>
+/* 선택: 스크롤 애니메이션에서 부드러운 모션 */
+:root { scroll-behavior: smooth; }
 </style> 
