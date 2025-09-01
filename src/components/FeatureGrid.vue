@@ -43,37 +43,37 @@ const features = [
     title: "LED 상태 시뮬레이션", 
     desc: "의복 LED 동작을 UI에서 그대로 재현",
     image: "/feature-1.jpg",
-    alt: "Emerald textile technology"
+    alt: "LED 상태 시뮬레이션"
   },
   { 
     title: "상태 변경 히스토리", 
     desc: "색상 전환 이벤트와 타임라인",
     image: "/feature-2.jpg",
-    alt: "Emerald weave pattern"
+    alt: "상태 변경 히스토리"
   },
   { 
     title: "데이터 업로드", 
     desc: "샘플/실측 데이터를 서버에 전송",
     image: "/feature-3.jpg",
-    alt: "Data upload system"
+    alt: "데이터 업로드 시스템"
   },
   { 
     title: "스트림 제어", 
     desc: "실시간 데이터 스트림 on/off",
     image: "/feature-4.jpg",
-    alt: "Real-time monitoring"
+    alt: "실시간 모니터링"
   },
   { 
     title: "API 보호", 
     desc: "X-API-Key 기반 접근 제어",
-    image: null,
-    alt: null
+    image: "/feature-5.jpg",
+    alt: "API 보안 시스템"
   },
   { 
     title: "국문 지원", 
     desc: "국내 사용자를 위한 텍스트/단위",
-    image: null,
-    alt: null
+    image: "/feature-6.jpg",
+    alt: "국문 지원 시스템"
   },
 ];
 </script>
