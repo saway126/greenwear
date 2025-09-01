@@ -7,32 +7,40 @@
           <span class="text-lg font-semibold tracking-tight">GreenWear</span>
         </div>
         <div class="hidden md:flex items-center gap-6 text-sm">
-          <a href="#features" class="hover:text-white/90">Features</a>
-          <a href="#how" class="hover:text-white/90">How it works</a>
-          <a href="#demo" class="hover:text-white/90">Demo</a>
-          <a href="#tech" class="hover:text-white/90">Tech</a>
+          <router-link to="/" class="hover:text-white/90">홈</router-link>
+          <router-link to="/templates" class="hover:text-white/90">템플릿</router-link>
+          <router-link to="/generator" class="hover:text-white/90">설정 생성</router-link>
+          <router-link to="/history" class="hover:text-white/90">기록</router-link>
         </div>
-        <a href="#cta" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">Try Live Dashboard</a>
+        <router-link to="/generator" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">실시간 대시보드</router-link>
       </nav>
     </header>
 
     <main>
-      <HeroSection />
-      <StatsStrip />
-      <FeatureGrid />
-      <HowItWorks />
-      <DemoGallery />
-      <TechStack />
-      <section id="cta" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <div class="rounded-3xl bg-gradient-to-br from-emerald-500/15 via-emerald-400/10 to-emerald-300/10 border border-emerald-400/30 p-10 text-center">
-          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">실시간 상태 표시 대시보드</h2>
-          <p class="mt-3 text-neutral-300">LED 색상 변화와 연동된 생체신호를 한 눈에. 샘플 데이터로 바로 체험해보세요.</p>
-          <div class="mt-6 flex items-center justify-center gap-3">
-            <a href="/dashboard" class="rounded-xl bg-emerald-400 px-5 py-2.5 font-medium text-neutral-900 hover:brightness-110">Open Dashboard</a>
-            <a href="https://github.com/saway126/greenwear" target="_blank" class="rounded-xl border border-white/15 px-5 py-2.5 font-medium hover:bg-white/5">GitHub</a>
+      <!-- 홈페이지일 때만 랜딩페이지 컴포넌트들 표시 -->
+      <div v-if="$route.path === '/'">
+        <HeroSection />
+        <StatsStrip />
+        <FeatureGrid />
+        <HowItWorks />
+        <DemoGallery />
+        <TechStack />
+        <section id="cta" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+          <div class="rounded-3xl bg-gradient-to-br from-emerald-500/15 via-emerald-400/10 to-emerald-300/10 border border-emerald-400/30 p-10 text-center">
+            <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">실시간 상태 표시 대시보드</h2>
+            <p class="mt-3 text-neutral-300">LED 색상 변화와 연동된 생체신호를 한 눈에. 샘플 데이터로 바로 체험해보세요.</p>
+            <div class="mt-6 flex items-center justify-center gap-3">
+              <router-link to="/generator" class="rounded-xl bg-emerald-400 px-5 py-2.5 font-medium text-neutral-900 hover:brightness-110">Open Dashboard</router-link>
+              <a href="https://github.com/saway126/greenwear" target="_blank" class="rounded-xl border border-white/15 px-5 py-2.5 font-medium hover:bg-white/5">GitHub</a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+      
+      <!-- 다른 페이지일 때는 기존 뷰들 표시 -->
+      <div v-else class="pt-14">
+        <router-view />
+      </div>
     </main>
 
     <FooterSection />
