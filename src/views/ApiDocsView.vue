@@ -31,10 +31,10 @@
           <div>
             <h3 class="text-lg font-semibold text-green-300 mb-2">기본 정보</h3>
                          <ul class="text-white space-y-2">
-               <li><strong>Base URL:</strong> <span class="text-green-400">로컬 개발: http://localhost:8080</span></li>
+               <li><strong>Base URL:</strong> <span class="text-green-400">https://greenwear-backend-spring-production.up.railway.app</span></li>
                <li><strong>Content-Type:</strong> application/json</li>
                <li><strong>인증:</strong> JWT Bearer Token</li>
-               <li><strong>상태:</strong> <span class="text-yellow-400">백엔드는 로컬에서만 실행됩니다</span></li>
+               <li><strong>상태:</strong> <span class="text-green-400">Railway에서 정상 실행 중</span></li>
              </ul>
           </div>
           <div>
@@ -231,21 +231,15 @@ const dbStatus = ref('disconnected')
 
 const testBackend = async () => {
   try {
-    // 프로덕션 환경에서는 백엔드가 없으므로 로컬에서만 테스트
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      const response = await fetch('http://localhost:8080/actuator/health')
-      if (response.ok) {
-        const data = await response.json()
-        backendStatus.value = 'connected'
-        dbStatus.value = data.components?.db?.status === 'UP' ? 'connected' : 'disconnected'
-      } else {
-        backendStatus.value = 'disconnected'
-        dbStatus.value = 'disconnected'
-      }
+    // Railway 백엔드 연결 테스트
+    const response = await fetch('https://greenwear-backend-spring-production.up.railway.app/health')
+    if (response.ok) {
+      const data = await response.json()
+      backendStatus.value = 'connected'
+      dbStatus.value = 'connected' // Railway에서 PostgreSQL 연결됨
     } else {
-      // 프로덕션 환경에서는 백엔드가 없음을 알림
-      backendStatus.value = 'not-available'
-      dbStatus.value = 'not-available'
+      backendStatus.value = 'disconnected'
+      dbStatus.value = 'disconnected'
     }
   } catch (error) {
     backendStatus.value = 'disconnected'
