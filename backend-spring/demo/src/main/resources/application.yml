@@ -1,51 +1,20 @@
+# ===================== 공통 =====================
+server:
+  port: ${PORT:8080}
+
 spring:
   application:
     name: greenwear-demo
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:railway-ultra-simple}
-  
-  # Database Configuration (PostgreSQL for production, H2 for local)
-  datasource:
-    url: ${DATABASE_URL:jdbc:h2:mem:greenwear_db}
-    username: ${DATABASE_USERNAME:sa}
-    password: ${DATABASE_PASSWORD:}
-    driver-class-name: ${DATABASE_DRIVER:org.h2.Driver}
-  
-  # H2 Console (for debugging - only in local)
-  h2:
-    console:
-      enabled: ${H2_CONSOLE_ENABLED:true}
-      path: /h2-console
-  
-  # JPA Configuration
-  jpa:
-    hibernate:
-      ddl-auto: ${DDL_AUTO:create-drop}
-    show-sql: ${SHOW_SQL:true}
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
-    defer-datasource-initialization: true
-  
-  # File Upload Configuration
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
 
-# Server Configuration
-server:
-  port: ${PORT:8080}
-  address: 0.0.0.0
+logging:
+  level:
+    com.greenwear: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    # DB 연결 진단 로그
+    com.zaxxer.hikari: DEBUG
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
 
-# JWT Configuration
-app:
-  jwt:
-    secret: greenWearSecretKey2024ForJWTTokenGeneration
-    expiration: 86400000
-
-# Actuator Configuration
 management:
   endpoints:
     web:
@@ -53,10 +22,68 @@ management:
         include: health,info,metrics
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: always
 
-# Logging Configuration
-logging:
-  level:
-    com.greenwear: DEBUG
-    org.springframework.security: DEBUG 
+# JWT Configuration
+app:
+  jwt:
+    secret: greenWearSecretKey2024ForJWTTokenGeneration
+    expiration: 86400000
+
+# File Upload Configuration
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# ===================== 개발(H2) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:greenwear_db;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# ===================== 운영(PostgreSQL on Railway) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # Railway는 PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE를 자동 주입합니다.
+    # SSL 필요 환경 대비해 ?sslmode=require 추가
+    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}?sslmode=require
+    username: ${PGUSER:${DB_USER}}
+    password: ${PGPASSWORD:${DB_PASS}}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false 
