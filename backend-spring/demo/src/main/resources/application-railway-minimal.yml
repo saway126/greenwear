@@ -53,3 +53,4 @@ logging:
     org.springframework.boot.web.embedded.tomcat: INFO
     org.springframework.boot.actuate: INFO
     org.springframework.web.servlet: INFO
+    org.springframework.boot.web.server: INFO
