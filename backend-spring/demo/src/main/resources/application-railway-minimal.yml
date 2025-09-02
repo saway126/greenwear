@@ -50,3 +50,4 @@ logging:
     org.springframework.beans: INFO
     org.springframework.boot.autoconfigure: INFO
     org.springframework.boot.web.embedded.tomcat: INFO
+    org.springframework.boot.actuate: INFO
