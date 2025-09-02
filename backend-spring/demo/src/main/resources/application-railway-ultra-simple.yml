@@ -1,0 +1,41 @@
+server:
+  port: ${PORT:8080}
+  address: 0.0.0.0
+
+spring:
+  profiles:
+    active: railway-ultra-simple
+    
+  # Use H2 in-memory database
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+    
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+# Completely disable all management features
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: false
+  health:
+    defaults:
+      enabled: false
+  metrics:
+    enabled: false
+
+# Minimal logging
+logging:
+  level:
+    root: WARN
+    com.greenwear: INFO

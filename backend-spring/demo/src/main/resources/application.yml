@@ -1,6 +1,8 @@
 spring:
   application:
     name: greenwear-demo
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:railway-ultra-simple}
   
   # Database Configuration (PostgreSQL for production, H2 for local)
   datasource:
