@@ -22,4 +22,13 @@ public class HealthController {
         response.put("timestamp", System.currentTimeMillis());
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/api/health")
+    public ResponseEntity<Map<String, Object>> apiHealth() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "UP");
+        response.put("message", "GreenWear API is running");
+        response.put("timestamp", System.currentTimeMillis());
+        return ResponseEntity.ok(response);
+    }
 } 
