@@ -1,0 +1,8 @@
+*
+!backend/**
+!backend/package.json
+!backend/package-lock.json
+!Dockerfile
+!Procfile
+!railway.json
+!render.yaml
