@@ -4,7 +4,7 @@ server:
 
 spring:
   profiles:
-    active: railway-no-security
+    active: railway-minimal
     
   # Use H2 in-memory database for Railway deployment
   datasource:
