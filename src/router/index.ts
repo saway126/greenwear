@@ -5,38 +5,45 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/HomeView.vue')
+    component: () => import('@/views/HomeView.vue'),
+    meta: { title: '홈' }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('@/views/DashboardView.vue')
+    component: () => import('@/views/DashboardView.vue'),
+    meta: { title: '실시간 대시보드' }
   },
   {
     path: '/generator',
     name: 'Generator',
-    component: () => import('@/views/GeneratorView.vue')
+    component: () => import('@/views/GeneratorView.vue'),
+    meta: { title: '설정 생성기' }
   },
   {
     path: '/history',
     name: 'History',
-    component: () => import('@/views/HistoryView.vue')
+    component: () => import('@/views/HistoryView.vue'),
+    meta: { title: '모니터링 기록' }
   },
   {
     path: '/templates',
     name: 'Templates',
-    component: () => import('@/views/TemplatesView.vue')
+    component: () => import('@/views/TemplatesView.vue'),
+    meta: { title: '모니터링 템플릿' }
   },
   {
     path: '/result/:id',
     name: 'Result',
     component: () => import('@/views/ResultView.vue'),
-    props: true
+    props: true,
+    meta: { title: '분석 결과' }
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: () => import('@/views/NotFoundView.vue')
+    component: () => import('@/views/NotFoundView.vue'),
+    meta: { title: '페이지를 찾을 수 없습니다' }
   }
 ]
 

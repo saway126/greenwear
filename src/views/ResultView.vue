@@ -164,13 +164,13 @@
       <div class="bg-neutral-900 rounded-xl shadow-lg p-6">
         <h2 class="text-2xl font-semibold text-neutral-100 mb-6">📋 다음 단계</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+          <button @click="saveResult" class="bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
             💾 결과 저장
           </button>
-          <button class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+          <button @click="generateReport" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
             📤 보고서 생성
           </button>
-          <button class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+          <button @click="newAnalysis" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
             🔄 새로운 분석
           </button>
         </div>
@@ -180,9 +180,54 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter, useRoute } from 'vue-router'
+
 defineOptions({
   name: 'ResultView'
 })
+
+const router = useRouter()
+const route = useRoute()
+
+// 라우트 파라미터에서 ID 가져오기
+const resultId = route.params.id as string
+
+// 결과 저장 함수
+const saveResult = () => {
+  const resultData = {
+    id: resultId,
+    timestamp: new Date().toISOString(),
+    status: 'saved'
+  }
+  
+  // 저장된 결과 목록 가져오기
+  const savedResults = JSON.parse(localStorage.getItem('saved-results') || '[]')
+  savedResults.push(resultData)
+  localStorage.setItem('saved-results', JSON.stringify(savedResults))
+  
+  alert('결과가 저장되었습니다!')
+}
+
+// 보고서 생성 함수
+const generateReport = () => {
+  const reportData = {
+    id: resultId,
+    generatedAt: new Date().toISOString(),
+    type: 'analysis-report'
+  }
+  
+  // 생성된 보고서 목록 가져오기
+  const reports = JSON.parse(localStorage.getItem('generated-reports') || '[]')
+  reports.push(reportData)
+  localStorage.setItem('generated-reports', JSON.stringify(reports))
+  
+  alert('보고서가 생성되었습니다!')
+}
+
+// 새로운 분석 함수
+const newAnalysis = () => {
+  router.push('/generator')
+}
 </script>
 
 <style scoped>

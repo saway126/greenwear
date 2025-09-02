@@ -35,7 +35,7 @@
               <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">산소포화도</span>
               <span class="px-2 py-1 bg-yellow-900/50 text-yellow-300 text-xs rounded-full">체온</span>
             </div>
-            <button class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('basic')" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -62,7 +62,7 @@
               <span class="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded-full">피로도</span>
               <span class="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded-full">활동량</span>
             </div>
-            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('exercise')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -89,7 +89,7 @@
               <span class="px-2 py-1 bg-orange-900/50 text-orange-300 text-xs rounded-full">응급 연락</span>
               <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">위치 추적</span>
             </div>
-            <button class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('emergency')" class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -116,7 +116,7 @@
               <span class="px-2 py-1 bg-purple-900/50 text-purple-300 text-xs rounded-full">호흡 패턴</span>
               <span class="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded-full">산소 수준</span>
             </div>
-            <button class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('night')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -143,7 +143,7 @@
               <span class="px-2 py-1 bg-green-900/50 text-green-300 text-xs rounded-full">약물 알림</span>
               <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded-full">응급 상황</span>
             </div>
-            <button class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('elderly')" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -170,7 +170,7 @@
               <span class="px-2 py-1 bg-red-900/50 text-red-300 text-xs rounded-full">부상 상태</span>
               <span class="px-2 py-1 bg-blue-900/50 text-blue-300 text-xs rounded-full">위치 정보</span>
             </div>
-            <button class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+            <button @click="useTemplate('military')" class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
               템플릿 사용
             </button>
           </div>
@@ -220,27 +220,111 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 컴포넌트 이름 정의 (KeepAlive용)
 defineOptions({
   name: 'TemplatesView'
 })
 
+const router = useRouter()
+
 // 반응형 데이터
 const templateName = ref('')
 const monitoringInterval = ref('5초')
 const description = ref('')
 
+// 템플릿 설정 정의
+const templateConfigs = {
+  basic: {
+    target: 'medical',
+    interval: '1000',
+    notifications: { normal: true, warning: true, danger: true },
+    storagePeriod: '30',
+    aiLevel: 'basic',
+    integrations: { emergency: false, medical: true, location: false }
+  },
+  exercise: {
+    target: 'athlete',
+    interval: '5000',
+    notifications: { normal: false, warning: true, danger: true },
+    storagePeriod: '7',
+    aiLevel: 'advanced',
+    integrations: { emergency: false, medical: false, location: true }
+  },
+  emergency: {
+    target: 'emergency',
+    interval: '1000',
+    notifications: { normal: false, warning: true, danger: true },
+    storagePeriod: '90',
+    aiLevel: 'expert',
+    integrations: { emergency: true, medical: true, location: true }
+  },
+  night: {
+    target: 'elderly',
+    interval: '30000',
+    notifications: { normal: false, warning: true, danger: true },
+    storagePeriod: '30',
+    aiLevel: 'advanced',
+    integrations: { emergency: true, medical: false, location: false }
+  },
+  elderly: {
+    target: 'elderly',
+    interval: '10000',
+    notifications: { normal: true, warning: true, danger: true },
+    storagePeriod: '90',
+    aiLevel: 'advanced',
+    integrations: { emergency: true, medical: true, location: true }
+  },
+  military: {
+    target: 'military',
+    interval: '5000',
+    notifications: { normal: false, warning: true, danger: true },
+    storagePeriod: '365',
+    aiLevel: 'expert',
+    integrations: { emergency: true, medical: true, location: true }
+  }
+}
+
+// 템플릿 사용 함수
+const useTemplate = (templateType: keyof typeof templateConfigs) => {
+  const config = templateConfigs[templateType]
+  
+  // 설정을 로컬 스토리지에 저장
+  localStorage.setItem('greenwear-config', JSON.stringify(config))
+  
+  // 생성기 페이지로 이동하여 설정 적용
+  router.push('/generator')
+  
+  alert(`${templateType} 템플릿이 적용되었습니다!`)
+}
+
 // 템플릿 생성 함수
 const createTemplate = () => {
-  console.log('새 템플릿 생성:', {
+  if (!templateName.value.trim()) {
+    alert('템플릿 이름을 입력해주세요.')
+    return
+  }
+  
+  const newTemplate = {
+    id: Date.now().toString(),
     name: templateName.value,
     interval: monitoringInterval.value,
-    description: description.value
-  })
+    description: description.value,
+    createdAt: new Date().toISOString()
+  }
   
-  // 여기에 템플릿 생성 로직 추가
-  alert('템플릿이 생성되었습니다!')
+  // 저장된 템플릿 목록 가져오기
+  const savedTemplates = JSON.parse(localStorage.getItem('custom-templates') || '[]')
+  savedTemplates.push(newTemplate)
+  localStorage.setItem('custom-templates', JSON.stringify(savedTemplates))
+  
+  // 폼 초기화
+  templateName.value = ''
+  monitoringInterval.value = '5초'
+  description.value = ''
+  
+  alert('커스텀 템플릿이 생성되었습니다!')
 }
 </script>
 

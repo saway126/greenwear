@@ -85,7 +85,7 @@
               </div>
               <div class="text-right">
                 <div class="text-sm text-neutral-400">14:30</div>
-                <button class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
+                <button @click="viewDetails(1)" class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@
               </div>
               <div class="text-right">
                 <div class="text-sm text-neutral-400">13:00</div>
-                <button class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
+                <button @click="viewDetails(2)" class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@
               </div>
               <div class="text-right">
                 <div class="text-sm text-neutral-400">12:00</div>
-                <button class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
+                <button @click="viewDetails(3)" class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
               </div>
             </div>
           </div>
@@ -154,7 +154,7 @@
               </div>
               <div class="text-right">
                 <div class="text-sm text-neutral-400">11:00</div>
-                <button class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
+                <button @click="viewDetails(4)" class="mt-2 text-blue-400 hover:text-blue-300 text-sm">상세보기</button>
               </div>
             </div>
           </div>
@@ -176,9 +176,18 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 defineOptions({
   name: 'HistoryView'
 })
+
+const router = useRouter()
+
+// 상세보기 함수
+const viewDetails = (recordId: number) => {
+  router.push(`/result/${recordId}`)
+}
 </script>
 
 <style scoped>
