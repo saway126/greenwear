@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: greenwear-backend
+    env: java
+    buildCommand: ./gradlew build -x test
+    startCommand: java -jar build/libs/demo-1.0.0.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: render
+      - key: PORT
+        value: 8080

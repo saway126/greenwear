@@ -1,8 +1,10 @@
 server:
   port: ${PORT:8080}
-  address: 0.0.0.0
 
 spring:
+  profiles:
+    active: heroku
+    
   # Use H2 in-memory database
   datasource:
     url: jdbc:h2:mem:testdb
@@ -18,16 +20,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
 
-# Completely disable all management features
+# Disable all management features
 management:
   endpoints:
     enabled-by-default: false
-  endpoint:
-    health:
-      enabled: false
-  health:
-    defaults:
-      enabled: false
   metrics:
     enabled: false
 
