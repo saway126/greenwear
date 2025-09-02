@@ -25,8 +25,8 @@ COPY src/ src/
 # Expose port (Railway will set PORT environment variable)
 EXPOSE $PORT
 
-# Set environment variable for Spring profiles
-ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+# Set environment variable for Spring profiles (default to railway)
+ENV SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-railway}
 
 # Run the application with profile support
-ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE:-prod}", "-jar", "build/libs/demo-1.0.0.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-Dserver.port=${PORT}", "-jar", "build/libs/demo-1.0.0.jar"]
