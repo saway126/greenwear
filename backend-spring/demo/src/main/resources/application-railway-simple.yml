@@ -26,22 +26,28 @@ spring:
       enabled: true
       path: /h2-console
 
+# Disable all management endpoints to avoid conflicts
 management:
   endpoints:
+    enabled-by-default: false
     web:
       exposure:
-        include: health,info
+        include: health
   endpoint:
     health:
-      show-details: always
+      enabled: true
+  metrics:
+    enabled: false
 
 logging:
   level:
     com.greenwear: INFO
-    org.springframework.web: WARN
-    org.springframework.security: WARN
     org.springframework.boot: INFO
     root: INFO
     org.springframework.context: INFO
     org.springframework.beans: INFO
     org.springframework.boot.autoconfigure: INFO
+    org.springframework.boot.web.embedded.tomcat: INFO
+    org.springframework.boot.actuate: INFO
+    org.springframework.web.servlet: INFO
+    org.springframework.boot.web.server: INFO
