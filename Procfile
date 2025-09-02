@@ -1,0 +1,1 @@
+web: bash -lc "cd backend && npm ci --no-audit --no-fund && node src/app.js"
