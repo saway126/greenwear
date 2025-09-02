@@ -11,6 +11,9 @@ logging:
     com.bloggen: DEBUG
     org.springframework.web: DEBUG
     org.hibernate.SQL: DEBUG
+    # DB 연결 진단 로그
+    com.zaxxer.hikari: DEBUG
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
 
 management:
   endpoints:
@@ -21,7 +24,7 @@ management:
     health:
       show-details: always
 
-# ===================== 개발용(H2) =====================
+# ===================== 개발(H2) =====================
 ---
 spring:
   config:
@@ -48,11 +51,7 @@ spring:
       hibernate:
         format_sql: true
 
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false
-
-# ===================== 운영용(PostgreSQL on Railway) =====================
+# ===================== 운영(PostgreSQL on Railway) =====================
 ---
 spring:
   config:
@@ -60,20 +59,24 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}
+    # Railway는 PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE를 자동 주입합니다.
+    # SSL 필요 환경 대비해 ?sslmode=require 추가
+    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}?sslmode=require
     username: ${PGUSER:${DB_USER}}
     password: ${PGPASSWORD:${DB_PASS}}
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update   # 처음엔 update 권장(스키마 확인 후 필요시 none)
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
 
-  jackson:
-    serialization:
-      write-dates-as-timestamps: false 
+# 선택: SQL 스크립트를 강제로 실행하고 싶으면 아래 켜기
+# spring:
+#   sql:
+#     init:
+#       mode: always 
