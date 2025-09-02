@@ -171,7 +171,7 @@ const updateVitals = () => {
 ## 🌐 배포 및 결과
 
 ### 배포 URL
-**https://greenwear-demo-31p0nfkb2-skwka12346-gmailcoms-projects.vercel.app**
+**https://greenwear-demo-kqlj2h8h9-skwka12346-gmailcoms-projects.vercel.app**
 
 ### 주요 페이지
 - **홈**: 랜딩 페이지 + 데모 영상
@@ -298,7 +298,7 @@ GreenWear 프로젝트를 통해 다음과 같은 기술적 성과를 달성했�
 
 ## 🔗 관련 링크
 
-- **라이브 데모**: https://greenwear-demo-31p0nfkb2-skwka12346-gmailcoms-projects.vercel.app
+- **라이브 데모**: https://greenwear-demo-kqlj2h8h9-skwka12346-gmailcoms-projects.vercel.app
 - **GitHub 저장소**: https://github.com/saway126/greenwear
 - **기술 문서**: [API 문서 링크]
 
