@@ -6,6 +6,12 @@ spring:
   application:
     name: greenwear-demo
 
+  # File Upload Configuration
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 logging:
   level:
     com.greenwear: DEBUG
@@ -29,13 +35,6 @@ app:
   jwt:
     secret: greenWearSecretKey2024ForJWTTokenGeneration
     expiration: 86400000
-
-# File Upload Configuration
-spring:
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
 
 # ===================== 개발(H2) =====================
 ---
