@@ -25,6 +25,8 @@ management:
   endpoint:
     health:
       enabled: false
+    metrics:
+      enabled: false
   health:
     defaults:
       enabled: false
