@@ -56,3 +56,12 @@ logging:
   level:
     root: WARN
     com.greenwear: INFO
+
+# Disable all health checks completely
+management:
+  health:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: ""
