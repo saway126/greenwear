@@ -2,15 +2,15 @@ package com.greenwear.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.actuate.metrics.MetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.SystemMetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.export.simple.SimpleMetricsExportAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.export.prometheus.PrometheusMetricsExportAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.web.servlet.WebMvcMetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.web.tomcat.TomcatMetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.cache.CacheMetricsAutoConfiguration;
-import org.springframework.boot.autoconfigure.actuate.metrics.orm.jpa.HibernateMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.MetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.SystemMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.export.simple.SimpleMetricsExportAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.export.prometheus.PrometheusMetricsExportAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.web.servlet.WebMvcMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.cache.CacheMetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.metrics.orm.jpa.HibernateMetricsAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {
