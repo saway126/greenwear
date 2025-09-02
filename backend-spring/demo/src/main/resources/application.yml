@@ -63,7 +63,7 @@ spring:
       hibernate:
         format_sql: true
 
-# ===================== 운영(PostgreSQL on Railway) =====================
+# ===================== 운영(H2 인메모리 - 안정화) =====================
 ---
 spring:
   config:
@@ -71,18 +71,21 @@ spring:
       on-profile: prod
 
   datasource:
-    # Railway는 PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE를 자동 주입합니다.
-    # SSL 필요 환경 대비해 ?sslmode=require 추가
-    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}?sslmode=require
-    username: ${PGUSER:${DB_USER}}
-    password: ${PGPASSWORD:${DB_PASS}}
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:h2:mem:greenwear_prod;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: false 
+        format_sql: true 
