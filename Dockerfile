@@ -16,3 +16,5 @@ ENV PORT=3000
 EXPOSE 3000
 
 CMD ["node", "src/app.js"]
+HEALTHCHECK --interval=15s --timeout=3s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:${PORT:-3000}/api/health || exit 1
