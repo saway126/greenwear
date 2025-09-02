@@ -40,6 +40,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '분석 결과' }
   },
   {
+    path: '/api-docs',
+    name: 'ApiDocs',
+    component: () => import('@/views/ApiDocsView.vue'),
+    meta: { title: 'API 문서' }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFoundView.vue'),

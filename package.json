@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "vercel-build": "vite build",
     "preview": "vite preview --port 5173",
     "lint": "echo \"(lint는 추후 설정)\"",
     "test": "vitest",

@@ -49,7 +49,7 @@
 ## 🚀 배포 정보
 
 ### 라이브 데모
-- **URL**: https://greenwear-demo-kqlj2h8h9-skwka12346-gmailcoms-projects.vercel.app
+- **URL**: https://greenwear-demo-l9z7ttfy5-skwka12346-gmailcoms-projects.vercel.app
 - **GitHub**: https://github.com/saway126/greenwear
 
 ### 주요 기능

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: greenwear-backend
+    env: java
+    buildCommand: ./gradlew build
+    startCommand: java -jar build/libs/demo-1.0.0.jar
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: DATABASE_DRIVER
+        value: org.postgresql.Driver
+      - key: HIBERNATE_DIALECT
+        value: org.hibernate.dialect.PostgreSQLDialect
+      - key: H2_CONSOLE_ENABLED
+        value: false
+      - key: DDL_AUTO
+        value: update
+      - key: SHOW_SQL
+        value: false
+
+databases:
+  - name: greenwear-db
+    databaseName: greenwear
+    user: greenwear

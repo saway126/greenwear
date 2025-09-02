@@ -1,13 +1,29 @@
-# 1. Build Stage
-FROM gradle:jdk17 AS build
-WORKDIR /app
-COPY build.gradle settings.gradle /app/
-COPY src /app/src
-RUN gradle build -x test
-
-# 2. Run Stage
+# Use OpenJDK 17 as base image
 FROM openjdk:17-jdk-slim
+
+# Set working directory
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+
+# Copy gradle files
+COPY gradle/ gradle/
+COPY gradlew .
+COPY build.gradle .
+COPY settings.gradle .
+
+# Make gradlew executable
+RUN chmod +x gradlew
+
+# Download dependencies
+RUN ./gradlew dependencies --no-daemon
+
+# Copy source code
+COPY src/ src/
+
+# Build the application
+RUN ./gradlew build --no-daemon
+
+# Expose port
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Run the application
+CMD ["java", "-jar", "build/libs/demo-1.0.0.jar"]

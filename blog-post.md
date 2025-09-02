@@ -171,7 +171,7 @@ const updateVitals = () => {
 ## 🌐 배포 및 결과
 
 ### 배포 URL
-**https://greenwear-demo-kqlj2h8h9-skwka12346-gmailcoms-projects.vercel.app**
+**https://greenwear-demo-l9z7ttfy5-skwka12346-gmailcoms-projects.vercel.app**
 
 ### 주요 페이지
 - **홈**: 랜딩 페이지 + 데모 영상

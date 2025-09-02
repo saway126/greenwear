@@ -9,7 +9,7 @@ version = '1.0.0'
 
 java {
         toolchain {
-                languageVersion = JavaLanguageVersion.of(19)
+                languageVersion = JavaLanguageVersion.of(17)
         }
 }
 
@@ -28,8 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	
 	// Database
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-	runtimeOnly 'com.h2database:h2' // For testing
+	runtimeOnly 'org.postgresql:postgresql' // PostgreSQL for production
+	runtimeOnly 'com.h2database:h2' // H2 for local testing
 	
 	// JWT
 	implementation 'com.auth0:java-jwt:4.4.0'

@@ -11,6 +11,7 @@
           <router-link to="/templates" class="hover:text-white/90">템플릿</router-link>
           <router-link to="/generator" class="hover:text-white/90">설정 생성</router-link>
           <router-link to="/history" class="hover:text-white/90">기록</router-link>
+          <router-link to="/api-docs" class="hover:text-white/90">API 문서</router-link>
         </div>
         <router-link to="/dashboard" class="inline-flex items-center rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-300 hover:bg-emerald-500/15">실시간 대시보드</router-link>
       </nav>

@@ -2,28 +2,28 @@ spring:
   application:
     name: greenwear-demo
   
-  # Database Configuration (H2 In-Memory)
+  # Database Configuration (PostgreSQL for production, H2 for local)
   datasource:
-    url: jdbc:h2:mem:greenwear_db
-    username: sa
-    password: 
-    driver-class-name: org.h2.Driver
+    url: ${DATABASE_URL:jdbc:h2:mem:greenwear_db}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: ${DATABASE_DRIVER:org.h2.Driver}
   
-  # H2 Console (for debugging)
+  # H2 Console (for debugging - only in local)
   h2:
     console:
-      enabled: true
+      enabled: ${H2_CONSOLE_ENABLED:true}
       path: /h2-console
   
   # JPA Configuration
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
+      ddl-auto: ${DDL_AUTO:create-drop}
+    show-sql: ${SHOW_SQL:true}
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
+        dialect: ${HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
     defer-datasource-initialization: true
   
   # File Upload Configuration
