@@ -16,6 +16,8 @@ services:
         value: update
       - key: SHOW_SQL
         value: false
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
 
 databases:
   - name: greenwear-db
