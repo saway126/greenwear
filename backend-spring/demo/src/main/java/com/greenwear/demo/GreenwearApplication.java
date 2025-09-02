@@ -2,9 +2,14 @@ package com.greenwear.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.actuate.metrics.MetricsAutoConfiguration;
+import org.springframework.boot.autoconfigure.actuate.metrics.SystemMetricsAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+	MetricsAutoConfiguration.class,
+	SystemMetricsAutoConfiguration.class
+})
 @ComponentScan(basePackages = {"com.greenwear.demo"})
 public class GreenwearApplication {
 
