@@ -1,45 +1,29 @@
 server:
   port: ${PORT:8080}
-  
+  address: 0.0.0.0
+
 spring:
   profiles:
     active: railway
     
   datasource:
-    url: ${DATABASE_URL:jdbc:h2:mem:testdb}
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
     
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: update
     show-sql: false
-    
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
   h2:
     console:
-      enabled: true
-      path: /h2-console
-      
-  web:
-    resources:
-      static-locations: classpath:/static/
-      
-  mvc:
-    view:
-      prefix: classpath:/static/
-      suffix: .html
+      enabled: false
 
-jwt:
-  secret: ${JWT_SECRET:myRailwaySecretKey12345678901234567890123456789012345678901234567890}
-  expiration: 86400000
-
-logging:
-  level:
-    com.greenwear: INFO
-    org.springframework.web: WARN
-    
 management:
   endpoints:
     web:
@@ -47,4 +31,10 @@ management:
         include: health,info
   endpoint:
     health:
-      show-details: always 
+      show-details: always
+
+logging:
+  level:
+    com.greenwear: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN

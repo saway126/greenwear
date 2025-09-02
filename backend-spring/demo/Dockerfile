@@ -22,8 +22,8 @@ COPY src/ src/
     # Build the application (skip tests for deployment)
     RUN ./gradlew build --no-daemon -x test
 
-# Expose port
-EXPOSE 8080
+# Expose port (Railway will set PORT environment variable)
+EXPOSE $PORT
 
 # Run the application
 CMD ["java", "-jar", "build/libs/demo-1.0.0.jar"]
