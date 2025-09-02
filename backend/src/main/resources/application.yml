@@ -1,21 +1,44 @@
+# ===================== 공통 =====================
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
     name: blog-promotion-generator
-  
+
+logging:
+  level:
+    com.bloggen: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ===================== 개발용 (H2) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
   datasource:
-    url: jdbc:h2:mem:blogdb
-    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:blogdb;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    driver-class-name: org.h2.Driver
     username: sa
     password: password
-    
+
   h2:
     console:
       enabled: true
       path: /h2-console
-      
+
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
@@ -24,22 +47,28 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        
+
   jackson:
     serialization:
       write-dates-as-timestamps: false
-      
-logging:
-  level:
-    com.bloggen: DEBUG
-    org.springframework.web: DEBUG
-    org.hibernate.SQL: DEBUG
-    
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics
-  endpoint:
-    health:
-      show-details: always 
+
+# ===================== 운영용 (예: MariaDB) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DB_URL}          # 예: jdbc:mariadb://host:3306/greenwear
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true 
