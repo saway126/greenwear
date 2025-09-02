@@ -400,19 +400,24 @@ const updateVitals = () => {
     second: '2-digit' 
   })
   
-  timeLabels.value.push(timeLabel)
-  heartRateData.value.push(currentVitals.value.heartRate)
-  oxygenData.value.push(currentVitals.value.oxygen)
+  // 배열을 안전하게 업데이트
+  const newTimeLabels = [...timeLabels.value, timeLabel]
+  const newHeartRateData = [...heartRateData.value, currentVitals.value.heartRate]
+  const newOxygenData = [...oxygenData.value, currentVitals.value.oxygen]
   
   // 최대 20개 데이터 포인트 유지
-  if (timeLabels.value.length > 20) {
-    timeLabels.value.shift()
-    heartRateData.value.shift()
-    oxygenData.value.shift()
+  if (newTimeLabels.length > 20) {
+    newTimeLabels.shift()
+    newHeartRateData.shift()
+    newOxygenData.shift()
   }
   
-  // 새로운 알림 생성
-  if (Math.random() < 0.3) { // 30% 확률로 알림 생성
+  timeLabels.value = newTimeLabels
+  heartRateData.value = newHeartRateData
+  oxygenData.value = newOxygenData
+  
+  // 새로운 알림 생성 (더 낮은 확률로 변경)
+  if (Math.random() < 0.1) { // 10% 확률로 알림 생성
     const alertLevels = ['normal', 'warning', 'danger']
     const level = alertLevels[Math.floor(Math.random() * alertLevels.length)]
     
@@ -428,17 +433,20 @@ const updateVitals = () => {
         message = `모든 지표가 정상 범위입니다`
     }
     
-    recentAlerts.value.unshift({
+    // 새로운 알림 객체 생성
+    const newAlert = {
       id: Date.now(),
       level,
       message,
       time: '방금 전'
-    })
-    
-    // 최대 5개 알림 유지
-    if (recentAlerts.value.length > 5) {
-      recentAlerts.value.pop()
     }
+    
+    // 배열을 안전하게 업데이트
+    const updatedAlerts = [newAlert, ...recentAlerts.value]
+    if (updatedAlerts.length > 5) {
+      updatedAlerts.splice(5)
+    }
+    recentAlerts.value = updatedAlerts
   }
 }
 
