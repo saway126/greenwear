@@ -44,6 +44,13 @@ management:
       - org.springframework.boot.actuate.autoconfigure.metrics.cache.CacheMetricsAutoConfiguration
       - org.springframework.boot.actuate.autoconfigure.metrics.orm.jpa.HibernateMetricsAutoConfiguration
 
+# Disable Micrometer completely
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.actuate.autoconfigure.metrics.MetricsAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.metrics.SystemMetricsAutoConfiguration
+
 # Minimal logging
 logging:
   level:
