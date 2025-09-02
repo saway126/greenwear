@@ -4,7 +4,7 @@ server:
 
 spring:
   profiles:
-    active: railway
+    active: railway-simple
     
   # Use H2 in-memory database for Railway deployment
   datasource:
