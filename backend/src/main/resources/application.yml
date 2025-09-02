@@ -21,7 +21,7 @@ management:
     health:
       show-details: always
 
-# ===================== 개발용 (H2) =====================
+# ===================== 개발용(H2) =====================
 ---
 spring:
   config:
@@ -52,7 +52,7 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
-# ===================== 운영용 (H2 인메모리 - 안정화) =====================
+# ===================== 운영용(PostgreSQL on Railway) =====================
 ---
 spring:
   config:
@@ -60,24 +60,19 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:h2:mem:greenwear;DB_CLOSE_DELAY=-1;MODE=MYSQL
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}
+    username: ${PGUSER:${DB_USER}}
+    password: ${PGPASSWORD:${DB_PASS}}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
-    show-sql: false
+      ddl-auto: update   # 처음엔 update 권장(스키마 확인 후 필요시 none)
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+    show-sql: false
 
   jackson:
     serialization:

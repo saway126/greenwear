@@ -28,7 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	
 	// Database
-	runtimeOnly 'org.postgresql:postgresql' // PostgreSQL for production
+	runtimeOnly 'org.postgresql:postgresql:42.7.4' // PostgreSQL for production
 	runtimeOnly 'com.h2database:h2' // H2 for local testing
 	
 	// JWT
