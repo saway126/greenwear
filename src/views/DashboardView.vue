@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="min-h-screen bg-neutral-950 text-white">
     <!-- 헤더 -->
     <header class="border-b border-white/10 bg-neutral-900/50 backdrop-blur-sm">
