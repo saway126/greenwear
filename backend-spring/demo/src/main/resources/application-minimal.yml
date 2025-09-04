@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+    
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+# Completely disable all actuator and metrics
+management:
+  endpoints:
+    enabled-by-default: false
+  metrics:
+    enabled: false
+  health:
+    enabled: false
+
+logging:
+  level:
+    root: ERROR
+    com.greenwear: INFO
