@@ -2,7 +2,7 @@ import axios from 'axios'
 import { mockApiService } from './mockApi'
 
 // API 기본 설정
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'https://greenwear-backend-spring-production.up.railway.app'
 
 // Axios 인스턴스 생성
 const api = axios.create({

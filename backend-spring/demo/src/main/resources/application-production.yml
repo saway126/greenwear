@@ -1,9 +1,9 @@
 spring:
   # Database Configuration for Production (PostgreSQL)
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: ${DATABASE_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:greenwear}?sslmode=${DB_SSL_MODE:require}}
+    username: ${DATABASE_USERNAME:${DB_USER:postgres}}
+    password: ${DATABASE_PASSWORD:${DB_PASS:password}}
     driver-class-name: ${DATABASE_DRIVER:org.postgresql.Driver}
   
   # JPA Configuration for Production

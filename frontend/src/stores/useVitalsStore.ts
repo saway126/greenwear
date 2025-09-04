@@ -38,7 +38,8 @@ export const useVitalsStore = defineStore('vitals', () => {
   // 액션
   const uploadSample = async (payload: VitalsInput) => {
     try {
-      const response = await axios.post('/api/vitals/samples', {
+      const API_BASE = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'https://greenwear-backend-spring-production.up.railway.app'
+      const response = await axios.post(`${API_BASE}/api/vitals/samples`, {
         deviceId: deviceId.value,
         ...payload
       })
@@ -75,7 +76,8 @@ export const useVitalsStore = defineStore('vitals', () => {
     if (esConnected) return // 이미 연결되어 있으면 중복 연결 방지
     
     try {
-      es = new EventSource(`/api/vitals/stream?deviceId=${deviceId.value}&intervalMs=2000`)
+      const API_BASE = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'https://greenwear-backend-spring-production.up.railway.app'
+      es = new EventSource(`${API_BASE}/api/vitals/stream?deviceId=${deviceId.value}&intervalMs=2000`)
       
       es.addEventListener('vital', (e: MessageEvent) => {
         // rAF로 throttle하여 layout thrash 방지
