@@ -2,7 +2,7 @@ import axios from 'axios'
 import { mockApiService } from './mockApi'
 
 // API 기본 설정
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -13,8 +13,8 @@ const api = axios.create({
   },
 })
 
-// Mock API 사용 여부 (GitHub Pages에서는 기본적으로 Mock API 사용)
-let useMockApi = true
+// Mock API 사용 여부 (실제 API 우선 사용)
+let useMockApi = false
 
 // API 연결 상태 확인
 async function checkApiConnection() {
@@ -29,8 +29,8 @@ async function checkApiConnection() {
   }
 }
 
-// 초기 연결 상태 확인 (GitHub Pages에서는 건너뛰기)
-// checkApiConnection()
+// 초기 연결 상태 확인
+checkApiConnection()
 
 // API 서비스 클래스
 export class ApiService {
