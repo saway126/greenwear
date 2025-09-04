@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { mockApiService } from './mockApi'
 
-// API 기본 설정
-const API_BASE_URL = import.meta.env.VITE_API_BASE || import.meta.env.VITE_API_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'
+// API 기본 설정 - 강제로 실제 백엔드 사용
+const API_BASE_URL = 'https://greenwear-backend-node-production-1583.up.railway.app'
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -19,11 +19,14 @@ let useMockApi = false
 // API 연결 상태 확인
 async function checkApiConnection() {
   try {
-    const response = await api.get('/health')
+    console.log('🔄 백엔드 API 연결 시도:', API_BASE_URL)
+    const response = await api.get('/api/health')
+    console.log('✅ 백엔드 API 연결 성공!', response.data)
     useMockApi = false
     return true
   } catch (error) {
-    console.log('🔌 Backend API 연결 실패, Mock API로 전환합니다.')
+    console.log('❌ Backend API 연결 실패:', error.message)
+    console.log('🔌 Mock API로 전환합니다.')
     useMockApi = true
     return false
   }
@@ -41,7 +44,7 @@ export class ApiService {
     }
     
     try {
-      const response = await api.get('/health')
+      const response = await api.get('/api/health')
       return {
         success: true,
         data: response.data,
