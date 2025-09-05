@@ -8,7 +8,18 @@
     "sleepApplication": false,
     "restartPolicyType": "ON_FAILURE",
     "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 300,
-    "startCommand": "node server.js"
+    "healthcheckTimeout": 300
+  },
+  "services": {
+    "backend": {
+      "source": "./backend",
+      "build": {
+        "builder": "NIXPACKS"
+      },
+      "deploy": {
+        "startCommand": "npm start",
+        "healthcheckPath": "/api/health"
+      }
+    }
   }
 } 
