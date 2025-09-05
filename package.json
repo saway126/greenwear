@@ -10,7 +10,9 @@
     "preview": "vite preview --port 5173",
     "lint": "echo \"(lint는 추후 설정)\"",
     "test": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "start": "node server.js",
+    "server": "node server.js"
   },
   "dependencies": {
     "axios": "^1.11.0",
