@@ -1,17 +1,21 @@
-# 🚀 Multi-Project Demo Collection
+# 🌱 GreenWear - 스마트 웨어러블 헬스케어 플랫폼
 
-AI 협업으로 개발된 6개의 독립적인 웹 애플리케이션 프로젝트 모음입니다. 각 프로젝트는 **Vue.js + Spring Boot** 기술 스택으로 구성되어 있으며, 실제 배포 가능한 완성도를 목표로 합니다.
+실시간 생체신호 모니터링과 친환경 제품 추천을 결합한 혁신적인 웰니스 플랫폼입니다.
 
-## 📊 프로젝트 현황
+## 🎯 **현재 배포 상태**
 
-| 프로젝트 | 상태 | 기술 스택 | 주요 기능 | 완성도 |
+### ✅ **활성 서비스**
+- **프론트엔드**: [Vercel](https://vercel.com/skwka12346-gmailcoms-projects/greenwear-demo) - Vue.js + Vite
+- **백엔드**: [Railway](https://railway.com/project/37a4b7b5-0417-4138-879f-e55aabf785dd) - Node.js + Express
+
+### 📊 **프로젝트 현황**
+
+| 구성 요소 | 상태 | 기술 스택 | 주요 기능 | 완성도 |
 |---------|------|----------|---------|-------|
-| 📝 Blog Promotion Generator | ✅ 완료 | Vue3 + Spring Boot + H2 | AI 블로그 콘텐츠 생성 | 90% |
-| 💕 Love Simulator | 🚧 개발중 | Vue3 + Spring Boot + H2 | 대화형 연애 시뮬레이션 | 30% |
-| 💼 Portfolio Builder | 📋 계획 | Vue3 + Spring Boot + H2 | 포트폴리오 자동 생성 | 10% |
-| 📊 Habit Tracker | 📋 계획 | Vue3 + Spring Boot + H2 | 습관 관리 및 통계 | 10% |
-| 🍳 Recipe Recommender | 📋 계획 | Vue3 + Spring Boot + H2 | 재료 기반 요리 추천 | 10% |
-| 🌙 Mood Diary | 📋 계획 | Vue3 + Spring Boot + H2 | 감정 분석 일기장 | 10% |
+| 🌐 프론트엔드 | ✅ 배포됨 | Vue3 + Vite + Tailwind | 실시간 생체신호 모니터링 | 95% |
+| 🔧 백엔드 | ✅ 배포됨 | Node.js + Express | API 서버 및 데이터 처리 | 90% |
+| 📱 웨어러블 연동 | 🚧 개발중 | ESP32 + Arduino | 하드웨어 데이터 수집 | 60% |
+| 🌱 친환경 제품 추천 | 📋 계획 | AI + 데이터베이스 | 개인화된 제품 추천 | 20% |
 
 ---
 

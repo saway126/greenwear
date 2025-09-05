@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // API 기본 설정
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://greenwear-backend-node-production-1583.up.railway.app',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -34,47 +34,20 @@ export const vitalsAPI = {
     return api.post('/api/vitals/samples', data)
   },
 
-  // 상태 평가 (공개) - 새로운 고급 분석 기능
-  evaluate: async (data: { 
-    heartRate?: number; 
-    bloodPressure?: string;
-    temperature?: number; 
-    oxygenSaturation?: number;
-    activity?: string;
-    age?: number;
-    gender?: string;
-  }) => {
-    return api.post('/api/vitals', data)
+  // 상태 평가 (공개)
+  evaluate: async (data: { heartRate: number; oxygen: number; temperature: number }) => {
+    return api.post('/api/vitals/evaluate', data)
   },
 
   // 실시간 스트림 연결
   getStream: () => {
-    const baseURL = import.meta.env.VITE_API_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'
-    return new EventSource(`${baseURL}/api/vitals-stream`)
+    const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+    return new EventSource(`${baseURL}/api/vitals/stream`)
   },
 
   // 히스토리 조회
   getHistory: async (limit = 50) => {
-    return api.get(`/api/vitals?limit=${limit}`)
-  },
-
-  // 고급 생체신호 분석
-  analyzeAdvanced: async (data: {
-    heartRate: number;
-    bloodPressure: string;
-    temperature: number;
-    oxygenSaturation: number;
-    activity: string;
-    age?: number;
-    gender?: string;
-  }) => {
-    return api.post('/api/vitals', data)
-  },
-
-  // 건강 상태 추천사항
-  getRecommendations: async (vitalsData: any) => {
-    const analysis = await vitalsAPI.evaluate(vitalsData)
-    return analysis.data.recommendations || []
+    return api.get(`/api/vitals/history?limit=${limit}`)
   }
 }
 

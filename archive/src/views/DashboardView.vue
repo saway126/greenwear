@@ -40,58 +40,84 @@
     <!-- 메인 콘텐츠 -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- 상태 요약 카드 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <HealthCard
-          title="심박수"
-          subtitle="Heart Rate"
-          :value="currentVitals.heartRate"
-          unit="BPM"
-          :status="getHeartRateStatus(currentVitals.heartRate)"
-          :trend="getHeartRateTrend()"
-          icon="heart"
-          :show-progress="true"
-          :progress-value="getHeartRateProgress(currentVitals.heartRate)"
-          progress-label="정상 범위"
-          additional-info="정상 범위: 60-100 BPM"
-        />
-        
-        <HealthCard
-          title="산소포화도"
-          subtitle="Oxygen Saturation"
-          :value="currentVitals.oxygen"
-          unit="%"
-          :status="getOxygenStatus(currentVitals.oxygen)"
-          :trend="getOxygenTrend()"
-          icon="oxygen"
-          :show-progress="true"
-          :progress-value="getOxygenProgress(currentVitals.oxygen)"
-          progress-label="정상 범위"
-          additional-info="정상 범위: 95-100%"
-        />
-        
-        <HealthCard
-          title="체온"
-          subtitle="Body Temperature"
-          :value="currentVitals.temperature"
-          unit="°C"
-          :status="getTemperatureStatus(currentVitals.temperature)"
-          :trend="getTemperatureTrend()"
-          icon="temperature"
-          :show-progress="true"
-          :progress-value="getTemperatureProgress(currentVitals.temperature)"
-          progress-label="정상 범위"
-          additional-info="정상 범위: 36.0-37.5°C"
-        />
-        
-        <HealthCard
-          title="LED 상태"
-          subtitle="Status Indicator"
-          :value="currentVitals.ledStatus"
-          unit=""
-          :status="getLEDStatus(currentVitals.ledStatus)"
-          icon="activity"
-          additional-info="실시간 상태 표시"
-        />
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-neutral-400">심박수</p>
+              <p class="text-2xl font-bold text-white">{{ currentVitals.heartRate }} BPM</p>
+            </div>
+            <div class="w-12 h-12 bg-red-500/20 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-neutral-400">상태:</span>
+              <span class="px-2 py-1 text-xs rounded-full bg-red-500/20 text-red-400">주의</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-neutral-400">산소포화도</p>
+              <p class="text-2xl font-bold text-white">{{ currentVitals.oxygen }}%</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-neutral-400">상태:</span>
+              <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-400">정상</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-neutral-400">체온</p>
+              <p class="text-2xl font-bold text-white">{{ currentVitals.temperature }}°C</p>
+            </div>
+            <div class="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-neutral-400">상태:</span>
+              <span class="px-2 py-1 text-xs rounded-full bg-yellow-500/20 text-yellow-400">주의</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-neutral-400">LED 상태</p>
+              <p class="text-2xl font-bold text-white">{{ currentVitals.ledStatus }}</p>
+            </div>
+            <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+              <div class="w-6 h-6 rounded-full" :class="ledColorClass"></div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-sm text-neutral-400">색상:</span>
+              <span class="px-2 py-1 text-xs rounded-full" :class="ledStatusClass">{{ currentVitals.ledStatus }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- 실시간 차트 -->
@@ -119,18 +145,6 @@
             />
           </div>
         </div>
-      </div>
-
-      <!-- AI 기반 건강 분석 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm mb-8">
-        <h3 class="text-lg font-medium mb-4">🤖 AI 기반 건강 분석</h3>
-        <AIHealthAnalysis />
-      </div>
-
-      <!-- 고급 생체신호 분석기 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm mb-8">
-        <h3 class="text-lg font-medium mb-4">🔬 고급 생체신호 분석기</h3>
-        <VitalsAnalyzer />
       </div>
 
       <!-- 최근 알림 -->
@@ -178,9 +192,6 @@ import {
   Legend,
   Filler
 } from 'chart.js'
-import VitalsAnalyzer from '../components/VitalsAnalyzer.vue'
-import HealthCard from '../components/HealthCard.vue'
-import AIHealthAnalysis from '../components/AIHealthAnalysis.vue'
 
 ChartJS.register(
   CategoryScale,
@@ -460,62 +471,6 @@ const stopMonitoring = () => {
     clearInterval(updateInterval)
     updateInterval = null
   }
-}
-
-// 상태 계산 함수들
-const getHeartRateStatus = (hr: number) => {
-  if (hr < 60 || hr > 100) return 'critical'
-  if (hr < 70 || hr > 90) return 'warning'
-  return 'normal'
-}
-
-const getOxygenStatus = (o2: number) => {
-  if (o2 < 90) return 'critical'
-  if (o2 < 95) return 'warning'
-  return 'excellent'
-}
-
-const getTemperatureStatus = (temp: number) => {
-  if (temp < 36.0 || temp > 37.5) return 'critical'
-  if (temp < 36.5 || temp > 37.2) return 'warning'
-  return 'normal'
-}
-
-const getLEDStatus = (led: string) => {
-  switch (led) {
-    case '초록': return 'excellent'
-    case '노랑': return 'warning'
-    case '빨강': return 'critical'
-    default: return 'normal'
-  }
-}
-
-const getHeartRateProgress = (hr: number) => {
-  // 60-100 범위를 0-100%로 매핑
-  return Math.max(0, Math.min(100, ((hr - 60) / 40) * 100))
-}
-
-const getOxygenProgress = (o2: number) => {
-  // 90-100 범위를 0-100%로 매핑
-  return Math.max(0, Math.min(100, ((o2 - 90) / 10) * 100))
-}
-
-const getTemperatureProgress = (temp: number) => {
-  // 36.0-37.5 범위를 0-100%로 매핑
-  return Math.max(0, Math.min(100, ((temp - 36.0) / 1.5) * 100))
-}
-
-const getHeartRateTrend = () => {
-  // 실제로는 이전 데이터와 비교
-  return Math.floor(Math.random() * 21) - 10 // -10% ~ +10%
-}
-
-const getOxygenTrend = () => {
-  return Math.floor(Math.random() * 11) - 5 // -5% ~ +5%
-}
-
-const getTemperatureTrend = () => {
-  return Math.floor(Math.random() * 7) - 3 // -3% ~ +3%
 }
 
 // 컴포넌트 마운트/언마운트

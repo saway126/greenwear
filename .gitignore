@@ -40,5 +40,23 @@ Thumbs.db
 backend/.gradle/
 backend/.gradle-local/
 
+# Gradle cache (Windows long path issue)
+archive/backend/.gradle-local/
+archive/backend-spring/demo/.gradle/
+**/.gradle/
+**/build/
+**/target/
+
+# React Native
+GreenWearMobile/node_modules/
+GreenWearMobile/.expo/
+GreenWearMobile/dist/
+GreenWearMobile/web-build/
+
+# ESP32
+*.bin
+*.elf
+*.map
+
 # Local Netlify folder
 .netlify
