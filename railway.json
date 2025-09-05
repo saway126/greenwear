@@ -9,5 +9,17 @@
     "restartPolicyType": "ON_FAILURE",
     "healthcheckPath": "/api/health",
     "healthcheckTimeout": 300
+  },
+  "services": {
+    "backend": {
+      "source": ".",
+      "build": {
+        "builder": "NIXPACKS"
+      },
+      "deploy": {
+        "startCommand": "node server.js",
+        "healthcheckPath": "/api/health"
+      }
+    }
   }
 } 
