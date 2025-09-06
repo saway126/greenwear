@@ -52,11 +52,11 @@ export const healthAPI = {
   // 생체신호 데이터 전송
   sendVitals: (data: any) => api.post('/api/vitals', data),
   
-  // 생체신호 스트림 시작
-  startStream: () => api.post('/api/vitals/stream/start'),
+  // 생체신호 스트림 시작 (Node.js 백엔드에서는 지원하지 않음)
+  startStream: () => Promise.resolve({ data: { message: 'Stream not supported, using polling' } }),
   
-  // 생체신호 스트림 중지
-  stopStream: () => api.post('/api/vitals/stream/stop'),
+  // 생체신호 스트림 중지 (Node.js 백엔드에서는 지원하지 않음)
+  stopStream: () => Promise.resolve({ data: { message: 'Stream not supported' } }),
 }
 
 export const authAPI = {

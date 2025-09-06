@@ -24,6 +24,17 @@ export function useVitals() {
   
   let eventSource: EventSource | null = null
   let pollingInterval: NodeJS.Timeout | null = null
+
+  // Node.js 백엔드 데이터에서 LED 상태 결정
+  const getLedStatusFromData = (data: any) => {
+    if (data.heartRate > 90 || data.oxygenSaturation < 96) {
+      return '빨강'
+    } else if (data.heartRate > 80 || data.temperature > 37.5) {
+      return '노랑'
+    } else {
+      return '초록'
+    }
+  }
   
   // 실시간 데이터 스트림 시작
   const startStream = async () => {
@@ -31,39 +42,9 @@ export function useVitals() {
       isLoading.value = true
       error.value = null
       
-      // Node.js 백엔드에서는 스트림 시작 요청이 필요 없으므로 바로 데이터 가져오기
+      // Node.js 백엔드에서는 스트림을 지원하지 않으므로 바로 폴링 모드로 시작
       await fetchVitals()
-      
-      // Server-Sent Events로 실시간 데이터 수신 (Node.js 백엔드 지원 시)
-      try {
-        eventSource = new EventSource(`${import.meta.env.VITE_API_BASE_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'}/api/vitals/stream`)
-        
-        eventSource.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data)
-            vitals.value = {
-              heartRate: data.heartRate || 0,
-              oxygen: data.oxygen || 0,
-              temperature: data.temperature || 0,
-              ledStatus: data.ledStatus || '초록',
-              timestamp: data.timestamp || Date.now()
-            }
-            isConnected.value = true
-          } catch (err) {
-            console.error('데이터 파싱 오류:', err)
-          }
-        }
-        
-        eventSource.onerror = (err) => {
-          console.log('스트림 연결 실패, 폴링 모드로 전환:', err)
-          isConnected.value = false
-          // 스트림 실패 시 폴링으로 폴백
-          startPolling()
-        }
-      } catch (streamErr) {
-        console.log('스트림 시작 실패, 폴링 모드로 전환:', streamErr)
-        startPolling()
-      }
+      startPolling()
       
     } catch (err: any) {
       error.value = err.message || '데이터 가져오기에 실패했습니다'
@@ -116,11 +97,38 @@ export function useVitals() {
       error.value = null
       
       const response = await healthAPI.getVitals()
-      vitals.value = response.data
+      // Node.js 백엔드의 데이터 구조에 맞게 변환
+      if (response.data.success && response.data.data && response.data.data.length > 0) {
+        const latestData = response.data.data[0] // 가장 최근 데이터
+        vitals.value = {
+          heartRate: latestData.heartRate || 0,
+          oxygen: latestData.oxygenSaturation || 0,
+          temperature: latestData.temperature || 0,
+          ledStatus: getLedStatusFromData(latestData),
+          timestamp: new Date(latestData.recordedAt).getTime() || Date.now()
+        }
+      } else {
+        // 데이터가 없으면 기본값 사용
+        vitals.value = {
+          heartRate: 85,
+          oxygen: 98,
+          temperature: 37.2,
+          ledStatus: '초록',
+          timestamp: Date.now()
+        }
+      }
       isConnected.value = true
     } catch (err: any) {
       error.value = err.message || '데이터를 가져오는데 실패했습니다'
       isConnected.value = false
+      // API 실패 시 더미 데이터 사용
+      vitals.value = {
+        heartRate: 85,
+        oxygen: 98,
+        temperature: 37.2,
+        ledStatus: '초록',
+        timestamp: Date.now()
+      }
     } finally {
       isLoading.value = false
     }
