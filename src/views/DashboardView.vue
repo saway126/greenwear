@@ -3,28 +3,28 @@
     <!-- 헤더 -->
     <header class="border-b border-white/10 bg-neutral-900/50 backdrop-blur-sm">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center space-x-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between h-auto sm:h-16 py-4 sm:py-0">
+          <div class="flex items-center space-x-2 sm:space-x-4 mb-4 sm:mb-0">
             <router-link to="/" class="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300">
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                 <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
               </svg>
-              <span class="font-semibold">GreenWear</span>
+              <span class="font-semibold text-sm sm:text-base">GreenWear</span>
             </router-link>
-            <span class="text-neutral-400">|</span>
-            <h1 class="text-lg font-medium">실시간 대시보드</h1>
+            <span class="text-neutral-400 hidden sm:inline">|</span>
+            <h1 class="text-sm sm:text-lg font-medium">실시간 대시보드</h1>
           </div>
           
-          <div class="flex items-center space-x-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
             <div class="flex items-center space-x-2">
               <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span class="text-sm text-emerald-400">실시간 모니터링</span>
+              <span class="text-xs sm:text-sm text-emerald-400">실시간 모니터링</span>
             </div>
             <button 
               @click="toggleMonitoring"
               :class="[
-                'px-4 py-2 rounded-lg font-medium transition-colors',
+                'px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base w-full sm:w-auto',
                 isMonitoring 
                   ? 'bg-red-600 hover:bg-red-700 text-white' 
                   : 'bg-emerald-600 hover:bg-emerald-700 text-white'
@@ -95,11 +95,11 @@
       </div>
 
       <!-- 실시간 차트 -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
         <!-- 심박수 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
-          <h3 class="text-lg font-medium mb-4">심박수 실시간 모니터링</h3>
-          <div class="h-64">
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
+          <h3 class="text-base sm:text-lg font-medium mb-4">심박수 실시간 모니터링</h3>
+          <div class="h-48 sm:h-64">
             <Line 
               :data="heartRateChartData" 
               :options="chartOptions"
@@ -109,9 +109,9 @@
         </div>
 
         <!-- 산소포화도 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
-          <h3 class="text-lg font-medium mb-4">산소포화도 실시간 모니터링</h3>
-          <div class="h-64">
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
+          <h3 class="text-base sm:text-lg font-medium mb-4">산소포화도 실시간 모니터링</h3>
+          <div class="h-48 sm:h-64">
             <Line 
               :data="oxygenChartData" 
               :options="chartOptions"
@@ -122,20 +122,20 @@
       </div>
 
       <!-- AI 기반 건강 분석 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm mb-8">
-        <h3 class="text-lg font-medium mb-4">🤖 AI 기반 건강 분석</h3>
+      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm mb-6 sm:mb-8">
+        <h3 class="text-base sm:text-lg font-medium mb-4">🤖 AI 기반 건강 분석</h3>
         <AIHealthAnalysis />
       </div>
 
       <!-- 고급 생체신호 분석기 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm mb-8">
-        <h3 class="text-lg font-medium mb-4">🔬 고급 생체신호 분석기</h3>
+      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm mb-6 sm:mb-8">
+        <h3 class="text-base sm:text-lg font-medium mb-4">🔬 고급 생체신호 분석기</h3>
         <VitalsAnalyzer />
       </div>
 
       <!-- 최근 알림 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-6 backdrop-blur-sm">
-        <h3 class="text-lg font-medium mb-4">최근 알림</h3>
+      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
+        <h3 class="text-base sm:text-lg font-medium mb-4">최근 알림</h3>
         <div class="space-y-3">
           <div 
             v-for="alert in recentAlerts" 
@@ -181,6 +181,7 @@ import {
 import VitalsAnalyzer from '../components/VitalsAnalyzer.vue'
 import HealthCard from '../components/HealthCard.vue'
 import AIHealthAnalysis from '../components/AIHealthAnalysis.vue'
+import { useVitals } from '../composables/useVitals'
 
 ChartJS.register(
   CategoryScale,
@@ -195,12 +196,17 @@ ChartJS.register(
 
 // 상태 관리
 const isMonitoring = ref(true)
-const currentVitals = ref({
-  heartRate: 85,
-  oxygen: 98,
-  temperature: 37.2,
-  ledStatus: '노랑'
-})
+
+// API 연동을 위한 composable 사용
+const { 
+  vitals: currentVitals, 
+  isConnected, 
+  isLoading, 
+  error, 
+  startStream, 
+  stopStream, 
+  fetchVitals 
+} = useVitals()
 
 // 차트 데이터
 const heartRateData = ref<number[]>([])
@@ -440,22 +446,36 @@ const updateVitals = () => {
 }
 
 // 모니터링 토글
-const toggleMonitoring = () => {
+const toggleMonitoring = async () => {
   isMonitoring.value = !isMonitoring.value
   if (isMonitoring.value) {
-    startMonitoring()
+    await startMonitoring()
   } else {
-    stopMonitoring()
+    await stopMonitoring()
   }
 }
 
 // 모니터링 시작
-const startMonitoring = () => {
-  updateInterval = setInterval(updateVitals, 1000)
+const startMonitoring = async () => {
+  try {
+    await startStream()
+    // 폴백용 더미 데이터 생성도 유지
+    updateInterval = setInterval(updateVitals, 1000)
+  } catch (err) {
+    console.error('스트림 시작 실패:', err)
+    // API 실패 시 더미 데이터로 폴백
+    updateInterval = setInterval(updateVitals, 1000)
+  }
 }
 
 // 모니터링 중지
-const stopMonitoring = () => {
+const stopMonitoring = async () => {
+  try {
+    await stopStream()
+  } catch (err) {
+    console.error('스트림 중지 실패:', err)
+  }
+  
   if (updateInterval) {
     clearInterval(updateInterval)
     updateInterval = null
@@ -519,9 +539,15 @@ const getTemperatureTrend = () => {
 }
 
 // 컴포넌트 마운트/언마운트
-onMounted(() => {
+onMounted(async () => {
   generateDummyData()
-  startMonitoring()
+  // API에서 초기 데이터 가져오기 시도
+  try {
+    await fetchVitals()
+  } catch (err) {
+    console.log('API 연결 실패, 더미 데이터 사용:', err)
+  }
+  await startMonitoring()
 })
 
 onUnmounted(() => {
