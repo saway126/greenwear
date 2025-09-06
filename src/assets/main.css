@@ -63,7 +63,9 @@
 /* Custom utilities */
 @layer utilities {
   .text-balance {
-    text-wrap: balance;
+    /* text-wrap: balance; - Chrome < 114 미지원 */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   .animation-delay-75 {

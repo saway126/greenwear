@@ -19,9 +19,12 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    // 요청 로깅
+    console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`)
     return config
   },
   (error) => {
+    console.error('API Request Error:', error)
     return Promise.reject(error)
   }
 )
@@ -29,9 +32,11 @@ api.interceptors.request.use(
 // 응답 인터셉터
 api.interceptors.response.use(
   (response) => {
+    console.log(`API Response: ${response.status} ${response.config.url}`)
     return response
   },
   (error) => {
+    console.error(`API Error: ${error.response?.status} ${error.config?.url}`, error.message)
     if (error.response?.status === 401) {
       // 토큰 만료 시 로그아웃
       localStorage.removeItem('token')

@@ -40,7 +40,7 @@
     <!-- 메인 콘텐츠 -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- 상태 요약 카드 -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <HealthCard
           title="심박수"
           subtitle="Heart Rate"
@@ -95,11 +95,11 @@
       </div>
 
       <!-- 실시간 차트 -->
-      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <!-- 심박수 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
-          <h3 class="text-base sm:text-lg font-medium mb-4">심박수 실시간 모니터링</h3>
-          <div class="h-48 sm:h-64">
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm">
+          <h3 class="text-sm sm:text-base lg:text-lg font-medium mb-3 sm:mb-4">심박수 실시간 모니터링</h3>
+          <div class="h-40 sm:h-48 lg:h-64">
             <Line 
               :data="heartRateChartData" 
               :options="chartOptions"
@@ -109,9 +109,9 @@
         </div>
 
         <!-- 산소포화도 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
-          <h3 class="text-base sm:text-lg font-medium mb-4">산소포화도 실시간 모니터링</h3>
-          <div class="h-48 sm:h-64">
+        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm">
+          <h3 class="text-sm sm:text-base lg:text-lg font-medium mb-3 sm:mb-4">산소포화도 실시간 모니터링</h3>
+          <div class="h-40 sm:h-48 lg:h-64">
             <Line 
               :data="oxygenChartData" 
               :options="chartOptions"
