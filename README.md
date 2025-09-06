@@ -14,6 +14,45 @@
 - **백엔드 API**: [https://greenwear-backend-node-production-1583.up.railway.app](https://greenwear-backend-node-production-1583.up.railway.app)
 - **API Health Check**: [/api/health](https://greenwear-backend-node-production-1583.up.railway.app/api/health)
 
+## 🛠️ **빠른 시작 (개발자용)**
+
+### 1. 저장소 클론
+```bash
+git clone https://github.com/saway126/greenwear.git
+cd greenwear
+```
+
+### 2. 자동 설정 (권장)
+```bash
+# Windows
+./setup-dev.bat
+
+# macOS/Linux
+chmod +x setup-dev.sh
+./setup-dev.sh
+```
+
+### 3. 수동 설정
+```bash
+# Node.js 버전 확인 (18.20.8 권장)
+node --version
+
+# 의존성 설치
+npm install
+
+# 환경 변수 설정
+cp env.example .env
+
+# 개발 서버 실행
+npm run dev
+```
+
+### 4. 브라우저에서 확인
+- **로컬 개발**: http://localhost:5173
+- **프로덕션**: https://greenwear-demo.vercel.app
+
+> 📖 **상세한 개발 환경 설정은 [DEVELOPMENT_SETUP.md](./DEVELOPMENT_SETUP.md)를 참고하세요.**
+
 ## 🎯 **프로젝트 개요**
 
 GreenWear는 AI 기반 실시간 생체신호 모니터링과 친환경 제품 추천을 결합한 혁신적인 웰니스 플랫폼입니다. ESP32 하드웨어 디바이스, React Native 모바일 앱, Vue.js 웹 애플리케이션, 그리고 고급 AI 분석 엔진이 통합된 완전한 헬스케어 솔루션을 제공합니다.
