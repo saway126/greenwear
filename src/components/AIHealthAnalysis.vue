@@ -1,14 +1,14 @@
 <template>
-  <div class="ai-health-analysis bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 shadow-lg">
+  <div class="ai-health-analysis bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 rounded-xl p-6 shadow-lg border border-white/10 backdrop-blur-sm">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
         🤖 AI 건강 분석
-        <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Beta</span>
+        <span class="text-sm bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded-full border border-emerald-500/30">Beta</span>
       </h2>
       <button
         @click="runAIAnalysis"
         :disabled="isAnalyzing"
-        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
       >
         <svg v-if="isAnalyzing" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -23,19 +23,19 @@
 
     <!-- 종합 건강 점수 -->
     <div v-if="analysisResult" class="mb-8">
-      <div class="bg-white rounded-lg p-6 shadow-sm">
+      <div class="bg-neutral-900/50 rounded-lg p-6 shadow-sm border border-white/10">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-semibold text-gray-800">종합 건강 점수</h3>
+          <h3 class="text-lg font-semibold text-white">종합 건강 점수</h3>
           <div class="text-right">
             <div class="text-3xl font-bold" :class="getScoreColor(analysisResult.overall.score)">
               {{ analysisResult.overall.score }}
             </div>
-            <div class="text-sm text-gray-600">/ 100점</div>
+            <div class="text-sm text-neutral-400">/ 100점</div>
           </div>
         </div>
         
         <!-- 점수 바 -->
-        <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+        <div class="w-full bg-neutral-700 rounded-full h-3 mb-4">
           <div 
             class="h-3 rounded-full transition-all duration-1000"
             :class="getScoreBarColor(analysisResult.overall.score)"
@@ -45,7 +45,7 @@
         
         <!-- 건강 수준 -->
         <div class="flex items-center gap-2">
-          <span class="text-sm text-gray-600">건강 수준:</span>
+          <span class="text-sm text-neutral-400">건강 수준:</span>
           <span 
             class="px-3 py-1 rounded-full text-sm font-medium"
             :class="getLevelColor(analysisResult.overall.level)"

@@ -1,37 +1,37 @@
 <template>
-  <div class="vitals-analyzer bg-white rounded-lg shadow-lg p-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">🔬 고급 생체신호 분석</h2>
+  <div class="vitals-analyzer bg-neutral-900/50 rounded-lg shadow-lg p-6 border border-white/10 backdrop-blur-sm">
+    <h2 class="text-2xl font-bold text-white mb-6">🔬 고급 생체신호 분석</h2>
     
     <!-- 입력 폼 -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">심박수 (bpm)</label>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">심박수 (bpm)</label>
           <input
             v-model="vitalsData.heartRate"
             type="number"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-neutral-400"
             placeholder="예: 72"
           />
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">혈압 (mmHg)</label>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">혈압 (mmHg)</label>
           <input
             v-model="vitalsData.bloodPressure"
             type="text"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-neutral-400"
             placeholder="예: 120/80"
           />
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">체온 (°C)</label>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">체온 (°C)</label>
           <input
             v-model="vitalsData.temperature"
             type="number"
             step="0.1"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-neutral-400"
             placeholder="예: 36.5"
           />
         </div>
@@ -39,20 +39,20 @@
       
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">산소포화도 (%)</label>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">산소포화도 (%)</label>
           <input
             v-model="vitalsData.oxygenSaturation"
             type="number"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-neutral-400"
             placeholder="예: 98"
           />
         </div>
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">활동 상태</label>
+          <label class="block text-sm font-medium text-neutral-300 mb-2">활동 상태</label>
           <select
             v-model="vitalsData.activity"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
           >
             <option value="rest">휴식</option>
             <option value="exercise">운동</option>
@@ -63,19 +63,19 @@
         
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">나이</label>
+            <label class="block text-sm font-medium text-neutral-300 mb-2">나이</label>
             <input
               v-model="vitalsData.age"
               type="number"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white placeholder-neutral-400"
               placeholder="예: 30"
             />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">성별</label>
+            <label class="block text-sm font-medium text-neutral-300 mb-2">성별</label>
             <select
               v-model="vitalsData.gender"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full px-3 py-2 bg-neutral-800 border border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-white"
             >
               <option value="male">남성</option>
               <option value="female">여성</option>
@@ -90,14 +90,14 @@
       <button
         @click="analyzeVitals"
         :disabled="isAnalyzing"
-        class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex-1 bg-emerald-600 text-white px-6 py-3 rounded-md hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {{ isAnalyzing ? '분석 중...' : '🔍 생체신호 분석' }}
       </button>
       <button
         @click="startRealTimeStream"
         :disabled="isStreaming"
-        class="flex-1 bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
         {{ isStreaming ? '스트림 중...' : '📡 실시간 모니터링' }}
       </button>
@@ -105,8 +105,8 @@
     
     <!-- 분석 결과 -->
     <div v-if="analysisResult" class="space-y-4">
-      <div class="bg-gray-50 rounded-lg p-4">
-        <h3 class="text-lg font-semibold text-gray-800 mb-3">📊 분석 결과</h3>
+      <div class="bg-neutral-800/50 rounded-lg p-4 border border-white/10">
+        <h3 class="text-lg font-semibold text-white mb-3">📊 분석 결과</h3>
         
         <!-- 전체 상태 -->
         <div class="mb-4">
