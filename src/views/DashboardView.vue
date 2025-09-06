@@ -44,13 +44,13 @@
         <HealthCard
           title="심박수"
           subtitle="Heart Rate"
-          :value="currentVitals.heartRate"
+          :value="currentVitals.heartRate || 0"
           unit="BPM"
-          :status="getHeartRateStatus(currentVitals.heartRate)"
+          :status="getHeartRateStatus(currentVitals.heartRate || 0)"
           :trend="getHeartRateTrend()"
           icon="heart"
           :show-progress="true"
-          :progress-value="getHeartRateProgress(currentVitals.heartRate)"
+          :progress-value="getHeartRateProgress(currentVitals.heartRate || 0)"
           progress-label="정상 범위"
           additional-info="정상 범위: 60-100 BPM"
         />
@@ -58,13 +58,13 @@
         <HealthCard
           title="산소포화도"
           subtitle="Oxygen Saturation"
-          :value="currentVitals.oxygen"
+          :value="currentVitals.oxygen || 0"
           unit="%"
-          :status="getOxygenStatus(currentVitals.oxygen)"
+          :status="getOxygenStatus(currentVitals.oxygen || 0)"
           :trend="getOxygenTrend()"
           icon="oxygen"
           :show-progress="true"
-          :progress-value="getOxygenProgress(currentVitals.oxygen)"
+          :progress-value="getOxygenProgress(currentVitals.oxygen || 0)"
           progress-label="정상 범위"
           additional-info="정상 범위: 95-100%"
         />
@@ -72,13 +72,13 @@
         <HealthCard
           title="체온"
           subtitle="Body Temperature"
-          :value="currentVitals.temperature"
+          :value="currentVitals.temperature || 0"
           unit="°C"
-          :status="getTemperatureStatus(currentVitals.temperature)"
+          :status="getTemperatureStatus(currentVitals.temperature || 0)"
           :trend="getTemperatureTrend()"
           icon="temperature"
           :show-progress="true"
-          :progress-value="getTemperatureProgress(currentVitals.temperature)"
+          :progress-value="getTemperatureProgress(currentVitals.temperature || 0)"
           progress-label="정상 범위"
           additional-info="정상 범위: 36.0-37.5°C"
         />
@@ -86,9 +86,9 @@
         <HealthCard
           title="LED 상태"
           subtitle="Status Indicator"
-          :value="currentVitals.ledStatus"
+          :value="currentVitals.ledStatus || '초록'"
           unit=""
-          :status="getLEDStatus(currentVitals.ledStatus)"
+          :status="getLEDStatus(currentVitals.ledStatus || '초록')"
           icon="activity"
           additional-info="실시간 상태 표시"
         />

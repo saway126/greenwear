@@ -82,6 +82,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  value: 0,
   subtitle: '',
   trend: 0,
   showProgress: false,
