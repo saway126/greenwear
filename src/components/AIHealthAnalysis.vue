@@ -206,7 +206,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { vitalsAPI } from '../services/api'
+import { healthAPI } from '../services/api'
 
 // 반응형 데이터
 const isAnalyzing = ref(false)
@@ -217,31 +217,57 @@ const runAIAnalysis = async () => {
   try {
     isAnalyzing.value = true
     
-    // 현재 생체신호 데이터 (실제로는 사용자 입력이나 실시간 데이터 사용)
-    const vitalsData = {
-      heartRate: 85,
-      bloodPressure: '130/85',
-      temperature: 37.2,
-      oxygenSaturation: 96,
-      activity: 'exercise',
-      age: 30,
-      gender: 'male'
-    }
+    // 현재 생체신호 데이터 가져오기
+    const response = await healthAPI.getVitals()
+    const vitalsData = response.data.success && response.data.data && response.data.data.length > 0 
+      ? response.data.data[0] 
+      : {
+          heartRate: 85,
+          bloodPressure: '130/85',
+          temperature: 37.2,
+          oxygenSaturation: 96,
+          activity: 'exercise',
+          age: 30,
+          gender: 'male'
+        }
     
-    const response = await fetch('https://greenwear-backend-node-production-1583.up.railway.app/api/ai-analysis', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    // AI 분석 API 호출 (현재는 Mock 데이터 사용)
+    // TODO: 실제 AI 분석 API 엔드포인트 구현 후 연동
+    await new Promise(resolve => setTimeout(resolve, 2000)) // 2초 대기 (로딩 효과)
+    
+    // Mock 분석 결과
+    const mockResult = {
+      overall: {
+        score: Math.floor(Math.random() * 40) + 60, // 60-100점
+        level: Math.random() > 0.3 ? 'good' : 'warning',
+        message: '전반적으로 양호한 상태입니다.'
       },
-      body: JSON.stringify(vitalsData)
-    })
-    
-    if (!response.ok) {
-      throw new Error('AI analysis failed')
+      details: {
+        heartRate: {
+          score: Math.floor(Math.random() * 30) + 70,
+          status: vitalsData.heartRate > 100 ? 'warning' : 'good',
+          message: vitalsData.heartRate > 100 ? '심박수가 높습니다.' : '심박수가 정상입니다.'
+        },
+        temperature: {
+          score: Math.floor(Math.random() * 30) + 70,
+          status: vitalsData.temperature > 37.5 ? 'warning' : 'good',
+          message: vitalsData.temperature > 37.5 ? '체온이 높습니다.' : '체온이 정상입니다.'
+        },
+        oxygenSaturation: {
+          score: Math.floor(Math.random() * 30) + 70,
+          status: vitalsData.oxygenSaturation < 95 ? 'warning' : 'good',
+          message: vitalsData.oxygenSaturation < 95 ? '산소포화도가 낮습니다.' : '산소포화도가 정상입니다.'
+        }
+      },
+      recommendations: [
+        '규칙적인 운동을 권장합니다.',
+        '충분한 수면을 취하세요.',
+        '스트레스 관리를 위해 명상이나 요가를 해보세요.'
+      ],
+      timestamp: new Date().toISOString()
     }
     
-    const result = await response.json()
-    analysisResult.value = result.data
+    analysisResult.value = mockResult
     
   } catch (error) {
     console.error('AI analysis error:', error)

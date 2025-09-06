@@ -220,14 +220,152 @@ const vitalsData = reactive({
 const analyzeVitals = async () => {
   try {
     isAnalyzing.value = true
-    const response = await healthAPI.getVitals()
-    analysisResult.value = response.data.data
+    
+    // 입력된 데이터로 분석 수행
+    const analysisData = {
+      heartRate: vitalsData.heartRate || 72,
+      bloodPressure: vitalsData.bloodPressure || '120/80',
+      temperature: vitalsData.temperature || 36.5,
+      oxygenSaturation: vitalsData.oxygenSaturation || 98,
+      activity: vitalsData.activity || 'rest',
+      age: vitalsData.age || 30,
+      gender: vitalsData.gender || 'male'
+    }
+    
+    // 실제 API 호출 (현재는 Mock 분석)
+    await new Promise(resolve => setTimeout(resolve, 1500)) // 1.5초 대기
+    
+    // Mock 분석 결과 생성
+    const mockAnalysis = {
+      overall: {
+        score: calculateOverallScore(analysisData),
+        status: getOverallStatus(analysisData),
+        message: getOverallMessage(analysisData)
+      },
+      details: {
+        heartRate: analyzeHeartRate(analysisData.heartRate),
+        bloodPressure: analyzeBloodPressure(analysisData.bloodPressure),
+        temperature: analyzeTemperature(analysisData.temperature),
+        oxygenSaturation: analyzeOxygenSaturation(analysisData.oxygenSaturation)
+      },
+      recommendations: generateRecommendations(analysisData),
+      timestamp: new Date().toISOString()
+    }
+    
+    analysisResult.value = mockAnalysis
+    
   } catch (error) {
     console.error('분석 오류:', error)
     alert('분석 중 오류가 발생했습니다.')
   } finally {
     isAnalyzing.value = false
   }
+}
+
+// 전체 점수 계산
+const calculateOverallScore = (data) => {
+  let score = 100
+  
+  // 심박수 점수 (60-100 BPM이 정상)
+  if (data.heartRate < 60 || data.heartRate > 100) {
+    score -= 20
+  } else if (data.heartRate < 70 || data.heartRate > 90) {
+    score -= 10
+  }
+  
+  // 체온 점수 (36.0-37.5°C가 정상)
+  if (data.temperature < 36.0 || data.temperature > 37.5) {
+    score -= 25
+  } else if (data.temperature < 36.5 || data.temperature > 37.0) {
+    score -= 10
+  }
+  
+  // 산소포화도 점수 (95-100%가 정상)
+  if (data.oxygenSaturation < 95) {
+    score -= 30
+  } else if (data.oxygenSaturation < 98) {
+    score -= 10
+  }
+  
+  return Math.max(0, Math.min(100, score))
+}
+
+// 전체 상태 판정
+const getOverallStatus = (data) => {
+  const score = calculateOverallScore(data)
+  if (score >= 90) return 'excellent'
+  if (score >= 80) return 'good'
+  if (score >= 60) return 'warning'
+  return 'danger'
+}
+
+// 전체 메시지
+const getOverallMessage = (data) => {
+  const status = getOverallStatus(data)
+  const messages = {
+    excellent: '모든 지표가 우수한 상태입니다!',
+    good: '전반적으로 양호한 상태입니다.',
+    warning: '일부 지표에 주의가 필요합니다.',
+    danger: '즉시 의료진과 상담하시기 바랍니다.'
+  }
+  return messages[status]
+}
+
+// 심박수 분석
+const analyzeHeartRate = (heartRate) => {
+  if (heartRate < 60) return { status: 'danger', message: '심박수가 너무 낮습니다.' }
+  if (heartRate > 100) return { status: 'warning', message: '심박수가 높습니다.' }
+  if (heartRate < 70 || heartRate > 90) return { status: 'good', message: '심박수가 정상 범위입니다.' }
+  return { status: 'excellent', message: '심박수가 최적 상태입니다.' }
+}
+
+// 혈압 분석
+const analyzeBloodPressure = (bloodPressure) => {
+  const [systolic, diastolic] = bloodPressure.split('/').map(Number)
+  if (systolic >= 140 || diastolic >= 90) return { status: 'danger', message: '고혈압 위험입니다.' }
+  if (systolic >= 130 || diastolic >= 80) return { status: 'warning', message: '혈압이 높습니다.' }
+  if (systolic < 90 || diastolic < 60) return { status: 'warning', message: '혈압이 낮습니다.' }
+  return { status: 'excellent', message: '혈압이 정상입니다.' }
+}
+
+// 체온 분석
+const analyzeTemperature = (temperature) => {
+  if (temperature < 36.0) return { status: 'warning', message: '체온이 낮습니다.' }
+  if (temperature > 37.5) return { status: 'warning', message: '체온이 높습니다.' }
+  if (temperature < 36.5 || temperature > 37.0) return { status: 'good', message: '체온이 정상입니다.' }
+  return { status: 'excellent', message: '체온이 최적 상태입니다.' }
+}
+
+// 산소포화도 분석
+const analyzeOxygenSaturation = (oxygenSaturation) => {
+  if (oxygenSaturation < 90) return { status: 'danger', message: '산소포화도가 위험 수준입니다.' }
+  if (oxygenSaturation < 95) return { status: 'warning', message: '산소포화도가 낮습니다.' }
+  if (oxygenSaturation < 98) return { status: 'good', message: '산소포화도가 정상입니다.' }
+  return { status: 'excellent', message: '산소포화도가 최적 상태입니다.' }
+}
+
+// 권장사항 생성
+const generateRecommendations = (data) => {
+  const recommendations = []
+  
+  if (data.heartRate > 90) {
+    recommendations.push('심박수를 낮추기 위해 휴식을 취하세요.')
+  }
+  if (data.temperature > 37.0) {
+    recommendations.push('체온이 높으니 충분한 수분 섭취를 하세요.')
+  }
+  if (data.oxygenSaturation < 98) {
+    recommendations.push('깊게 숨을 쉬고 신선한 공기를 마시세요.')
+  }
+  if (data.activity === 'rest') {
+    recommendations.push('가벼운 운동을 권장합니다.')
+  }
+  
+  if (recommendations.length === 0) {
+    recommendations.push('현재 상태가 양호합니다. 규칙적인 생활을 유지하세요.')
+  }
+  
+  return recommendations
 }
 
 // 실시간 스트림 시작
