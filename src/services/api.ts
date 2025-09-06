@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // API 기본 설정
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'
 
 const api = axios.create({
   baseURL: API_BASE_URL,

@@ -196,7 +196,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
-import { vitalsAPI } from '../services/api'
+import { healthAPI } from '../services/api'
 
 // 반응형 데이터
 const isAnalyzing = ref(false)
@@ -220,7 +220,7 @@ const vitalsData = reactive({
 const analyzeVitals = async () => {
   try {
     isAnalyzing.value = true
-    const response = await vitalsAPI.analyzeAdvanced(vitalsData)
+    const response = await healthAPI.getVitals()
     analysisResult.value = response.data.data
   } catch (error) {
     console.error('분석 오류:', error)
@@ -239,7 +239,7 @@ const startRealTimeStream = () => {
   
   try {
     isStreaming.value = true
-    eventSource.value = vitalsAPI.getStream()
+    eventSource.value = new EventSource(`${import.meta.env.VITE_API_BASE_URL || 'https://greenwear-backend-node-production-1583.up.railway.app'}/api/vitals/stream`)
     
     eventSource.value.onmessage = (event) => {
       const data = JSON.parse(event.data)
