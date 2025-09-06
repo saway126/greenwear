@@ -58,7 +58,7 @@
         <HealthCard
           title="산소포화도"
           subtitle="Oxygen Saturation"
-          :value="currentVitals.oxygen || 0"
+          :value="(currentVitals.oxygen || 0).toFixed(1)"
           unit="%"
           :status="getOxygenStatus(currentVitals.oxygen || 0)"
           :trend="getOxygenTrend()"
@@ -72,7 +72,7 @@
         <HealthCard
           title="체온"
           subtitle="Body Temperature"
-          :value="currentVitals.temperature || 0"
+          :value="(currentVitals.temperature || 0).toFixed(1)"
           unit="°C"
           :status="getTemperatureStatus(currentVitals.temperature || 0)"
           :trend="getTemperatureTrend()"

@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="text-right">
-        <div class="text-2xl font-bold" :class="valueColorClass">{{ value }}</div>
+        <div class="text-2xl font-bold" :class="valueColorClass">{{ formatValue(value) }}</div>
         <div class="text-sm text-gray-500">{{ unit }}</div>
       </div>
     </div>
@@ -90,6 +90,19 @@ const props = withDefaults(defineProps<Props>(), {
   progressLabel: '진행률',
   additionalInfo: ''
 })
+
+// 값 포맷팅 함수
+const formatValue = (value: string | number) => {
+  if (typeof value === 'string') return value
+  if (typeof value === 'number') {
+    // 소수점이 있는 경우 소수점 첫째 자리까지만 표시
+    if (value % 1 !== 0) {
+      return value.toFixed(1)
+    }
+    return value.toString()
+  }
+  return value
+}
 
 // 아이콘 컴포넌트 매핑
 const iconComponents = {
