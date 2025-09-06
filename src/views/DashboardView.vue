@@ -1,7 +1,7 @@
  <template>
-  <div class="min-h-screen bg-neutral-950 text-white">
+  <div class="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 text-white">
     <!-- 헤더 -->
-    <header class="border-b border-white/10 bg-neutral-900/50 backdrop-blur-sm">
+    <header class="border-b border-white/10 bg-gradient-to-r from-neutral-900/80 via-neutral-800/60 to-neutral-900/80 backdrop-blur-md shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between h-auto sm:h-16 py-4 sm:py-0">
           <div class="flex items-center space-x-2 sm:space-x-4 mb-4 sm:mb-0">
@@ -97,7 +97,7 @@
       <!-- 실시간 차트 -->
       <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <!-- 심박수 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm">
+        <div class="bg-gradient-to-br from-neutral-800/40 to-neutral-900/40 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
           <h3 class="text-sm sm:text-base lg:text-lg font-medium mb-3 sm:mb-4">심박수 실시간 모니터링</h3>
           <div class="h-40 sm:h-48 lg:h-64">
             <Line 
@@ -109,7 +109,7 @@
         </div>
 
         <!-- 산소포화도 차트 -->
-        <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm">
+        <div class="bg-gradient-to-br from-neutral-800/40 to-neutral-900/40 border border-white/10 rounded-xl p-3 sm:p-4 lg:p-6 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
           <h3 class="text-sm sm:text-base lg:text-lg font-medium mb-3 sm:mb-4">산소포화도 실시간 모니터링</h3>
           <div class="h-40 sm:h-48 lg:h-64">
             <Line 
@@ -122,20 +122,20 @@
       </div>
 
       <!-- AI 기반 건강 분석 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm mb-6 sm:mb-8">
-        <h3 class="text-base sm:text-lg font-medium mb-4">🤖 AI 기반 건강 분석</h3>
+      <div class="bg-gradient-to-br from-neutral-800/40 to-neutral-900/40 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 mb-6 sm:mb-8">
+        <h3 class="text-base sm:text-lg font-medium mb-4 text-white">🤖 AI 기반 건강 분석</h3>
         <AIHealthAnalysis />
       </div>
 
       <!-- 고급 생체신호 분석기 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm mb-6 sm:mb-8">
-        <h3 class="text-base sm:text-lg font-medium mb-4">🔬 고급 생체신호 분석기</h3>
+      <div class="bg-gradient-to-br from-neutral-800/40 to-neutral-900/40 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 mb-6 sm:mb-8">
+        <h3 class="text-base sm:text-lg font-medium mb-4 text-white">🔬 고급 생체신호 분석기</h3>
         <VitalsAnalyzer />
       </div>
 
       <!-- 최근 알림 -->
-      <div class="bg-neutral-900/50 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm">
-        <h3 class="text-base sm:text-lg font-medium mb-4">최근 알림</h3>
+      <div class="bg-gradient-to-br from-neutral-800/40 to-neutral-900/40 border border-white/10 rounded-xl p-4 sm:p-6 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300">
+        <h3 class="text-base sm:text-lg font-medium mb-4 text-white">최근 알림</h3>
         <div class="space-y-3">
           <div 
             v-for="alert in recentAlerts" 

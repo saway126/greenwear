@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="health-card bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border-l-4"
+    class="health-card bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border-l-4 backdrop-blur-sm border border-white/10"
     :class="borderColorClass"
   >
     <div class="flex items-center justify-between mb-4">
@@ -12,13 +12,13 @@
           <component :is="iconComponent" class="w-6 h-6" :class="iconColorClass" />
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-gray-800">{{ title }}</h3>
-          <p class="text-sm text-gray-600">{{ subtitle }}</p>
+          <h3 class="text-lg font-semibold text-white">{{ title }}</h3>
+          <p class="text-sm text-neutral-400">{{ subtitle }}</p>
         </div>
       </div>
       <div class="text-right">
         <div class="text-2xl font-bold" :class="valueColorClass">{{ formatValue(value) }}</div>
-        <div class="text-sm text-gray-500">{{ unit }}</div>
+        <div class="text-sm text-neutral-400">{{ unit }}</div>
       </div>
     </div>
     
