@@ -1,0 +1,5 @@
+[33m6850457[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m docs: Add comprehensive blog post about GreenWear development journey
+[33mf346a01[m refactor: Separate backend into dedicated directory with proper package.json
+[33m4a86d56[m fix: Simplify Railway config to use direct startCommand for Node.js server
+[33m0027305[m trigger: Force Railway Node.js backend redeployment after service cleanup
+[33me07ab70[m fix: Configure Railway to use Node.js backend only and remove Spring Boot conflicts

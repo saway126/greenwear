@@ -1,0 +1,27 @@
+﻿[
+    {
+        "Status":  "Success",
+        "Details":  "HTTP 200 OK",
+        "Test":  "Homepage Loading"
+    },
+    {
+        "Status":  "Success",
+        "Details":  "HTTP 200 OK",
+        "Test":  "API Connection"
+    },
+    {
+        "Status":  "Success",
+        "Details":  "HTTP 200 OK",
+        "Test":  "Products API"
+    },
+    {
+        "Status":  "Success",
+        "Details":  "Processes Running",
+        "Test":  "Development Server"
+    },
+    {
+        "Status":  "Success",
+        "Details":  "Port In Use",
+        "Test":  "Port 5173"
+    }
+]
