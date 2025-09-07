@@ -7,6 +7,51 @@
 [![React Native](https://img.shields.io/badge/React%20Native-0.72-blue)](https://reactnative.dev/)
 [![ESP32](https://img.shields.io/badge/ESP32-Arduino-green)](https://www.espressif.com/)
 
+## 🚀 노트북에서 바로 시작
+
+### Windows
+```bash
+# 1. 저장소 클론
+git clone https://github.com/saway126/greenwear.git
+cd greenwear
+
+# 2. 자동 설정 실행
+setup-laptop.bat
+```
+
+### Mac/Linux
+```bash
+# 1. 저장소 클론
+git clone https://github.com/saway126/greenwear.git
+cd greenwear
+
+# 2. 자동 설정 실행
+chmod +x setup-laptop.sh
+./setup-laptop.sh
+```
+
+### 수동 설정
+```bash
+# 1. Python 가상환경 생성
+python -m venv venv
+
+# 2. 가상환경 활성화
+# Windows: venv\Scripts\activate
+# Mac/Linux: source venv/bin/activate
+
+# 3. 패키지 설치
+pip install requests
+
+# 4. Galaxy Watch 4 시뮬레이터 실행
+python galaxy-watch-simulator.py
+```
+
+## 🌐 배포된 서비스 (즉시 사용 가능)
+
+- **백엔드 API**: https://greenweariot-production.up.railway.app
+- **프론트엔드 대시보드**: https://greenwear-demo.vercel.app
+- **API 테스트**: `python test-railway-api.py`
+
 ## 🚀 라이브 데모
 
 ### 🌐 **배포된 서비스**
