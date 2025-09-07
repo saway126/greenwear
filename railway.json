@@ -4,22 +4,8 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "numReplicas": 1,
-    "sleepApplication": false,
+    "startCommand": "cd backend && node server.js",
     "restartPolicyType": "ON_FAILURE",
-    "healthcheckPath": "/api/health",
-    "healthcheckTimeout": 300
-  },
-  "services": {
-    "backend": {
-      "source": "./backend",
-      "build": {
-        "builder": "NIXPACKS"
-      },
-      "deploy": {
-        "startCommand": "npm start",
-        "healthcheckPath": "/api/health"
-      }
-    }
+    "restartPolicyMaxRetries": 10
   }
-} 
+}
