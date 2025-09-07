@@ -1,0 +1,38 @@
+# Ignore Java/Android files for Node.js build
+galaxy-watch-app/
+backend-spring/
+archive/
+attached_assets/
+blog-assets/
+docs/
+habit-tracker/
+portfolio-builder/
+recipe-recommender/
+test-screenshots/
+
+# Ignore development files
+*.md
+*.txt
+*.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore build artifacts
+dist/
+build/
+node_modules/
+*.tgz
+*.tar.gz

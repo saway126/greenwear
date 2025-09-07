@@ -2,10 +2,10 @@
 nixPkgs = ["nodejs_22", "npm-9_x"]
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm install", "cd backend && npm install"]
 
 [phases.build]
-cmds = ["cd backend && npm install"]
+cmds = ["echo 'Build phase completed'"]
 
 [start]
 cmd = "cd backend && node server.js"
