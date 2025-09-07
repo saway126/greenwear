@@ -13,7 +13,7 @@ from datetime import datetime
 
 class GalaxyWatchSimulator:
     def __init__(self):
-        self.server_url = "http://localhost:5000/api/wearable/data"
+        self.server_url = "https://greenweariot-production.up.railway.app/api/wearable/data"
         self.device_id = "GALAXY_WATCH4_001"
         self.device_name = "Galaxy Watch4"
         

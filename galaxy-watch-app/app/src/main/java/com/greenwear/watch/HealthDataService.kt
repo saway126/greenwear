@@ -36,7 +36,7 @@ class HealthDataService : Service(), SensorEventListener {
     
     companion object {
         private const val TAG = "HealthDataService"
-        private const val SERVER_URL = "http://localhost:5000/api/wearable/data"
+        private const val SERVER_URL = "https://greenweariot-production.up.railway.app/api/wearable/data"
         private const val DEVICE_ID = "GALAXY_WATCH4_001"
         private const val DEVICE_NAME = "Galaxy Watch4"
     }
