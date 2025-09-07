@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GreenWear Watch</string>
+    <string name="heart_rate">심박수</string>
+    <string name="steps">걸음 수</string>
+    <string name="battery">배터리</string>
+    <string name="connected">서버 연결됨</string>
+    <string name="disconnected">연결 끊김</string>
+    <string name="last_update">업데이트</string>
+</resources>

@@ -1,6 +1,6 @@
-package com.greenwear.demo.repository;
+package main.java.com.greenwear.demo.repository;
 
-import com.greenwear.demo.entity.WearableData;
+import main.java.com.greenwear.demo.entity.WearableData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,4 +26,18 @@ public interface WearableDataRepository extends JpaRepository<WearableData, Long
     
     @Query(value = "SELECT * FROM wearable_data WHERE temperature > ?1 ORDER BY timestamp DESC", nativeQuery = true)
     List<WearableData> findByTemperatureGreaterThan(Double temperature);
+    
+    // 새로운 쿼리 메서드들
+    Optional<WearableData> findTopByDeviceIdOrderByTimestampDesc(String deviceId);
+    
+    List<WearableData> findByTimestampGreaterThan(Long timestamp);
+    
+    List<WearableData> findByStatusIn(List<String> statuses);
+    
+    List<WearableData> findByDeviceIdAndTimestampBetween(String deviceId, Long startTime, Long endTime);
+    
+    List<WearableData> findByDeviceIdOrderByTimestampDesc(String deviceId);
+    
+    @Query(value = "SELECT DISTINCT device_id FROM wearable_data WHERE timestamp > ?1", nativeQuery = true)
+    List<String> findDistinctDeviceIdsByTimestampGreaterThan(Long timestamp);
 }

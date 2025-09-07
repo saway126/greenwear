@@ -195,6 +195,195 @@ app.get('/api/monitoring', (req, res) => {
   });
 });
 
+// IoT Wearable Data Storage (메모리 기반)
+let wearableDataStore = [];
+let deviceStats = {};
+
+// IoT Wearable Data API
+app.post('/api/wearable/data', (req, res) => {
+  const {
+    deviceId,
+    deviceName,
+    firmwareVersion,
+    heartRate,
+    temperature,
+    oxygenSaturation,
+    stepCount,
+    batteryLevel,
+    signalStrength,
+    wifiConnected,
+    acceleration,
+    location,
+    healthMetrics,
+    status,
+    timestamp
+  } = req.body;
+
+  // 데이터 검증
+  if (!deviceId || !heartRate || !temperature) {
+    return res.status(400).json({
+      success: false,
+      message: '필수 필드가 누락되었습니다 (deviceId, heartRate, temperature)'
+    });
+  }
+
+  // 데이터 저장
+  const wearableData = {
+    id: Date.now(),
+    deviceId,
+    deviceName: deviceName || 'Unknown Device',
+    firmwareVersion: firmwareVersion || '1.0.0',
+    heartRate: parseInt(heartRate),
+    temperature: parseFloat(temperature),
+    oxygenSaturation: parseInt(oxygenSaturation) || 98,
+    stepCount: parseInt(stepCount) || 0,
+    batteryLevel: parseInt(batteryLevel) || 100,
+    signalStrength: parseInt(signalStrength) || -50,
+    wifiConnected: Boolean(wifiConnected),
+    acceleration: acceleration || { x: 0, y: 0, z: 9.8 },
+    location: location || { latitude: 0, longitude: 0, altitude: 0 },
+    healthMetrics: healthMetrics || { stressLevel: 50, activityLevel: 50, sleepQuality: 80 },
+    status: status || 'normal',
+    timestamp: timestamp || Date.now(),
+    createdAt: new Date().toISOString()
+  };
+
+  // 메모리 저장 (최대 1000개 레코드 유지)
+  wearableDataStore.unshift(wearableData);
+  if (wearableDataStore.length > 1000) {
+    wearableDataStore = wearableDataStore.slice(0, 1000);
+  }
+
+  // 디바이스 통계 업데이트
+  if (!deviceStats[deviceId]) {
+    deviceStats[deviceId] = {
+      totalRecords: 0,
+      lastSeen: new Date().toISOString(),
+      avgHeartRate: 0,
+      avgTemperature: 0,
+      totalSteps: 0
+    };
+  }
+
+  const stats = deviceStats[deviceId];
+  stats.totalRecords++;
+  stats.lastSeen = new Date().toISOString();
+  stats.avgHeartRate = (stats.avgHeartRate * (stats.totalRecords - 1) + heartRate) / stats.totalRecords;
+  stats.avgTemperature = (stats.avgTemperature * (stats.totalRecords - 1) + temperature) / stats.totalRecords;
+  stats.totalSteps += stepCount || 0;
+
+  // 상태 분석
+  let alertLevel = 'normal';
+  if (heartRate < 50 || heartRate > 120 || temperature < 35.5 || temperature > 38.0) {
+    alertLevel = 'critical';
+  } else if (heartRate < 60 || heartRate > 100 || temperature < 36.0 || temperature > 37.5) {
+    alertLevel = 'warning';
+  }
+
+  console.log(`📱 IoT 데이터 수신: ${deviceId} - 심박수: ${heartRate}, 체온: ${temperature}, 상태: ${alertLevel}`);
+
+  res.json({
+    success: true,
+    message: '데이터가 성공적으로 저장되었습니다.',
+    data: {
+      id: wearableData.id,
+      deviceId,
+      status: alertLevel,
+      timestamp: wearableData.timestamp
+    }
+  });
+});
+
+// 실시간 데이터 조회 API
+app.get('/api/wearable/realtime', (req, res) => {
+  const { deviceId, limit = 50 } = req.query;
+  
+  let data = wearableDataStore;
+  
+  // 특정 디바이스 필터링
+  if (deviceId) {
+    data = data.filter(item => item.deviceId === deviceId);
+  }
+  
+  // 최신 데이터만 반환
+  data = data.slice(0, parseInt(limit));
+  
+  res.json(data);
+});
+
+// 디바이스 목록 조회 API
+app.get('/api/wearable/devices', (req, res) => {
+  const devices = Object.keys(deviceStats).map(deviceId => {
+    const stats = deviceStats[deviceId];
+    const latestData = wearableDataStore.find(item => item.deviceId === deviceId);
+    
+    return {
+      deviceId,
+      deviceName: latestData?.deviceName || 'Unknown Device',
+      firmwareVersion: latestData?.firmwareVersion || '1.0.0',
+      lastSeen: stats.lastSeen,
+      totalRecords: stats.totalRecords,
+      avgHeartRate: Math.round(stats.avgHeartRate),
+      avgTemperature: Math.round(stats.avgTemperature * 10) / 10,
+      totalSteps: stats.totalSteps,
+      currentStatus: latestData?.status || 'unknown',
+      batteryLevel: latestData?.batteryLevel || 0,
+      signalStrength: latestData?.signalStrength || 0
+    };
+  });
+  
+  res.json({
+    success: true,
+    data: devices,
+    total: devices.length,
+    message: '디바이스 목록을 성공적으로 조회했습니다.'
+  });
+});
+
+// 디바이스 통계 조회 API
+app.get('/api/wearable/devices/:deviceId/stats', (req, res) => {
+  const { deviceId } = req.params;
+  const stats = deviceStats[deviceId];
+  
+  if (!stats) {
+    return res.status(404).json({
+      success: false,
+      message: '디바이스를 찾을 수 없습니다.'
+    });
+  }
+  
+  const deviceData = wearableDataStore.filter(item => item.deviceId === deviceId);
+  const recentData = deviceData.slice(0, 10);
+  
+  res.json({
+    success: true,
+    data: {
+      deviceId,
+      ...stats,
+      recentData,
+      healthTrends: {
+        heartRateTrend: recentData.map(d => d.heartRate),
+        temperatureTrend: recentData.map(d => d.temperature),
+        stepTrend: recentData.map(d => d.stepCount)
+      }
+    }
+  });
+});
+
+// 경고 데이터 조회 API
+app.get('/api/wearable/alerts', (req, res) => {
+  const alerts = wearableDataStore.filter(item => 
+    item.status === 'warning' || item.status === 'critical'
+  ).slice(0, 20);
+  
+  res.json({
+    success: true,
+    data: alerts,
+    total: alerts.length,
+    message: '경고 데이터를 성공적으로 조회했습니다.'
+  });
+});
+
 // Products API
 app.get('/api/products', (req, res) => {
   const products = [

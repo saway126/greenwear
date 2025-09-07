@@ -37,7 +37,12 @@
 // WiFi 설정
 const char* ssid = "YOUR_WIFI_SSID";
 const char* password = "YOUR_WIFI_PASSWORD";
-const char* serverURL = "https://greenwear-backend-node-production-1583.up.railway.app/api/vitals";
+const char* serverURL = "https://greenwear-backend-node-production-1583.up.railway.app/api/wearable/data";
+
+// 디바이스 설정
+const char* deviceId = "ESP32_GREENWEAR_001";
+const char* deviceName = "GreenWear Smart Shirt";
+const char* firmwareVersion = "2.0.0";
 
 // 하드웨어 객체
 OneWire oneWire(TEMP_PIN);
@@ -49,11 +54,18 @@ BluetoothSerial SerialBT;
 unsigned long lastHeartBeat = 0;
 unsigned long lastDataSend = 0;
 unsigned long lastLEDUpdate = 0;
+unsigned long lastBatteryCheck = 0;
 int heartRate = 0;
 float temperature = 0.0;
 int oxygenSaturation = 0;
 String deviceStatus = "normal";
 bool isConnected = false;
+int batteryLevel = 100;
+int signalStrength = 0;
+int stepCount = 0;
+float accelerationX = 0.0;
+float accelerationY = 0.0;
+float accelerationZ = 0.0;
 
 // 심박수 측정 변수
 int pulseValue = 0;
@@ -166,6 +178,18 @@ void readSensorData() {
   
   // 산소포화도 측정 (시뮬레이션)
   measureOxygenSaturation();
+  
+  // 가속도계 데이터 측정
+  measureAcceleration();
+  
+  // 걸음 수 측정
+  measureStepCount();
+  
+  // 배터리 레벨 확인
+  checkBatteryLevel();
+  
+  // 신호 강도 확인
+  updateSignalStrength();
 }
 
 void measureHeartRate() {
@@ -212,6 +236,39 @@ void measureTemperature() {
 void measureOxygenSaturation() {
   // MAX30102 센서가 없는 경우 시뮬레이션
   oxygenSaturation = 95 + random(0, 5);
+}
+
+void measureAcceleration() {
+  // MPU6050 가속도계 시뮬레이션 (실제 센서가 있는 경우 I2C 통신)
+  accelerationX = (random(-100, 100) / 100.0) * 9.8; // m/s²
+  accelerationY = (random(-100, 100) / 100.0) * 9.8;
+  accelerationZ = (random(90, 110) / 100.0) * 9.8; // 중력 가속도 포함
+}
+
+void measureStepCount() {
+  // 가속도계 데이터를 기반으로 걸음 수 계산
+  float totalAcceleration = sqrt(accelerationX*accelerationX + accelerationY*accelerationY + accelerationZ*accelerationZ);
+  
+  // 간단한 걸음 감지 알고리즘
+  if (totalAcceleration > 11.0 && totalAcceleration < 15.0) {
+    stepCount++;
+  }
+}
+
+void checkBatteryLevel() {
+  if (millis() - lastBatteryCheck > 60000) { // 1분마다 확인
+    // 실제로는 ADC를 통해 배터리 전압 측정
+    batteryLevel = random(80, 100);
+    lastBatteryCheck = millis();
+  }
+}
+
+void updateSignalStrength() {
+  if (isConnected) {
+    signalStrength = WiFi.RSSI();
+  } else {
+    signalStrength = -100; // 연결되지 않음
+  }
 }
 
 void analyzeHealthStatus() {
@@ -312,17 +369,46 @@ void sendDataToServer() {
   HTTPClient http;
   http.begin(serverURL);
   http.addHeader("Content-Type", "application/json");
+  http.addHeader("User-Agent", "GreenWear-ESP32/2.0");
   
   // JSON 데이터 생성
-  DynamicJsonDocument doc(1024);
-  doc["deviceId"] = "ESP32_001";
+  DynamicJsonDocument doc(2048);
+  
+  // 디바이스 정보
+  doc["deviceId"] = deviceId;
+  doc["deviceName"] = deviceName;
+  doc["firmwareVersion"] = firmwareVersion;
+  doc["timestamp"] = millis();
+  
+  // 센서 데이터
   doc["heartRate"] = heartRate;
   doc["temperature"] = temperature;
   doc["oxygenSaturation"] = oxygenSaturation;
+  doc["stepCount"] = stepCount;
+  
+  // 가속도계 데이터
+  JsonObject acceleration = doc.createNestedObject("acceleration");
+  acceleration["x"] = accelerationX;
+  acceleration["y"] = accelerationY;
+  acceleration["z"] = accelerationZ;
+  
+  // 디바이스 상태
   doc["status"] = deviceStatus;
-  doc["timestamp"] = millis();
-  doc["batteryLevel"] = random(80, 100);
-  doc["signalStrength"] = WiFi.RSSI();
+  doc["batteryLevel"] = batteryLevel;
+  doc["signalStrength"] = signalStrength;
+  doc["wifiConnected"] = isConnected;
+  
+  // 위치 정보 (GPS가 있는 경우)
+  JsonObject location = doc.createNestedObject("location");
+  location["latitude"] = 37.5665; // 서울시청 좌표 (시뮬레이션)
+  location["longitude"] = 126.9780;
+  location["altitude"] = 50.0;
+  
+  // 건강 지표 계산
+  JsonObject healthMetrics = doc.createNestedObject("healthMetrics");
+  healthMetrics["stressLevel"] = calculateStressLevel();
+  healthMetrics["activityLevel"] = calculateActivityLevel();
+  healthMetrics["sleepQuality"] = calculateSleepQuality();
   
   String jsonString;
   serializeJson(doc, jsonString);
@@ -336,6 +422,16 @@ void sendDataToServer() {
     String response = http.getString();
     Serial.println("Server response: " + String(httpResponseCode));
     Serial.println("Response: " + response);
+    
+    // 서버 응답 처리
+    DynamicJsonDocument responseDoc(512);
+    deserializeJson(responseDoc, response);
+    
+    if (responseDoc["success"]) {
+      currentLEDState = LED_NORMAL;
+    } else {
+      currentLEDState = LED_WARNING;
+    }
   } else {
     Serial.println("Error sending data: " + String(httpResponseCode));
     currentLEDState = LED_ERROR;
@@ -395,11 +491,55 @@ void testLEDs() {
   pixels.show();
 }
 
+// 건강 지표 계산 함수들
+int calculateStressLevel() {
+  // 심박수 변이성 기반 스트레스 수준 계산 (0-100)
+  int baseStress = 30;
+  int heartRateStress = 0;
+  
+  if (heartRate > 100) {
+    heartRateStress = (heartRate - 100) * 2;
+  } else if (heartRate < 60) {
+    heartRateStress = (60 - heartRate) * 1.5;
+  }
+  
+  return min(100, baseStress + heartRateStress);
+}
+
+int calculateActivityLevel() {
+  // 걸음 수와 가속도 기반 활동 수준 계산 (0-100)
+  float totalAcceleration = sqrt(accelerationX*accelerationX + accelerationY*accelerationY + accelerationZ*accelerationZ);
+  int accelerationLevel = (totalAcceleration - 9.8) * 10; // 중력 제외
+  
+  int stepLevel = min(100, stepCount / 10); // 걸음 수 기반
+  
+  return min(100, max(accelerationLevel, stepLevel));
+}
+
+int calculateSleepQuality() {
+  // 심박수와 체온 기반 수면 품질 계산 (0-100)
+  int heartRateScore = 100;
+  if (heartRate < 50 || heartRate > 80) {
+    heartRateScore = 60;
+  }
+  
+  int temperatureScore = 100;
+  if (temperature < 36.0 || temperature > 37.0) {
+    temperatureScore = 70;
+  }
+  
+  return (heartRateScore + temperatureScore) / 2;
+}
+
 void printStatus() {
   Serial.println("=== GreenWear Status ===");
+  Serial.println("Device ID: " + String(deviceId));
   Serial.println("Heart Rate: " + String(heartRate) + " BPM");
   Serial.println("Temperature: " + String(temperature, 1) + " °C");
   Serial.println("Oxygen Saturation: " + String(oxygenSaturation) + "%");
+  Serial.println("Step Count: " + String(stepCount));
+  Serial.println("Battery Level: " + String(batteryLevel) + "%");
+  Serial.println("Signal Strength: " + String(signalStrength) + " dBm");
   Serial.println("Status: " + deviceStatus);
   Serial.println("WiFi Connected: " + String(isConnected ? "Yes" : "No"));
   Serial.println("LED State: " + String(currentLEDState));

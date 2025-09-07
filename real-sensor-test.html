@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>실제 센서 데이터 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .sensor-data {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .sensor-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .sensor-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .sensor-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #6c757d; cursor: not-allowed; }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 실제 센서 데이터 테스트</h1>
+        <p>웹 브라우저에서 실제 센서 데이터를 수집하여 서버로 전송합니다.</p>
+        
+        <div id="status" class="status warning">
+            센서 접근 권한을 요청하세요.
+        </div>
+        
+        <div class="sensor-data">
+            <div class="sensor-card">
+                <div class="sensor-value" id="heartRate">--</div>
+                <div class="sensor-label">심박수 (BPM)</div>
+            </div>
+            <div class="sensor-card">
+                <div class="sensor-value" id="steps">--</div>
+                <div class="sensor-label">걸음 수</div>
+            </div>
+            <div class="sensor-card">
+                <div class="sensor-value" id="acceleration">--</div>
+                <div class="sensor-label">가속도 (m/s²)</div>
+            </div>
+            <div class="sensor-card">
+                <div class="sensor-value" id="orientation">--</div>
+                <div class="sensor-label">방향 (도)</div>
+            </div>
+        </div>
+        
+        <div>
+            <button onclick="requestPermissions()">센서 권한 요청</button>
+            <button onclick="startCollection()" id="startBtn" disabled>데이터 수집 시작</button>
+            <button onclick="stopCollection()" id="stopBtn" disabled>수집 중지</button>
+            <button onclick="sendToServer()" id="sendBtn" disabled>서버로 전송</button>
+        </div>
+        
+        <h3>실시간 로그</h3>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let isCollecting = false;
+        let sensorData = {
+            heartRate: 0,
+            steps: 0,
+            acceleration: { x: 0, y: 0, z: 0 },
+            orientation: { alpha: 0, beta: 0, gamma: 0 },
+            timestamp: 0
+        };
+        
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `[${time}] ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        async function requestPermissions() {
+            try {
+                // 가속도계 권한 요청
+                if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+                    const permission = await DeviceMotionEvent.requestPermission();
+                    if (permission !== 'granted') {
+                        updateStatus('가속도계 권한이 거부되었습니다.', 'error');
+                        return;
+                    }
+                }
+                
+                // 방향 센서 권한 요청
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    const permission = await DeviceOrientationEvent.requestPermission();
+                    if (permission !== 'granted') {
+                        updateStatus('방향 센서 권한이 거부되었습니다.', 'error');
+                        return;
+                    }
+                }
+                
+                updateStatus('센서 권한이 허용되었습니다!', 'success');
+                document.getElementById('startBtn').disabled = false;
+                log('센서 권한이 허용되었습니다.');
+                
+            } catch (error) {
+                updateStatus('권한 요청 중 오류가 발생했습니다.', 'error');
+                log(`권한 요청 오류: ${error.message}`);
+            }
+        }
+        
+        function startCollection() {
+            if (isCollecting) return;
+            
+            isCollecting = true;
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            
+            updateStatus('데이터 수집 중...', 'success');
+            log('데이터 수집을 시작합니다.');
+            
+            // 가속도계 이벤트 리스너
+            window.addEventListener('devicemotion', handleMotion);
+            
+            // 방향 센서 이벤트 리스너
+            window.addEventListener('deviceorientation', handleOrientation);
+            
+            // 심박수 시뮬레이션 (실제로는 카메라 기반 PPG 필요)
+            startHeartRateSimulation();
+            
+            // 걸음 수 계산
+            startStepCounting();
+        }
+        
+        function stopCollection() {
+            isCollecting = false;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            
+            updateStatus('데이터 수집이 중지되었습니다.', 'warning');
+            log('데이터 수집을 중지합니다.');
+            
+            window.removeEventListener('devicemotion', handleMotion);
+            window.removeEventListener('deviceorientation', handleOrientation);
+        }
+        
+        function handleMotion(event) {
+            if (!isCollecting) return;
+            
+            const { x, y, z } = event.accelerationIncludingGravity;
+            sensorData.acceleration = { x, y, z };
+            
+            const totalAcceleration = Math.sqrt(x*x + y*y + z*z);
+            document.getElementById('acceleration').textContent = totalAcceleration.toFixed(2);
+            
+            log(`가속도: x=${x.toFixed(2)}, y=${y.toFixed(2)}, z=${z.toFixed(2)}`);
+        }
+        
+        function handleOrientation(event) {
+            if (!isCollecting) return;
+            
+            const { alpha, beta, gamma } = event;
+            sensorData.orientation = { alpha, beta, gamma };
+            
+            document.getElementById('orientation').textContent = 
+                `α:${alpha.toFixed(1)}° β:${beta.toFixed(1)}° γ:${gamma.toFixed(1)}°`;
+        }
+        
+        function startHeartRateSimulation() {
+            // 실제로는 카메라를 사용한 PPG (Photoplethysmography) 방식 필요
+            setInterval(() => {
+                if (!isCollecting) return;
+                
+                // 심박수 시뮬레이션 (60-100 BPM)
+                sensorData.heartRate = 70 + Math.sin(Date.now() / 1000) * 10 + Math.random() * 5;
+                document.getElementById('heartRate').textContent = Math.round(sensorData.heartRate);
+            }, 1000);
+        }
+        
+        function startStepCounting() {
+            let lastAcceleration = 0;
+            let stepCount = 0;
+            
+            setInterval(() => {
+                if (!isCollecting) return;
+                
+                const currentAcceleration = Math.sqrt(
+                    sensorData.acceleration.x ** 2 + 
+                    sensorData.acceleration.y ** 2 + 
+                    sensorData.acceleration.z ** 2
+                );
+                
+                // 걸음 감지 알고리즘 (간단한 버전)
+                if (Math.abs(currentAcceleration - lastAcceleration) > 2) {
+                    stepCount++;
+                    sensorData.steps = stepCount;
+                    document.getElementById('steps').textContent = stepCount;
+                    log(`걸음 감지! 총 ${stepCount}걸음`);
+                }
+                
+                lastAcceleration = currentAcceleration;
+            }, 100);
+        }
+        
+        async function sendToServer() {
+            try {
+                sensorData.timestamp = Date.now();
+                
+                const response = await fetch('http://localhost:5000/api/wearable/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        deviceId: 'WEB_BROWSER_001',
+                        deviceName: 'Web Browser Sensor',
+                        deviceType: 'web_browser',
+                        heartRate: Math.round(sensorData.heartRate),
+                        steps: sensorData.steps,
+                        acceleration: sensorData.acceleration,
+                        orientation: sensorData.orientation,
+                        timestamp: sensorData.timestamp
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    updateStatus('데이터가 성공적으로 전송되었습니다!', 'success');
+                    log(`서버 응답: ${JSON.stringify(result)}`);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                updateStatus('서버 전송 실패: ' + error.message, 'error');
+                log(`전송 오류: ${error.message}`);
+            }
+        }
+        
+        // 페이지 로드 시 초기화
+        window.addEventListener('load', () => {
+            log('실제 센서 데이터 테스트 페이지가 로드되었습니다.');
+            log('HTTPS 환경에서만 센서에 접근할 수 있습니다.');
+        });
+    </script>
+</body>
+</html>
