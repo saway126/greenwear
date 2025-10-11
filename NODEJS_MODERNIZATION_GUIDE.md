@@ -1,7 +1,7 @@
 # 🚀 Node.js 현대화 가이드
 
 > **GreenWear 프로젝트 - Node.js 최신 기능 활용 및 의존성 축소 가이드**  
-> **작성일**: 2025년 1월  
+> **작성일**: 2025년 10월  
 > **Node.js 버전**: 18.20.8 이상 권장
 
 ---
@@ -597,7 +597,7 @@ db.exec('CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)');
 
 ---
 
-**마지막 업데이트**: 2025년 1월  
+**마지막 업데이트**: 2025년 10월  
 **작성자**: GreenWear Development Team  
 **버전**: 1.0.0
 

@@ -1,7 +1,7 @@
 # 🤖 AI 도구 활용 워크플로우 가이드
 
 > **GPT Pro, Gemini Pro CLI, Cursor AI Pro를 활용한 생산성 5배 향상 전략**  
-> **작성일**: 2025년 1월  
+> **작성일**: 2025년 10월  
 > **대상**: GreenWear 프로젝트 개발자
 
 ---
@@ -659,7 +659,7 @@ ai-prompts/
 
 ---
 
-**마지막 업데이트**: 2025년 1월  
+**마지막 업데이트**: 2025년 10월  
 **작성자**: GreenWear Development Team  
 **버전**: 1.0.0  
 **도구**: GPT Pro, Gemini Pro CLI, Cursor AI Pro
