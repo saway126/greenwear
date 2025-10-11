@@ -1,19 +1,77 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS 설정
+// CORS 설정 강화 (보안)
+const allowedOrigins = [
+  'https://greenwear-demo.vercel.app',
+  'https://greenwear-backend-node-production-1583.up.railway.app',
+  'https://greenweariot-production.up.railway.app',
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5173' : null,
+  process.env.NODE_ENV === 'development' ? 'http://localhost:5000' : null
+].filter(Boolean);
+
+// 보안 헤더 설정 (Helmet)
+app.use(helmet({
+  contentSecurityPolicy: false, // Vercel에서 처리
+  crossOriginEmbedderPolicy: false
+}));
+
 app.use(cors({
-  origin: '*',
+  origin: function(origin, callback) {
+    // 같은 도메인 요청이거나 허용된 출처인 경우
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️  CORS 차단: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key']
 }));
 
+// Rate Limiting 설정
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15분
+  max: 100, // IP당 100 요청
+  message: '너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    console.warn(`🚨 Rate Limit 초과: ${req.ip}`);
+    res.status(429).json({
+      success: false,
+      message: '너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.',
+      retryAfter: '15분'
+    });
+  }
+});
+
+// IoT 디바이스용 Rate Limit (더 높은 제한)
+const iotLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1분
+  max: 60, // 디바이스당 분당 60 요청
+  message: 'IoT 데이터 업로드 한도 초과',
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    // deviceId를 키로 사용
+    return req.body.deviceId || req.ip;
+  }
+});
+
 // JSON 파싱
 app.use(express.json());
+
+// API 전체에 Rate Limit 적용
+app.use('/api/', apiLimiter);
 
 // 정적 파일 서빙 (프론트엔드)
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -199,8 +257,8 @@ app.get('/api/monitoring', (req, res) => {
 let wearableDataStore = [];
 let deviceStats = {};
 
-// IoT Wearable Data API
-app.post('/api/wearable/data', (req, res) => {
+// IoT Wearable Data API (IoT 전용 Rate Limit 적용)
+app.post('/api/wearable/data', iotLimiter, (req, res) => {
   const {
     deviceId,
     deviceName,
