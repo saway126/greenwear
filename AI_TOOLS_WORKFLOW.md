@@ -1,6 +1,6 @@
 # 🤖 AI 도구 활용 워크플로우 가이드
 
-> **GPT Pro, Gemini Pro CLI, Cursor AI Pro를 활용한 생산성 5배 향상 전략**  
+> **GPT Pro, Gemini Pro CLI, Cursor AI Pro를 활용한 개발 효율성 향상 전략**  
 > **작성일**: 2025년 10월  
 > **대상**: GreenWear 프로젝트 개발자
 
@@ -32,9 +32,9 @@
 
 ## 2. 통합 AI 워크플로우 구축
 
-### 🎯 Archon OS 원리 적용
+### 🎯 통합 워크플로우 원리 적용
 
-**Archon OS**는 프로젝트의 **지식, 맥락, 태스크**를 중앙에서 관리하고 AI 도우미와 공유하여 **일관된 협업 환경**을 구성합니다.
+프로젝트의 **지식, 맥락, 태스크**를 중앙에서 관리하고 AI 도우미와 공유하여 **일관된 협업 환경**을 구성하는 것이 중요합니다.
 
 #### 2.1 중앙 지식 베이스 구성
 
@@ -358,9 +358,9 @@ jobs:
 
 ## 6. RAG 기반 지식 베이스 구축
 
-### 📚 Notebook LM 원리 적용
+### 📚 RAG 기반 지식 베이스 구축
 
-**Notebook LM**은 사용자가 제공한 원본 소스를 기반으로 답변하여 환각(hallucination)을 거의 제거합니다.
+**RAG(Retrieval-Augmented Generation)**는 사용자가 제공한 원본 소스를 기반으로 답변하여 환각(hallucination)을 줄입니다.
 
 #### 6.1 프로젝트 지식 베이스 구성
 
@@ -561,7 +561,7 @@ Mermaid 다이어그램 형식으로 출력
 
 ## 8. 효율성 극대화 팁
 
-### ⚡ 생산성 5배 향상 전략
+### ⚡ 개발 효율성 향상 전략
 
 #### 8.1 도구별 최적 사용 시점
 
@@ -653,9 +653,8 @@ ai-prompts/
 - [Google Gemini API](https://ai.google.dev/docs)
 
 ### 📚 관련 학습 자료
-- [Notebook LM 사용법](https://notebooklm.google/)
 - [RAG 구현 가이드](https://python.langchain.com/docs/use_cases/question_answering/)
-- [Archon OS 개념](https://github.com/sanchezh/archon)
+- [AI 도구 통합 워크플로우](https://docs.github.com/en/copilot/getting-started-with-github-copilot)
 
 ---
 

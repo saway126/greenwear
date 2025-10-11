@@ -204,7 +204,7 @@ npm run test:coverage
 
 **내용**:
 1. 긴급 보안 조치
-   - Git 저장소 보안 강화
+   - 레드햇 저장소 유출 대응
    - Redis 치명적 취약점 대응
 2. Git 저장소 보안
 3. 데이터베이스 보안
@@ -240,11 +240,11 @@ npm run test:coverage
 
 **내용**:
 1. 보유 AI 도구 개요 (Cursor AI, GPT Pro, Gemini CLI)
-2. 통합 AI 워크플로우 구축
+2. 통합 AI 워크플로우 구축 (Archon OS 원리)
 3. Cursor AI Pro 활용법
 4. GPT Pro (ChatGPT Codex) 활용법
 5. Gemini Pro CLI 활용법
-6. RAG 기반 지식 베이스 구축
+6. RAG 기반 지식 베이스 구축 (Notebook LM 원리)
 7. 실전 사용 시나리오
 
 ---

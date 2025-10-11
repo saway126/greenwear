@@ -38,9 +38,9 @@
 **URL**: https://greenwear-demo.vercel.app
 
 **배포 상태**: 
-- 🔄 자동 배포 진행 중...
-- GitHub 푸시 감지됨
-- 빌드 시작됨
+- ✅ GitHub 푸시 완료
+- 🔄 Vercel 배포 진행 중
+- 🔄 Railway 배포 진행 중
 
 **확인 방법**:
 ```bash
