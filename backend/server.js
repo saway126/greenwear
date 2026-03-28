@@ -3,9 +3,58 @@ const cors = require('cors');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// 간단한 데모용 인증/푸시 저장소 (운영에서는 DB/Redis로 교체 필요)
+const users = [
+  {
+    id: 1,
+    name: 'Demo User',
+    email: 'demo@greenwear.com',
+    password: 'demo1234'
+  }
+];
+const sessions = new Map();
+const pushRegistrations = [];
+const mobileDeviceLinks = [];
+
+const createSession = (user) => {
+  const token = crypto.randomBytes(24).toString('hex');
+  sessions.set(token, {
+    userId: user.id,
+    issuedAt: Date.now()
+  });
+  return token;
+};
+
+const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+  if (!token || !sessions.has(token)) {
+    return res.status(401).json({
+      success: false,
+      message: '인증이 필요합니다.'
+    });
+  }
+
+  const session = sessions.get(token);
+  const user = users.find((item) => item.id === session.userId);
+  if (!user) {
+    sessions.delete(token);
+    return res.status(401).json({
+      success: false,
+      message: '유효하지 않은 세션입니다.'
+    });
+  }
+
+  req.user = user;
+  req.token = token;
+  next();
+};
 
 // CORS 설정 강화 (보안)
 const allowedOrigins = [
@@ -93,6 +142,90 @@ app.get('/api/health', (req, res) => {
       issues: [],
       uptime: process.uptime(),
       memoryUsage: process.memoryUsage()
+    }
+  });
+});
+
+// Auth APIs
+app.post('/api/auth/register', (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'name, email, password는 필수입니다.'
+    });
+  }
+
+  const duplicatedUser = users.find((item) => item.email.toLowerCase() === String(email).toLowerCase());
+  if (duplicatedUser) {
+    return res.status(409).json({
+      success: false,
+      message: '이미 사용 중인 이메일입니다.'
+    });
+  }
+
+  const newUser = {
+    id: users.length + 1,
+    name,
+    email,
+    password
+  };
+  users.push(newUser);
+
+  const token = createSession(newUser);
+  res.status(201).json({
+    success: true,
+    data: {
+      token,
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email
+      }
+    }
+  });
+});
+
+app.post('/api/auth/login', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'email, password는 필수입니다.'
+    });
+  }
+
+  const user = users.find((item) => item.email.toLowerCase() === String(email).toLowerCase());
+  if (!user || user.password !== password) {
+    return res.status(401).json({
+      success: false,
+      message: '이메일 또는 비밀번호가 올바르지 않습니다.'
+    });
+  }
+
+  const token = createSession(user);
+  res.json({
+    success: true,
+    data: {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
+    }
+  });
+});
+
+app.get('/api/auth/me', authMiddleware, (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      id: req.user.id,
+      name: req.user.name,
+      email: req.user.email
     }
   });
 });
@@ -439,6 +572,63 @@ app.get('/api/wearable/alerts', (req, res) => {
     data: alerts,
     total: alerts.length,
     message: '경고 데이터를 성공적으로 조회했습니다.'
+  });
+});
+
+// 모바일 디바이스 연동 API
+app.post('/api/mobile/device/link', authMiddleware, (req, res) => {
+  const { deviceId, deviceName, platform } = req.body;
+
+  if (!deviceId || !deviceName) {
+    return res.status(400).json({
+      success: false,
+      message: 'deviceId, deviceName은 필수입니다.'
+    });
+  }
+
+  const existing = mobileDeviceLinks.find((item) => item.userId === req.user.id && item.deviceId === deviceId);
+  if (!existing) {
+    mobileDeviceLinks.push({
+      userId: req.user.id,
+      deviceId,
+      deviceName,
+      platform: platform || 'android',
+      linkedAt: new Date().toISOString()
+    });
+  }
+
+  res.json({
+    success: true,
+    message: '디바이스 연동이 완료되었습니다.',
+    data: mobileDeviceLinks.filter((item) => item.userId === req.user.id)
+  });
+});
+
+// 푸시 토큰 등록 API
+app.post('/api/push/register', authMiddleware, (req, res) => {
+  const { token, platform, deviceId } = req.body;
+  if (!token) {
+    return res.status(400).json({
+      success: false,
+      message: '푸시 토큰이 필요합니다.'
+    });
+  }
+
+  const duplicate = pushRegistrations.find((item) => item.token === token);
+  if (!duplicate) {
+    pushRegistrations.push({
+      token,
+      userId: req.user.id,
+      platform: platform || 'android',
+      deviceId: deviceId || 'unknown',
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  res.json({
+    success: true,
+    message: '푸시 토큰이 등록되었습니다.',
+    totalRegistrations: pushRegistrations.length
   });
 });
 

@@ -1,0 +1,82 @@
+# ===================== 공통 =====================
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: blog-promotion-generator
+
+logging:
+  level:
+    com.bloggen: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    # DB 연결 진단 로그
+    com.zaxxer.hikari: DEBUG
+    org.springframework.boot.autoconfigure.jdbc: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ===================== 개발(H2) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:blogdb;DB_CLOSE_DELAY=-1;MODE=MYSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# ===================== 운영(PostgreSQL on Railway) =====================
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # Railway는 PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE를 자동 주입합니다.
+    # SSL 필요 환경 대비해 ?sslmode=require 추가
+    url: jdbc:postgresql://${PGHOST:${DB_HOST}}:${PGPORT:${DB_PORT}}/${PGDATABASE:${DB_NAME}}?sslmode=require
+    username: ${PGUSER:${DB_USER}}
+    password: ${PGPASSWORD:${DB_PASS}}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+
+# 선택: SQL 스크립트를 강제로 실행하고 싶으면 아래 켜기
+# spring:
+#   sql:
+#     init:
+#       mode: always 
