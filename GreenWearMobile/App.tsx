@@ -4,7 +4,6 @@ import {
   Alert,
   FlatList,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -16,6 +15,7 @@ import * as SecureStore from 'expo-secure-store';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type TabKey = 'dashboard' | 'ai' | 'device' | 'alerts' | 'eco';
 
@@ -404,7 +404,7 @@ export default function App() {
 
   if (loadingSession) {
     return (
-      <SafeAreaView style={styles.centered}>
+      <SafeAreaView edges={['top']} style={styles.centered}>
         <StatusBar barStyle="dark-content" />
         <ActivityIndicator size="large" color="#0f766e" />
         <Text style={styles.mutedText}>세션 확인 중...</Text>
@@ -414,7 +414,7 @@ export default function App() {
 
   if (!session) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView edges={['top']} style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={styles.authContainer}>
           <Text style={styles.appTitle}>GreenWear Mobile</Text>
@@ -461,7 +461,7 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <View>
