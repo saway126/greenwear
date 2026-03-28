@@ -1,7 +1,7 @@
-package com.greenwear.demo.service;
+package com.greenwear.vitals;
 
+import com.greenwear.demo.vitals.VitalsService;
 import org.junit.jupiter.api.Test;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VitalsServiceTest {

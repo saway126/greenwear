@@ -1,6 +1,6 @@
 package com.greenwear.demo.repository;
 
-import com.greenwear.demo.entity.WearableData;
+import com.greenwear.demo.model.WearableData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

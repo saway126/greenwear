@@ -1,6 +1,6 @@
 package com.greenwear.demo.service;
 
-import com.greenwear.demo.entity.WearableData;
+import com.greenwear.demo.model.WearableData;
 import com.greenwear.demo.repository.WearableDataRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

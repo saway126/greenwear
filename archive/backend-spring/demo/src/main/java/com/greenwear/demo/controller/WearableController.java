@@ -1,6 +1,6 @@
 package com.greenwear.demo.controller;
 
-import com.greenwear.demo.entity.WearableData;
+import com.greenwear.demo.model.WearableData;
 import com.greenwear.demo.service.WearableService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

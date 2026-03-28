@@ -60,9 +60,17 @@ type AnalysisResponse = {
   timestamp: string;
 };
 
-const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_BASE_URL ??
-  'https://greenwear-backend-node-production-1583.up.railway.app';
+const DEFAULT_API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:8080';
+const API_BASE_CANDIDATES = Array.from(
+  new Set([
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+    'http://10.0.2.2:8080',
+    DEFAULT_API_BASE_URL,
+  ])
+);
+let preferredApiBaseUrl: string | null = null;
 const SESSION_KEY = 'greenwear_session';
 
 Notifications.setNotificationHandler({
@@ -79,20 +87,81 @@ async function apiRequest<T>(
   options: RequestInit = {},
   token?: string | null
 ): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers ?? {}),
-    },
-  });
+  const baseUrls = preferredApiBaseUrl
+    ? [preferredApiBaseUrl, ...API_BASE_CANDIDATES.filter((url) => url !== preferredApiBaseUrl)]
+    : API_BASE_CANDIDATES;
 
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(data?.message ?? '요청 처리 중 오류가 발생했습니다.');
+  let lastNetworkError: unknown = null;
+  for (const baseUrl of baseUrls) {
+    try {
+      const response = await fetch(`${baseUrl}${path}`, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...(options.headers ?? {}),
+        },
+      });
+
+      const text = await response.text();
+      let data: any = {};
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        data = { message: text };
+      }
+
+      if (!response.ok) {
+        const message = data?.message ?? `HTTP ${response.status}`;
+        const retryableHttpError =
+          response.status >= 500 ||
+          response.status === 404 ||
+          String(message).toLowerCase().includes('application not found') ||
+          String(message).toLowerCase().includes('cannot get');
+
+        if (retryableHttpError) {
+          lastNetworkError = new Error(`[${baseUrl}] ${message}`);
+          continue;
+        }
+
+        throw new Error(message);
+      }
+
+      preferredApiBaseUrl = baseUrl;
+      return data as T;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const isNetworkError =
+        error instanceof TypeError || message.includes('Network request failed') || message.includes('fetch');
+
+      if (!isNetworkError) {
+        throw error;
+      }
+      lastNetworkError = error;
+    }
   }
-  return data as T;
+
+  throw lastNetworkError ?? new Error('모든 API 엔드포인트 연결에 실패했습니다.');
+}
+
+function normalizeStatus(statusLabel?: string, status?: string): 'normal' | 'warning' | 'critical' {
+  const raw = (status ?? statusLabel ?? '').toLowerCase();
+  if (raw.includes('경고') || raw.includes('critical') || raw.includes('red')) return 'critical';
+  if (raw.includes('주의') || raw.includes('warning') || raw.includes('yellow')) return 'warning';
+  return 'normal';
+}
+
+function normalizeWearable(raw: any): WearableData {
+  return {
+    id: Number(raw?.id ?? Date.now()),
+    deviceId: String(raw?.deviceId ?? 'unknown-device'),
+    deviceName: String(raw?.deviceName ?? `Wearable-${raw?.deviceId ?? 'unknown'}`),
+    heartRate: Number(raw?.heartRate ?? 0),
+    temperature: Number(raw?.temperature ?? raw?.coreTemperature ?? 0),
+    oxygenSaturation: Number(raw?.oxygenSaturation ?? raw?.spo2 ?? 0),
+    status: normalizeStatus(raw?.statusLabel, raw?.status),
+    timestamp: Number(raw?.timestamp ?? Date.now()),
+  };
 }
 
 export default function App() {
@@ -100,8 +169,8 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('dashboard');
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('demo@greenwear.com');
-  const [password, setPassword] = useState('demo1234');
+  const [email, setEmail] = useState('mobileuser@example.com');
+  const [password, setPassword] = useState('pass1234');
   const [name, setName] = useState('GreenWear User');
   const [submittingAuth, setSubmittingAuth] = useState(false);
 
@@ -150,8 +219,8 @@ export default function App() {
 
   const fetchVitals = useCallback(async () => {
     try {
-      const realtime = await apiRequest<WearableData[]>('/api/wearable/realtime?limit=20', {}, token);
-      setVitals(realtime);
+      const realtime = await apiRequest<any[]>('/api/wearable/realtime?limit=20', {}, token);
+      setVitals(Array.isArray(realtime) ? realtime.map(normalizeWearable) : []);
     } catch (error) {
       console.warn(error);
     } finally {
@@ -174,8 +243,8 @@ export default function App() {
   const fetchAlerts = useCallback(async () => {
     try {
       setAlertsLoading(true);
-      const response = await apiRequest<{ success: boolean; data: WearableData[] }>('/api/wearable/alerts', {}, token);
-      setAlerts(response.data);
+      const response = await apiRequest<{ success: boolean; data: any[] }>('/api/wearable/alerts', {}, token);
+      setAlerts((response.data ?? []).map(normalizeWearable));
     } catch (error: unknown) {
       Alert.alert('알림 로드 실패', String(error));
     } finally {
@@ -385,7 +454,7 @@ export default function App() {
               {mode === 'login' ? '계정이 없나요? 회원가입' : '이미 계정이 있나요? 로그인'}
             </Text>
           </Pressable>
-          <Text style={styles.helperText}>테스트 계정: demo@greenwear.com / demo1234</Text>
+          <Text style={styles.helperText}>테스트 계정: mobileuser@example.com / pass1234</Text>
         </View>
       </SafeAreaView>
     );
@@ -409,7 +478,7 @@ export default function App() {
           <View style={styles.statusCard}>
             <Text style={styles.sectionTitle}>실시간 상태</Text>
             <Text style={styles.statusText}>{healthStatusText}</Text>
-            <Text style={styles.mutedText}>기준 API: {API_BASE_URL}</Text>
+            <Text style={styles.mutedText}>기준 API: {preferredApiBaseUrl ?? DEFAULT_API_BASE_URL}</Text>
           </View>
           {dashboardLoading ? (
             <ActivityIndicator size="large" color="#0f766e" />

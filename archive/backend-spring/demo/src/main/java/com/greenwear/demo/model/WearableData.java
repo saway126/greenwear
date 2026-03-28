@@ -1,4 +1,4 @@
-package com.greenwear.demo.entity;
+package com.greenwear.demo.model;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
