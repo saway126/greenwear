@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="user">
+
+    <!-- 회원 ID로 조회 -->
+    <select id="selectById">
+        SELECT u.id, u.username, u.email, u.password, u.full_name, u.phone_number,
+               u.is_active, u.created_at, u.updated_at,
+               GROUP_CONCAT(r.role ORDER BY r.role SEPARATOR ',') AS role
+        FROM users u
+        LEFT JOIN user_roles r ON u.id = r.user_id
+        WHERE u.id = ?
+        GROUP BY u.id
+    </select>
+
+    <!-- 이메일로 조회 (로그인) -->
+    <select id="selectByEmail">
+        SELECT u.id, u.username, u.email, u.password, u.full_name, u.phone_number,
+               u.is_active, u.created_at, u.updated_at,
+               GROUP_CONCAT(r.role ORDER BY r.role SEPARATOR ',') AS role
+        FROM users u
+        LEFT JOIN user_roles r ON u.id = r.user_id
+        WHERE u.email = ?
+        GROUP BY u.id
+    </select>
+
+    <!-- 사용자명으로 조회 -->
+    <select id="selectByUsername">
+        SELECT u.id, u.username, u.email, u.password, u.full_name, u.phone_number,
+               u.is_active, u.created_at,
+               GROUP_CONCAT(r.role ORDER BY r.role SEPARATOR ',') AS role
+        FROM users u
+        LEFT JOIN user_roles r ON u.id = r.user_id
+        WHERE u.username = ?
+        GROUP BY u.id
+    </select>
+
+    <!-- 전체 사용자 목록 -->
+    <select id="selectAll">
+        SELECT u.id, u.username, u.email, u.full_name, u.phone_number,
+               u.is_active, u.created_at
+        FROM users u
+        ORDER BY u.created_at DESC
+    </select>
+
+    <!-- 회원 등록 -->
+    <insert id="insert">
+        INSERT INTO users (username, email, password, full_name, phone_number, is_active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, TRUE, NOW(), NOW())
+    </insert>
+
+    <!-- 기본 역할 부여 -->
+    <insert id="insertRole">
+        INSERT INTO user_roles (user_id, role) VALUES (?, ?)
+    </insert>
+
+    <!-- 회원 정보 수정 -->
+    <update id="update">
+        UPDATE users
+        SET full_name = ?, phone_number = ?, updated_at = NOW()
+        WHERE id = ?
+    </update>
+
+    <!-- 비밀번호 변경 -->
+    <update id="updatePassword">
+        UPDATE users
+        SET password = ?, updated_at = NOW()
+        WHERE id = ?
+    </update>
+
+    <!-- 계정 활성화 토글 -->
+    <update id="updateActive">
+        UPDATE users SET is_active = ?, updated_at = NOW() WHERE id = ?
+    </update>
+
+    <!-- 회원 삭제 -->
+    <delete id="delete">
+        DELETE FROM users WHERE id = ?
+    </delete>
+
+    <!-- 역할 삭제 -->
+    <delete id="deleteRole">
+        DELETE FROM user_roles WHERE user_id = ?
+    </delete>
+
+    <!-- 이메일 중복 확인 -->
+    <select id="countByEmail">
+        SELECT COUNT(*) FROM users WHERE email = ?
+    </select>
+
+    <!-- 사용자명 중복 확인 -->
+    <select id="countByUsername">
+        SELECT COUNT(*) FROM users WHERE username = ?
+    </select>
+
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="order">
+
+    <!-- 주문 전체 목록 (관리자) -->
+    <select id="selectAll">
+        SELECT o.id, o.user_id, u.username, o.product_id, p.name AS product_name,
+               o.quantity, o.unit_price, o.total_price, o.status, o.address, o.ordered_at
+        FROM orders o
+        JOIN users u   ON o.user_id   = u.id
+        JOIN products p ON o.product_id = p.id
+        ORDER BY o.ordered_at DESC
+    </select>
+
+    <!-- 주문 ID로 조회 -->
+    <select id="selectById">
+        SELECT o.id, o.user_id, u.username, o.product_id, p.name AS product_name,
+               o.quantity, o.unit_price, o.total_price, o.status, o.address, o.ordered_at
+        FROM orders o
+        JOIN users u   ON o.user_id   = u.id
+        JOIN products p ON o.product_id = p.id
+        WHERE o.id = ?
+    </select>
+
+    <!-- 특정 회원 주문 목록 -->
+    <select id="selectByUserId">
+        SELECT o.id, o.user_id, u.username, o.product_id, p.name AS product_name,
+               o.quantity, o.unit_price, o.total_price, o.status, o.address, o.ordered_at
+        FROM orders o
+        JOIN users u   ON o.user_id   = u.id
+        JOIN products p ON o.product_id = p.id
+        WHERE o.user_id = ?
+        ORDER BY o.ordered_at DESC
+    </select>
+
+    <!-- 주문 등록 -->
+    <insert id="insert">
+        INSERT INTO orders (user_id, product_id, quantity, unit_price, total_price, status, address, ordered_at)
+        VALUES (?, ?, ?, ?, ?, 'PENDING', ?, NOW())
+    </insert>
+
+    <!-- 주문 상태 변경 -->
+    <update id="updateStatus">
+        UPDATE orders SET status = ? WHERE id = ?
+    </update>
+
+    <!-- 주문 취소 -->
+    <update id="cancel">
+        UPDATE orders SET status = 'CANCELLED' WHERE id = ? AND user_id = ? AND status = 'PENDING'
+    </update>
+
+    <!-- 특정 회원 주문 수 -->
+    <select id="countByUserId">
+        SELECT COUNT(*) FROM orders WHERE user_id = ?
+    </select>
+
+</mapper>
