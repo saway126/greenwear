@@ -62,6 +62,20 @@
             <version>0.4</version>
         </dependency>
 
+        <!-- HikariCP 커넥션 풀 -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
+        <!-- SLF4J (HikariCP 로깅) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+
         <!-- XML 파싱 (DOM) - JDK 내장, 명시적 의존성 불필요 -->
     </dependencies>
 

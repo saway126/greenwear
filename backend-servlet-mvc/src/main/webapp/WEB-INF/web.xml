@@ -7,6 +7,11 @@
 
     <display-name>GreenWear Servlet MVC</display-name>
 
+    <!-- 애플리케이션 시작/종료 리스너 (HikariCP 풀 초기화) -->
+    <listener>
+        <listener-class>com.greenwear.listener.AppContextListener</listener-class>
+    </listener>
+
     <!-- 전체 인코딩 필터 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
