@@ -1,73 +1,36 @@
-import mysql from 'mysql2/promise';
+// 상품 API 라우터 (CommonJS, MariaDB)
+const express = require('express');
+const router  = express.Router();
+const db      = require('./database');
 
-async function getConnection() {
-  return await mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'greenwear_user',
-    password: process.env.DB_PASSWORD || 'greenwear_password',
-    database: process.env.DB_NAME || 'greenwear_db',
-  });
-}
+// GET /api/products
+router.get('/', async (req, res) => {
+  const { category, minScore } = req.query;
+  const result = await db.getProducts(category, minScore ? parseFloat(minScore) : null);
+  res.json({ success: result.success, data: result.data || [], total: result.data?.length || 0 });
+});
 
-export default async function handler(req, res) {
-  const { method, query } = req;
-  let connection;
+// GET /api/products/:id
+router.get('/:id', async (req, res) => {
+  const result = await db.getProductById(parseInt(req.params.id));
+  if (!result.success || !result.data) return res.status(404).json({ success: false, message: '상품을 찾을 수 없습니다.' });
+  res.json({ success: true, data: result.data, images: result.images });
+});
 
+// POST /api/products  (관리자용)
+router.post('/', async (req, res) => {
+  const { name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country } = req.body;
+  if (!name || !price || !category) return res.status(400).json({ success: false, message: 'name, price, category는 필수입니다.' });
   try {
-    connection = await getConnection();
-
-    switch (method) {
-      case 'GET':
-        let sql = 'SELECT * FROM products WHERE is_active = true';
-        const params = [];
-
-        if (query.category) {
-          sql += ' AND category = ?';
-          params.push(query.category);
-        }
-
-        if (query.minScore) {
-          sql += ' AND eco_rating >= ?';
-          params.push(parseFloat(query.minScore));
-        }
-
-        const [rows] = await connection.execute(sql, params);
-
-        res.status(200).json({
-          success: true,
-          data: rows,
-          total: rows.length,
-          platform: 'Vercel with DB',
-        });
-        break;
-
-      case 'POST':
-        const newProduct = req.body;
-        const { name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country } = newProduct;
-        
-        const insertSql = 'INSERT INTO products (name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        const insertParams = [name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country, true];
-
-        const [result] = await connection.execute(insertSql, insertParams);
-        const insertedId = result.insertId;
-
-        res.status(201).json({
-          success: true,
-          data: { id: insertedId, ...newProduct },
-          message: 'Product created successfully',
-        });
-        break;
-
-      default:
-        res.setHeader('Allow', ['GET', 'POST']);
-        res.status(405).end(`Method ${method} Not Allowed`);
-    }
-  } catch (error) {
-    console.error('Database Error:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  } finally {
-    if (connection) {
-      await connection.end();
-    }
+    const [result] = await db.pool.execute(
+      `INSERT INTO products (name,description,price,category,size,material,eco_rating,carbon_footprint,stock_quantity,image_url,brand,origin_country,is_active)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,TRUE)`,
+      [name, description, price, category, size, material, eco_rating, carbon_footprint, stock_quantity, image_url, brand, origin_country]
+    );
+    res.status(201).json({ success: true, data: { id: result.insertId, ...req.body } });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
-} 
+});
+
+module.exports = router;
