@@ -1,7 +1,7 @@
 {
   "name": "greenwear-backend",
   "version": "1.0.0",
-  "description": "GreenWear Node.js Backend Server (MariaDB)",
+  "description": "GreenWear Node.js Backend Server (PostgreSQL/MariaDB)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -14,6 +14,7 @@
     "express-rate-limit": "^7.1.5",
     "helmet": "^7.1.0",
     "mysql2": "^3.9.7",
+    "pg": "^8.11.3",
     "winston": "^3.11.0"
   },
   "engines": {
