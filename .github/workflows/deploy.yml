@@ -1,0 +1,45 @@
+name: Deploy GreenWear
+
+on:
+  push:
+    branches: [main, master, feature/servlet-mvc-backend]
+
+jobs:
+  # ── 백엔드 문법 검사 ──────────────────────────────────────────
+  check-backend:
+    name: 백엔드 문법 검사
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+      - name: 패키지 설치
+        run: cd backend && npm ci
+      - name: 문법 검사
+        run: |
+          cd backend
+          for f in server.js api/database.js api/monitoring.js api/ai-analysis.js api/vitals.js api/products.js api/health.js api/vitals-stream.js api/monitoring-endpoint.js; do
+            echo "checking $f..."
+            node --check $f
+          done
+          echo "✅ 모든 파일 문법 오류 없음"
+
+  # ── 프론트엔드 빌드 검사 ──────────────────────────────────────
+  check-frontend:
+    name: 프론트엔드 빌드 검사
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: 패키지 설치
+        run: npm install
+      - name: 빌드 테스트
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: https://greenwear-backend.onrender.com

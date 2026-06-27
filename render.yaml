@@ -1,54 +1,53 @@
+# Render.com 배포 설정 (무료 플랜)
+# https://render.com 에서 "New > Blueprint" 로 이 파일 연결
+
 services:
-  # Spring Boot Backend (Docker)
+  # ── Node.js 백엔드 ──────────────────────────────────────────
   - type: web
-    name: greenwear-backend-spring
-    runtime: docker
-    dockerfilePath: ./backend-spring/demo/Dockerfile
-    dockerContext: ./backend-spring/demo
-    envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: production
-      - key: SERVER_PORT
-        value: 8080
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:h2:mem:testdb
-      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
-        value: org.h2.Driver
-      - key: SPRING_JPA_DATABASE_PLATFORM
-        value: org.hibernate.dialect.H2Dialect
-      - key: SPRING_H2_CONSOLE_ENABLED
-        value: "true"
+    name: greenwear-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
     healthCheckPath: /api/health
-    
-  # Vue.js Frontend
-  - type: web
-    name: greenwear-frontend
-    runtime: node
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npx serve -s dist -l 3000
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: VITE_API_URL
-        value: https://greenwear-backend-spring.onrender.com
-    
-  # Node.js Backend (Alternative)
-  - type: web
-    name: greenwear-backend-node
-    runtime: node
-    buildCommand: cd backend && npm install
-    startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3001
-      - key: MONGODB_URI
-        value: mongodb+srv://demo:demo@cluster0.mongodb.net/greenwear
-    healthCheckPath: /api/health
+        value: 10000
+      # DB_TYPE: postgres (Render PostgreSQL 사용)
+      - key: DB_TYPE
+        value: postgres
+      # 아래 DB 변수들은 Render PostgreSQL 서비스에서 자동 주입됩니다
+      - key: DB_HOST
+        fromDatabase:
+          name: greenwear-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: greenwear-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: greenwear-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: greenwear-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: greenwear-db
+          property: database
+      - key: DB_SSL
+        value: "true"
+      # 프론트엔드 CORS (Vercel 배포 후 주소로 변경)
+      - key: ALLOWED_ORIGINS
+        value: "https://greenwear-demo.vercel.app,http://localhost:5173"
 
 databases:
-  # PostgreSQL for production
+  # ── PostgreSQL (Render 무료 90일) ──────────────────────────
   - name: greenwear-db
-    databaseName: greenwear
-    user: greenwear_user 
+    databaseName: greenwear_db
+    user: greenwear_user
+    plan: free
