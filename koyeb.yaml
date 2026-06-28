@@ -1,0 +1,43 @@
+app:
+  name: greenwear
+
+services:
+  - name: greenwear-backend
+    type: web
+    git:
+      repository: github.com/saway126/greenwear
+      branch: feature/servlet-mvc-backend
+    build:
+      build_command: "cd backend && npm install"
+      run_command: "cd backend && node server.js"
+    ports:
+      - port: 5000
+        protocol: http
+    health_checks:
+      - path: /api/health
+        port: 5000
+        protocol: http
+    env:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
+      - key: DB_TYPE
+        value: postgres
+      # 아래 값들은 Koyeb 대시보드에서 직접 입력
+      # - key: DB_HOST
+      #   value: (Neon 호스트)
+      # - key: DB_USER
+      #   value: (Neon 유저)
+      # - key: DB_PASSWORD
+      #   value: (Neon 비밀번호)
+      # - key: DB_NAME
+      #   value: (Neon DB 이름)
+      # - key: DB_PORT
+      #   value: "5432"
+      # - key: DB_SSL
+      #   value: "true"
+      # - key: ALLOWED_ORIGINS
+      #   value: https://your-app.vercel.app
+    instance_types:
+      - type: nano

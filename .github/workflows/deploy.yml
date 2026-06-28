@@ -42,4 +42,4 @@ jobs:
       - name: 빌드 테스트
         run: npm run build
         env:
-          VITE_API_BASE_URL: https://greenwear-backend.onrender.com
+          VITE_API_BASE_URL: https://greenwear-backend-placeholder.koyeb.app
