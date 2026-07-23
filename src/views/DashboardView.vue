@@ -182,6 +182,7 @@ import VitalsAnalyzer from '../components/VitalsAnalyzer.vue'
 import HealthCard from '../components/HealthCard.vue'
 import AIHealthAnalysis from '../components/AIHealthAnalysis.vue'
 import { useVitals } from '../composables/useVitals'
+import { healthAPI } from '../services/api'
 
 ChartJS.register(
   CategoryScale,
@@ -360,88 +361,49 @@ const recentAlerts = ref([
   }
 ])
 
-// 실시간 데이터 업데이트
+// 실시간 SQLite 데이터베이스 동기화
 let updateInterval: NodeJS.Timeout | null = null
 
-const updateVitals = () => {
+const syncWithSQLite = async () => {
   if (!isMonitoring.value) return
-  
-  // 심박수 업데이트
-  const hrVariation = (Math.random() - 0.5) * 10
-  currentVitals.value.heartRate = Math.round(85 + hrVariation)
-  
-  // 산소포화도 업데이트
-  const o2Variation = (Math.random() - 0.5) * 2
-  currentVitals.value.oxygen = Math.round((98 + o2Variation) * 10) / 10
-  
-  // 체온 업데이트
-  const tempVariation = (Math.random() - 0.5) * 0.4
-  currentVitals.value.temperature = Math.round((37.2 + tempVariation) * 10) / 10
-  
-  // LED 상태 결정
-  if (currentVitals.value.heartRate > 90 || currentVitals.value.oxygen < 96) {
-    currentVitals.value.ledStatus = '빨강'
-  } else if (currentVitals.value.heartRate > 80 || currentVitals.value.temperature > 37.5) {
-    currentVitals.value.ledStatus = '노랑'
-  } else {
-    currentVitals.value.ledStatus = '초록'
-  }
-  
-  // 차트 데이터 업데이트
-  const now = new Date()
-  const timeLabel = now.toLocaleTimeString('ko-KR', { 
-    hour: '2-digit', 
-    minute: '2-digit', 
-    second: '2-digit' 
-  })
-  
-  // 배열을 안전하게 업데이트
-  const newTimeLabels = [...timeLabels.value, timeLabel]
-  const newHeartRateData = [...heartRateData.value, currentVitals.value.heartRate]
-  const newOxygenData = [...oxygenData.value, currentVitals.value.oxygen]
-  
-  // 최대 20개 데이터 포인트 유지
-  if (newTimeLabels.length > 20) {
-    newTimeLabels.shift()
-    newHeartRateData.shift()
-    newOxygenData.shift()
-  }
-  
-  timeLabels.value = newTimeLabels
-  heartRateData.value = newHeartRateData
-  oxygenData.value = newOxygenData
-  
-  // 새로운 알림 생성 (더 낮은 확률로 변경)
-  if (Math.random() < 0.1) { // 10% 확률로 알림 생성
-    const alertLevels = ['normal', 'warning', 'danger']
-    const level = alertLevels[Math.floor(Math.random() * alertLevels.length)]
-    
-    let message = ''
-    switch (level) {
-      case 'danger':
-        message = `심박수가 위험 수준입니다 (${currentVitals.value.heartRate} BPM)`
-        break
-      case 'warning':
-        message = `체온이 주의 수준입니다 (${currentVitals.value.temperature}°C)`
-        break
-      default:
-        message = `모든 지표가 정상 범위입니다`
+
+  try {
+    const userStr = localStorage.getItem('gw_user')
+    const user = userStr ? JSON.parse(userStr) : null
+    const uId = user?.id || 2
+
+    const response = await healthAPI.getVitals()
+    if (response.data.success && response.data.data.length > 0) {
+      const allLogs = response.data.data.filter((log: any) => log.userId === uId || !log.userId)
+      const latestLogs = allLogs.slice(0, 20).reverse()
+
+      if (latestLogs.length > 0) {
+        const latest = latestLogs[latestLogs.length - 1]
+        currentVitals.value.heartRate = latest.heartRate
+        currentVitals.value.oxygen = latest.oxygenSaturation
+        currentVitals.value.temperature = latest.temperature
+        currentVitals.value.ledStatus = latest.status
+
+        // 차트 데이터 업데이트
+        timeLabels.value = latestLogs.map((log: any) => {
+          const d = new Date(log.recordedAt)
+          return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`
+        })
+        heartRateData.value = latestLogs.map((log: any) => log.heartRate)
+        oxygenData.value = latestLogs.map((log: any) => log.oxygenSaturation)
+
+        // 비상 경고 동기화
+        const warningLogs = allLogs.filter((log: any) => log.status === '노랑' || log.status === '빨강').slice(0, 5)
+        recentAlerts.value = warningLogs.map((log: any) => ({
+          id: log.id,
+          level: log.status === '빨강' ? 'danger' : 'warning',
+          message: `${log.statusMessage} (심박: ${log.heartRate}BPM, 체온: ${log.temperature.toFixed(1)}°C)`,
+          time: new Date(log.recordedAt).toLocaleTimeString('ko-KR')
+        }))
+      }
     }
-    
-    // 새로운 알림 객체 생성
-    const newAlert = {
-      id: Date.now(),
-      level,
-      message,
-      time: '방금 전'
-    }
-    
-    // 배열을 안전하게 업데이트
-    const updatedAlerts = [newAlert, ...recentAlerts.value]
-    if (updatedAlerts.length > 5) {
-      updatedAlerts.splice(5)
-    }
-    recentAlerts.value = updatedAlerts
+  } catch (err) {
+    console.error('SQLite DB Sync Error on dashboard:', err)
   }
 }
 
@@ -451,31 +413,20 @@ const toggleMonitoring = async () => {
   if (isMonitoring.value) {
     await startMonitoring()
   } else {
-    await stopMonitoring()
+    stopMonitoring()
   }
 }
 
 // 모니터링 시작
 const startMonitoring = async () => {
-  try {
-    await startStream()
-    // 폴백용 더미 데이터 생성도 유지
-    updateInterval = setInterval(updateVitals, 1000)
-  } catch (err) {
-    console.error('스트림 시작 실패:', err)
-    // API 실패 시 더미 데이터로 폴백
-    updateInterval = setInterval(updateVitals, 1000)
-  }
+  isMonitoring.value = true
+  await syncWithSQLite()
+  updateInterval = setInterval(syncWithSQLite, 2000)
 }
 
 // 모니터링 중지
-const stopMonitoring = async () => {
-  try {
-    await stopStream()
-  } catch (err) {
-    console.error('스트림 중지 실패:', err)
-  }
-  
+const stopMonitoring = () => {
+  isMonitoring.value = false
   if (updateInterval) {
     clearInterval(updateInterval)
     updateInterval = null
@@ -540,13 +491,6 @@ const getTemperatureTrend = () => {
 
 // 컴포넌트 마운트/언마운트
 onMounted(async () => {
-  generateDummyData()
-  // API에서 초기 데이터 가져오기 시도
-  try {
-    await fetchVitals()
-  } catch (err) {
-    console.log('API 연결 실패, 더미 데이터 사용:', err)
-  }
   await startMonitoring()
 })
 

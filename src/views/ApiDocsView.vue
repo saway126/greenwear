@@ -31,10 +31,10 @@
           <div>
             <h3 class="text-lg font-semibold text-green-300 mb-2">기본 정보</h3>
                          <ul class="text-white space-y-2">
-               <li><strong>Base URL:</strong> <span class="text-green-400">https://greenwear-backend-node-production-1583.up.railway.app</span></li>
+               <li><strong>Base URL:</strong> <span class="text-green-400">{{ apiBaseUrl }}</span></li>
                <li><strong>Content-Type:</strong> application/json</li>
-               <li><strong>인증:</strong> JWT Bearer Token</li>
-               <li><strong>상태:</strong> <span class="text-green-400">Railway에서 정상 실행 중</span></li>
+               <li><strong>인증:</strong> JWT Bearer Token (Bearer {token})</li>
+               <li><strong>상태:</strong> <span class="text-green-400">정상 작동 중</span></li>
              </ul>
           </div>
           <div>
@@ -226,17 +226,17 @@ import { ref, onMounted } from 'vue'
 
 defineOptions({ name: 'ApiDocsView' })
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 const backendStatus = ref('disconnected')
 const dbStatus = ref('disconnected')
 
 const testBackend = async () => {
   try {
-    // Railway 백엔드 연결 테스트
-    const response = await fetch('https://greenwear-backend-node-production-1583.up.railway.app/api/health')
+    const response = await fetch(`${apiBaseUrl}/api/health`)
     if (response.ok) {
       const data = await response.json()
       backendStatus.value = 'connected'
-      dbStatus.value = 'connected' // Railway에서 PostgreSQL 연결됨
+      dbStatus.value = 'connected'
     } else {
       backendStatus.value = 'disconnected'
       dbStatus.value = 'disconnected'

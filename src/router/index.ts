@@ -33,6 +33,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '모니터링 템플릿' }
   },
   {
+    path: '/clothing-sim',
+    name: 'ClothingSim',
+    component: () => import('@/views/ClothingSimView.vue'),
+    meta: { title: '의류 시뮬레이터' }
+  },
+  {
     path: '/result/:id',
     name: 'Result',
     component: () => import('@/views/ResultView.vue'),
@@ -44,6 +50,24 @@ const routes: RouteRecordRaw[] = [
     name: 'ApiDocs',
     component: () => import('@/views/ApiDocsView.vue'),
     meta: { title: 'API 문서' }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: { title: '로그인' }
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: () => import('@/views/SignupView.vue'),
+    meta: { title: '회원가입' }
+  },
+  {
+    path: '/profile-settings',
+    name: 'ProfileSettings',
+    component: () => import('@/views/ProfileSettingsView.vue'),
+    meta: { title: '바이오 설정' }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -71,6 +95,16 @@ router.beforeEach((to, from, next) => {
   const baseTitle = 'GreenWear - 실시간 생체신호 모니터링'
   const routeTitle = to.meta?.title as string
   document.title = routeTitle ? `${routeTitle} | ${baseTitle}` : baseTitle
+  
+  // 인증 체크
+  const publicPages = ['/', '/login', '/signup', '/api-docs']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = localStorage.getItem('gw_token')
+
+  if (authRequired && !loggedIn) {
+    alert('보안 관제 구역 진입을 위해 로그인이 필요합니다. 로그인 화면으로 연결합니다.')
+    return next('/login')
+  }
   
   next()
 })

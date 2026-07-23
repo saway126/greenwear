@@ -54,8 +54,14 @@ export const healthAPI = {
   // 실시간 생체신호 데이터 가져오기
   getVitals: () => api.get('/api/vitals'),
   
+  // 특정 생체 신호 상세 기록 가져오기
+  getVitalsDetail: (id: string | number) => api.get(`/api/vitals/${id}`),
+  
   // 생체신호 데이터 전송
   sendVitals: (data: any) => api.post('/api/vitals', data),
+  
+  // AI 종합 건강 상태 분석 요청
+  analyzeAI: (data: any) => api.post('/api/ai-analysis', data),
   
   // 생체신호 스트림 시작 (Node.js 백엔드에서는 지원하지 않음)
   startStream: () => Promise.resolve({ data: { message: 'Stream not supported, using polling' } }),

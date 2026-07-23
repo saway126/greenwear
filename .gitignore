@@ -60,3 +60,7 @@ GreenWearMobile/web-build/
 
 # Local Netlify folder
 .netlify
+
+# SQLite DB
+backend/greenwear.db
+backend/greenwear.db-journal

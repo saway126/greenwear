@@ -210,7 +210,7 @@ import { healthAPI } from '../services/api'
 
 // 반응형 데이터
 const isAnalyzing = ref(false)
-const analysisResult = ref(null)
+const analysisResult = ref<any>(null)
 
 // AI 분석 실행
 const runAIAnalysis = async () => {
@@ -231,102 +231,24 @@ const runAIAnalysis = async () => {
           gender: 'male'
         }
     
-    // AI 분석 API 호출 (현재는 Mock 데이터 사용)
-    // TODO: 실제 AI 분석 API 엔드포인트 구현 후 연동
-    await new Promise(resolve => setTimeout(resolve, 2000)) // 2초 대기 (로딩 효과)
+    // AI 분석 API 호출
+    const aiResponse = await healthAPI.analyzeAI({
+      heartRate: vitalsData.heartRate,
+      oxygenSaturation: vitalsData.oxygenSaturation || vitalsData.oxygen || 98,
+      temperature: vitalsData.temperature,
+      activity: vitalsData.activity,
+      age: 28,
+      gender: 'female'
+    })
     
-    // Mock 분석 결과
-    const mockResult = {
-      overall: {
-        score: Math.floor(Math.random() * 40) + 60, // 60-100점
-        level: Math.random() > 0.3 ? 'good' : 'warning',
-        message: '전반적으로 양호한 상태입니다.'
-      },
-      details: {
-        heartRate: {
-          score: Math.floor(Math.random() * 30) + 70,
-          status: vitalsData.heartRate > 100 ? 'warning' : 'good',
-          message: vitalsData.heartRate > 100 ? '심박수가 높습니다.' : '심박수가 정상입니다.'
-        },
-        temperature: {
-          score: Math.floor(Math.random() * 30) + 70,
-          status: vitalsData.temperature > 37.5 ? 'warning' : 'good',
-          message: vitalsData.temperature > 37.5 ? '체온이 높습니다.' : '체온이 정상입니다.'
-        },
-        oxygenSaturation: {
-          score: Math.floor(Math.random() * 30) + 70,
-          status: vitalsData.oxygenSaturation < 95 ? 'warning' : 'good',
-          message: vitalsData.oxygenSaturation < 95 ? '산소포화도가 낮습니다.' : '산소포화도가 정상입니다.'
-        }
-      },
-      recommendations: [
-        '규칙적인 운동을 권장합니다.',
-        '충분한 수면을 취하세요.',
-        '스트레스 관리를 위해 명상이나 요가를 해보세요.'
-      ],
-      timestamp: new Date().toISOString()
+    if (aiResponse.data.success) {
+      analysisResult.value = aiResponse.data.data
+    } else {
+      alert('AI 분석에 실패했습니다.')
     }
-    
-    analysisResult.value = mockResult
-    
   } catch (error) {
     console.error('AI analysis error:', error)
-    // Mock 데이터로 대체 (실제 배포 시 제거)
-    analysisResult.value = {
-      timestamp: new Date().toISOString(),
-      overall: {
-        score: 75,
-        level: 'good',
-        summary: '전반적으로 건강한 상태를 유지하고 있습니다.',
-        recommendations: [
-          '규칙적인 운동을 계속하세요.',
-          '충분한 수면을 취하세요.',
-          '스트레스 관리에 주의하세요.'
-        ]
-      },
-      cardiovascular: {
-        riskScore: 80,
-        riskLevel: 'low',
-        factors: {
-          heartRate: { score: 0.2, impact: 'moderate' },
-          bloodPressure: { score: 0.3, impact: 'high' },
-          age: { score: 0.3, impact: 'high' },
-          gender: { score: 0.1, impact: 'low' },
-          temperature: { score: 0.1, impact: 'moderate' }
-        },
-        recommendations: ['현재 심혈관 건강 상태가 양호합니다.']
-      },
-      stress: {
-        stressScore: 60,
-        stressLevel: 'medium',
-        factors: {
-          heartRateVariability: { score: 0.4, impact: 'high' },
-          bloodPressure: { score: 0.3, impact: 'moderate' },
-          temperature: { score: 0.2, impact: 'moderate' },
-          activity: { score: 0.6, impact: 'low' }
-        },
-        recommendations: ['명상이나 깊은 호흡을 시도해보세요.']
-      },
-      sleep: {
-        sleepScore: 70,
-        sleepQuality: 'good',
-        factors: {
-          heartRate: { score: 0.5, impact: 'high' },
-          temperature: { score: 0.6, impact: 'moderate' },
-          activity: { score: 0.2, impact: 'high' }
-        },
-        recommendations: ['수면의 질이 양호합니다.']
-      },
-      exercise: {
-        exerciseScore: 85,
-        exerciseEffect: 'excellent',
-        factors: {
-          heartRate: { score: 0.8, impact: 'high' },
-          temperature: { score: 0.9, impact: 'moderate' }
-        },
-        recommendations: ['운동 효과가 좋습니다.']
-      }
-    }
+    alert('AI 분석 중 오류가 발생했습니다.')
   } finally {
     isAnalyzing.value = false
   }
@@ -443,8 +365,8 @@ const getExerciseText = (effect: string) => {
   }
 }
 
-const getFactorName = (key: string) => {
-  const names = {
+const getFactorName = (key: any) => {
+  const names: Record<string, string> = {
     heartRate: '심박수',
     bloodPressure: '혈압',
     age: '나이',
