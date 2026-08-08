@@ -830,10 +830,14 @@ app.get('*', (req, res) => {
 });
 
 // 서버 시작
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🌐 GreenWear Server running on port ${PORT}`);
-  console.log(`🔌 API: http://localhost:${PORT}/api`);
-});
+if (require.main === module) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🌐 GreenWear Server running on port ${PORT}`);
+    console.log(`🔌 API: http://localhost:${PORT}/api`);
+  });
+}
+
+module.exports = app;
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
