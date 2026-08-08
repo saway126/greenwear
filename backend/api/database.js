@@ -9,15 +9,17 @@ let pool;
 
 if (DB_TYPE === 'postgres') {
   const { Pool } = require('pg');
-  pool = new Pool({
-    host:     process.env.DB_HOST     || 'localhost',
-    port:     parseInt(process.env.DB_PORT || '5432'),
-    user:     process.env.DB_USER     || 'postgres',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME     || 'railway',
-    ssl:      process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
-    max: 10, idleTimeoutMillis: 30000, connectionTimeoutMillis: 5000,
-  });
+  const pgConfig = process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } }
+    : {
+        host:     process.env.DB_HOST     || 'localhost',
+        port:     parseInt(process.env.DB_PORT || '5432'),
+        user:     process.env.DB_USER     || 'postgres',
+        password: process.env.DB_PASSWORD || '',
+        database: process.env.DB_NAME     || 'railway',
+        ssl:      process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+      };
+  pool = new Pool({ ...pgConfig, max: 10, idleTimeoutMillis: 30000, connectionTimeoutMillis: 5000 });
   pool._type = 'pg';
 } else {
   const mysql = require('mysql2/promise');
