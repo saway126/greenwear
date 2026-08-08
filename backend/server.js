@@ -306,13 +306,16 @@ async function startServer() {
     logger.warn('⚠️  DB 없이 서버를 시작합니다. DB 기능은 동작하지 않습니다.');
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    logger.info(`🌐 GreenWear 서버 시작 (포트 ${PORT})`);
-    logger.info(`📡 API: http://localhost:${PORT}/api/health`);
-  });
+  if (require.main === module) {
+    app.listen(PORT, '0.0.0.0', () => {
+      logger.info(`🌐 GreenWear 서버 시작 (포트 ${PORT})`);
+      logger.info(`📡 API: http://localhost:${PORT}/api/health`);
+    });
+  }
 }
 
 startServer();
+module.exports = app;
 
 process.on('SIGTERM', () => { logger.info('서버 종료'); process.exit(0); });
 process.on('SIGINT',  () => { logger.info('서버 종료'); process.exit(0); });
