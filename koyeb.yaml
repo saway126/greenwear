@@ -1,0 +1,26 @@
+app:
+  name: greenwear-v2
+
+services:
+  - name: greenwear-v2-backend
+    type: web
+    git:
+      repository: github.com/saway126/greenwear
+      branch: v2-release
+    build:
+      build_command: "cd backend && npm install"
+      run_command: "cd backend && node server.js"
+    ports:
+      - port: 5000
+        protocol: http
+    health_checks:
+      - path: /api/health
+        port: 5000
+        protocol: http
+    env:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
+    instance_types:
+      - type: nano
