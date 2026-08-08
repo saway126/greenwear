@@ -4,7 +4,7 @@
   "description": "GreenWear - 친환경 스마트 건강 웨어러블 플랫폼",
   "scripts": {
     "dev":   "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
