@@ -2,7 +2,9 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.resolve(__dirname, 'greenwear.db');
+const dbPath = process.env.NODE_ENV === 'production'
+  ? '/tmp/greenwear.db'
+  : path.resolve(__dirname, 'greenwear.db');
 const db = new sqlite3.Database(dbPath);
 
 // 프로미스 래퍼 함수들
