@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Alert,
   FlatList,
+  Platform,
   Pressable,
   ScrollView,
   StatusBar,
@@ -351,7 +352,7 @@ export default function App() {
           body: JSON.stringify({
             deviceId,
             deviceName,
-            platform: 'android',
+            platform: Platform.OS,
           }),
         },
         token
@@ -389,7 +390,7 @@ export default function App() {
           method: 'POST',
           body: JSON.stringify({
             token: tokenResponse.data,
-            platform: 'android',
+            platform: Platform.OS,
             deviceId,
           }),
         },
@@ -418,7 +419,9 @@ export default function App() {
         <StatusBar barStyle="dark-content" />
         <View style={styles.authContainer}>
           <Text style={styles.appTitle}>GreenWear Mobile</Text>
-          <Text style={styles.appSubtitle}>Android MVP 로그인</Text>
+          <Text style={styles.appSubtitle}>
+            {Platform.OS === 'ios' ? 'iOS' : 'Android'} MVP 로그인
+          </Text>
 
           {mode === 'register' && (
             <TextInput
