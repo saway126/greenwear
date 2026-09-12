@@ -29,7 +29,9 @@
 - 디바이스 연동/푸시 토큰 등록 API 호출 시 플랫폼 값을 하드코딩된 `'android'` 대신 `Platform.OS`로 전송하도록 수정
 - `app.json`에 `ios.bundleIdentifier` (`com.greenwear.mobile`) 설정 완료
 - 로컬 개발 서버(HTTP) 접근을 위한 `NSAllowsLocalNetworking` ATS 예외는 prebuild 시 자동 반영됨
-- 남은 절차: macOS + Xcode 환경에서 `pod install` 후 실기기 서명/실행, 또는 `eas build --platform ios`로 클라우드 빌드
+- `eas.json` 추가 (development/preview/production 빌드 프로파일) — `eas build --platform ios`로 macOS 없이 클라우드에서 `.ipa` 생성 가능
+- Linux 환경에서 CocoaPods로 `pod install`을 시도해본 결과 `xcodebuild`가 없어 실패함을 확인 (Xcode 종속 단계이므로 정상 — macOS 또는 EAS Build 클라우드 빌더에서만 완결됨)
+- 남은 절차: `eas login` 후 `eas build --platform ios --profile development`(권장, macOS 불필요) 또는 macOS + Xcode 환경에서 `pod install` 후 실기기 서명/실행
 
 ## 남은 운영 작업
 - 백엔드 인증을 DB/JWT 기반으로 교체
