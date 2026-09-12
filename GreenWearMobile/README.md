@@ -24,7 +24,7 @@ eas login                # Expo 계정 필요 (무료 가입 가능)
 eas build --platform ios --profile development   # 최초 1회, 프로젝트 연결 시 자동으로 app.json에 projectId 기록됨
 ```
 - 빌드가 끝나면 아이폰에서 링크(또는 QR)로 `.ipa`를 설치할 수 있습니다 (Ad Hoc/Internal distribution).
-- 프로파일은 `eas.json`에 `development`(Dev Client) / `preview`(내부 배포용) / `production`(App Store 제출용) 세 가지가 준비되어 있습니다.
+- 프로파일은 `eas.json`에 `development`(실기기 Dev Client) / `development-simulator`(macOS 시뮬레이터 전용) / `preview`(내부 배포용) / `production`(App Store 제출용)이 준비되어 있습니다.
 - 아이폰 실기기 등록(UDID)이 필요한 경우 `eas device:create`로 등록하세요.
 - 편의 스크립트: `npm run build:ios:dev`, `npm run build:ios:preview`, `npm run build:ios:production`
 
